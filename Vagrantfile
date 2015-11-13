@@ -154,6 +154,10 @@ EOF
     && ln -s /usr/tomcat/apache-tomcat-8.0.28 /usr/tomcat/default \
     && rm -f apache-tomcat-8.0.28.tar.gz
 
+    #replace the default port with the port designated for tomcat
+    sed -i.bak 's/8080/5040/' /usr/tomcat/default/conf/server.xml
+    sed -i.bak1 's/8443/5443/' /usr/tomcat/default/conf/server.xml
+
   export TOMCAT_HOME=/usr/tomcat/default
   cat >/etc/profile.d/tomcat.sh <<-EOF
 export TOMCAT_HOME=$TOMCAT_HOME
