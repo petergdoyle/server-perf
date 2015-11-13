@@ -84,8 +84,8 @@ EOF
   eval $'node --version' > /dev/null 2>&1
   if [ $? -eq 127 ]; then
   #install node.js and npm
-  yum -y install epel-release gcc gcc-c++
-  yum -y install nodejs npm
+  yum -y install epel-release gcc gcc-c++ \
+  && yum -y install nodejs npm
 
   # NPM Proxy Settings
   #npm config set proxy $HTTP_PROXY
@@ -94,6 +94,8 @@ EOF
 
   npm install format-json-stream -g
 
+  npm install forever -g
+
   else
     echo -e "\e[30;48;5;82m node, npm, npm-libs already appear to be installed. skipping. \e[0m"
   fi
@@ -101,14 +103,13 @@ EOF
 
   eval 'java -version' > /dev/null 2>&1
   if [ $? -eq 127 ]; then
+  mkdir -p /usr/java
   #install java jdk 8 from oracle
   curl -O -L --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
-  "http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-linux-x64.tar.gz"
-
-  mkdir -p /usr/java; \
-    tar -xvf jdk-8u60-linux-x64.tar.gz -C /usr/java; \
-    ln -s /usr/java/jdk1.8.0_60/ /usr/java/default; \
-    rm -f jdk-8u60-linux-x64.tar.gz
+  "http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-linux-x64.tar.gz" \
+    && tar -xvf jdk-8u60-linux-x64.tar.gz -C /usr/java \
+    && ln -s /usr/java/jdk1.8.0_60/ /usr/java/default \
+    && rm -f jdk-8u60-linux-x64.tar.gz
 
   alternatives --install "/usr/bin/java" "java" "/usr/java/default/bin/java" 99999; \
   alternatives --install "/usr/bin/javac" "javac" "/usr/java/default/bin/javac" 99999; \
@@ -126,12 +127,12 @@ EOF
 
   eval 'mvn -version' > /dev/null 2>&1
   if [ $? -eq 127 ]; then
+  mkdir /usr/maven
   #install maven
-  curl -O http://www.eu.apache.org/dist/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz
-  mkdir /usr/maven; \
-  tar -xvf apache-maven-3.3.3-bin.tar.gz -C /usr/maven; \
-  ln -s /usr/maven/apache-maven-3.3.3 /usr/maven/default; \
-  rm -f apache-maven-3.3.3-bin.tar.gz
+  curl -O http://www.eu.apache.org/dist/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz \
+    && tar -xvf apache-maven-3.3.3-bin.tar.gz -C /usr/maven \
+    && ln -s /usr/maven/apache-maven-3.3.3 /usr/maven/default \
+    && rm -f apache-maven-3.3.3-bin.tar.gz
 
   alternatives --install "/usr/bin/mvn" "mvn" "/usr/maven/default/bin/mvn" 99999
 
@@ -147,11 +148,11 @@ EOF
 
   eval '/usr/tomcat/default/bin/catalina.sh version' > /dev/null 2>&1
   if [ $? -eq 127 ]; then
-  curl -O http://www.eu.apache.org/dist/tomcat/tomcat-8/v8.0.28/bin/apache-tomcat-8.0.28.tar.gz
-  mkdir -p /usr/tomcat; \
-    tar -xvf apache-tomcat-8.0.28.tar.gz -C /usr/tomcat; \
-    ln -s /usr/tomcat/apache-tomcat-8.0.28 /usr/tomcat/default; \
-    rm -f apache-tomcat-8.0.28.tar.gz
+  mkdir -p /usr/tomcat
+  curl -O http://www.eu.apache.org/dist/tomcat/tomcat-8/v8.0.28/bin/apache-tomcat-8.0.28.tar.gz \
+    && tar -xvf apache-tomcat-8.0.28.tar.gz -C /usr/tomcat \
+    && ln -s /usr/tomcat/apache-tomcat-8.0.28 /usr/tomcat/default \
+    && rm -f apache-tomcat-8.0.28.tar.gz
 
   export TOMCAT_HOME=/usr/tomcat/default
   cat >/etc/profile.d/tomcat.sh <<-EOF
@@ -162,13 +163,38 @@ EOF
     echo -e "\e[30;48;5;82m tomcat already appears to be installed. skipping. \e[0m"
   fi
 
+
+
+  if [ ! -d "/usr/jetty/default" ]; then
+  mkdir -p /usr/jetty
+  curl -O http://download.eclipse.org/jetty/stable-9/dist/jetty-distribution-9.3.5.v20151012.tar.gz \
+    && tar -xvf jetty-distribution-9.3.5.v20151012.tar.gz -C /usr/jetty \
+    && ln -s /usr/jetty/jetty-distribution-9.3.5.v20151012/ /usr/jetty/default \
+    && rm -f jetty-distribution-9.3.5.v20151012.tar.gz
+
+  export JETTY_HOME=/usr/jetty/default
+  cat >/etc/profile.d/jetty.sh <<-EOF
+export JETTY_HOME=$JETTY_HOME
+EOF
+
+  else
+    echo -e "\e[30;48;5;82m jetty already appears to be installed. skipping. \e[0m"
+  fi
+
+
   if [ ! -d "/usr/netty/default" ]; then
   mkdir -p /usr/netty
   curl -O http://dl.bintray.com/netty/downloads/netty-4.0.33.Final.tar.bz2 \
     && tar -xvf netty-4.0.33.Final.tar.bz2 -C /usr/netty \
     && ln -s /usr/netty/netty-4.0.33.Final/ /usr/netty/default \
     && rm -f netty-4.0.33.Final.tar.bz2
-  el
+
+  export NETTY_HOME=/usr/netty/default
+  cat >/etc/profile.d/netty.sh <<-EOF
+export NETTY_HOME=$NETTY_HOME
+EOF
+
+  else
     echo -e "\e[30;48;5;82m netty already appears to be downloaded. skipping. \e[0m"
   fi
 
@@ -176,6 +202,10 @@ EOF
   eval "httpd -v" > /dev/null 2>&1
   if [ $? -eq 127 ]; then
   yum -y install httpd
+
+  #replace the default port with the port designated for apache httpd
+  sed -i.bak 's/Listen 80/Listen 5010/' /etc/httpd/conf/httpd.conf
+
   else
     echo -e "\e[30;48;5;82m httpd already appears to be installed. skipping. \e[0m"
   fi
@@ -183,6 +213,10 @@ EOF
   eval "nginx -v" > /dev/null 2>&1
   if [ $? -eq 127 ]; then
   yum -y install nginx
+
+  #replace the default port with the port designated for nginx
+  sed -i.bak 's/80 default_server/5000 default_server/' /etc/nginx/nginx.conf
+
   else
     echo -e "\e[30;48;5;82m nginx already appears to be installed. skipping. \e[0m"
   fi
