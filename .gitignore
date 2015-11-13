@@ -35,3 +35,6 @@ ssh
 .DS_Store
 
 target
+
+apache-jmeter-*
+jmeter/default

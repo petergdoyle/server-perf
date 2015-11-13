@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-cd default/ 
-sudo sh /bin/jmeter.sh
+sudo sh default/bin/jmeter.sh
