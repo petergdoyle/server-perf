@@ -1,0 +1,208 @@
+
+Vagrant.configure(2) do |config|
+
+  config.vm.box = "petergdoyle/CentOS-7-x86_64-Minimal-1503-01"
+
+
+  config.vm.network "forwarded_port", guest: 22, host: 2222, host_ip: "0.0.0.0", id: "ssh", auto_correct: true
+
+  config.vm.network "forwarded_port", guest: 5000, host: 5000, host_ip: "0.0.0.0", id: "nginx http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5010, host: 5010, host_ip: "0.0.0.0", id: "apache http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5020, host: 5020, host_ip: "0.0.0.0", id: "nodejs http server", auto_correct: true
+
+  config.vm.network "forwarded_port", guest: 5040, host: 5040, host_ip: "0.0.0.0", id: "tomcat http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5050, host: 5050, host_ip: "0.0.0.0", id: "jetty http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5060, host: 5060, host_ip: "0.0.0.0", id: "netty http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5070, host: 5070, host_ip: "0.0.0.0", id: "spring-boot http jetty server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5080, host: 5080, host_ip: "0.0.0.0", id: "spring-boot tomcat jetty server", auto_correct: true
+
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--cpuexecutioncap", "80"]
+    vb.cpus=2 #recommended=4 if available
+    vb.memory = "1024" #recommended=3072 or 4096 if available
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+
+  # Global Proxy Settings
+#  export HTTP_PROXY=http://myproxy.net:80 HTTPS_PROXY=$HTTP_PROXY http_proxy=$HTTP_PROXY https_proxy=$HTTP_PROXY
+#  echo "proxy=$HTTP_PROXY" >> /etc/yum.conf
+#  cat >/etc/profile.d/proxy.sh <<-EOF
+#export HTTP_PROXY=$HTTP_PROXY
+#export HTTPS_PROXY=$HTTP_PROXY
+#export http_proxy=$HTTP_PROXY
+#export https_proxy=$HTTP_PROXY
+#EOF
+
+  if [ -n "$HTTP_PROXY" ]; then
+    curl -I -x $HTTP_PROXY http://google.com
+    if [ $? -ne 0 ]; then
+      echo "invalid proxy settings. cannot continue"
+      exit 1
+    fi
+  fi
+
+  #best to update the os
+  yum -y update
+  #install additional tools
+  eval 'tree' > /dev/null 2>&1
+  if [ $? -eq 127 ]; then
+  yum -y install vim htop curl wget net-tools tree unzip
+  fi
+
+  eval 'docker --version' > /dev/null 2>&1
+  if [ $? -eq 127 ]; then
+  #install docker service
+  cat >/etc/yum.repos.d/docker.repo <<-EOF
+[dockerrepo]
+name=Docker Repository
+baseurl=https://yum.dockerproject.org/repo/main/centos/7
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.dockerproject.org/gpg
+EOF
+  yum -y install docker
+  systemctl start docker.service
+  systemctl enable docker.service
+
+  #allow non-sudo access to run docker commands for user vagrant
+  #if you have problems running docker as the vagrant user on the vm (if you 'vagrant ssh'd in
+  #after a 'vagrant up'), then
+  #restart the host machine and ssh in again to the vm 'vagrant halt; vagrant up; vagrant ssh'
+  groupadd docker
+  usermod -aG docker vagrant
+
+  #install docker-compose.
+  #Compose is a tool for defining and running multi-container applications with Docker.
+  yum -y install python-pip
+  pip install -U docker-compose
+  else
+    echo -e "\e[30;48;5;82m docker already appears to be installed. skipping.\e[0m"
+  fi
+
+  eval $'node --version' > /dev/null 2>&1
+  if [ $? -eq 127 ]; then
+  #install node.js and npm
+  yum -y install epel-release gcc gcc-c++
+  yum -y install nodejs npm
+
+  # NPM Proxy Settings
+  #npm config set proxy $HTTP_PROXY
+  #vnpm config set https-proxy $HTTP_PROXY
+  #useful node.js packages
+
+  npm install format-json-stream -g
+
+  else
+    echo -e "\e[30;48;5;82m node, npm, npm-libs already appear to be installed. skipping. \e[0m"
+  fi
+
+
+  eval 'java -version' > /dev/null 2>&1
+  if [ $? -eq 127 ]; then
+  #install java jdk 8 from oracle
+  curl -O -L --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
+  "http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-linux-x64.tar.gz"
+
+  mkdir -p /usr/java; \
+    tar -xvf jdk-8u60-linux-x64.tar.gz -C /usr/java; \
+    ln -s /usr/java/jdk1.8.0_60/ /usr/java/default; \
+    rm -f jdk-8u60-linux-x64.tar.gz
+
+  alternatives --install "/usr/bin/java" "java" "/usr/java/default/bin/java" 99999; \
+  alternatives --install "/usr/bin/javac" "javac" "/usr/java/default/bin/javac" 99999; \
+  alternatives --install "/usr/bin/javaws" "javaws" "/usr/java/default/bin/javaws" 99999
+
+  export JAVA_HOME=/usr/java/default
+  cat >/etc/profile.d/java.sh <<-EOF
+export JAVA_HOME=$JAVA_HOME
+EOF
+
+  else
+    echo -e "\e[30;48;5;82m java already appears to be installed. skipping. \e[0m"
+  fi
+
+
+  eval 'mvn -version' > /dev/null 2>&1
+  if [ $? -eq 127 ]; then
+  #install maven
+  curl -O http://www.eu.apache.org/dist/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz
+  mkdir /usr/maven; \
+  tar -xvf apache-maven-3.3.3-bin.tar.gz -C /usr/maven; \
+  ln -s /usr/maven/apache-maven-3.3.3 /usr/maven/default; \
+  rm -f apache-maven-3.3.3-bin.tar.gz
+
+  alternatives --install "/usr/bin/mvn" "mvn" "/usr/maven/default/bin/mvn" 99999
+
+  export MAVEN_HOME=/usr/maven/default
+  cat >/etc/profile.d/maven.sh <<-EOF
+export MAVEN_HOME=$MAVEN_HOME
+EOF
+
+  else
+    echo -e "\e[30;48;5;82m maven already appears to be installed. skipping. \e[0m"
+  fi
+
+
+  eval '/usr/tomcat/default/bin/catalina.sh version' > /dev/null 2>&1
+  if [ $? -eq 127 ]; then
+  curl -O http://www.eu.apache.org/dist/tomcat/tomcat-8/v8.0.28/bin/apache-tomcat-8.0.28.tar.gz
+  mkdir -p /usr/tomcat; \
+    tar -xvf apache-tomcat-8.0.28.tar.gz -C /usr/tomcat; \
+    ln -s /usr/tomcat/apache-tomcat-8.0.28 /usr/tomcat/default; \
+    rm -f apache-tomcat-8.0.28.tar.gz
+
+  export TOMCAT_HOME=/usr/tomcat/default
+  cat >/etc/profile.d/tomcat.sh <<-EOF
+export TOMCAT_HOME=$TOMCAT_HOME
+EOF
+
+  else
+    echo -e "\e[30;48;5;82m tomcat already appears to be installed. skipping. \e[0m"
+  fi
+
+  if [ ! -d "/usr/netty/default" ]; then
+  mkdir -p /usr/netty
+  curl -O http://dl.bintray.com/netty/downloads/netty-4.0.33.Final.tar.bz2 \
+    && tar -xvf netty-4.0.33.Final.tar.bz2 -C /usr/netty \
+    && ln -s /usr/netty/netty-4.0.33.Final/ /usr/netty/default \
+    && rm -f netty-4.0.33.Final.tar.bz2
+  el
+    echo -e "\e[30;48;5;82m netty already appears to be downloaded. skipping. \e[0m"
+  fi
+
+
+  eval "httpd -v" > /dev/null 2>&1
+  if [ $? -eq 127 ]; then
+  yum -y install httpd
+  else
+    echo -e "\e[30;48;5;82m httpd already appears to be installed. skipping. \e[0m"
+  fi
+
+  eval "nginx -v" > /dev/null 2>&1
+  if [ $? -eq 127 ]; then
+  yum -y install nginx
+  else
+    echo -e "\e[30;48;5;82m nginx already appears to be installed. skipping. \e[0m"
+  fi
+
+
+  eval "su - vagrant -c 'spring version'" > /dev/null 2>&1
+  if [ $? -eq 127 ]; then
+  #install spring boot
+  su - vagrant -c 'curl -s get.gvmtool.net | bash'
+  su - vagrant -c 'printf "sdkman_auto_answer=true" > /home/vagrant/.sdkman/etc/config'
+  su - vagrant -c 'sdk install springboot'
+  #su - vagrant -c 'sdk install groovy'     #optional
+  #su - vagrant -c 'sdk install grails'     #optional
+  else
+    echo -e "\e[30;48;5;82m springboot already appears to be installed. skipping. \e[0m"
+  fi
+
+
+  #set hostname
+  hostnamectl set-hostname server-perf.vbx
+
+  SHELL
+end
