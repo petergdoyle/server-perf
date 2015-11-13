@@ -239,6 +239,25 @@ EOF
   fi
 
 
+  if [ ! -d "/usr/jmeter/default" ]; then
+  mkdir -p /usr/jmeter
+  curl -O http://www.eu.apache.org/dist/jmeter/binaries/apache-jmeter-2.13.tgz \
+    && tar -xvf apache-jmeter-2.13.tgz -C /usr/jmeter \
+    && ln -s /usr/jmeter/apache-jmeter-2.13 /usr/jmeter/default \
+    && rm -f apache-jmeter-2.13.tgz
+
+  export JMETER_HOME=/usr/jmeter/default
+  cat >/etc/profile.d/jmeter.sh <<-EOF
+export JMETER_HOME=$JMETER_HOME
+EOF
+
+  else
+    echo -e "\e[30;48;5;82m jmeter already appears to be downloaded. skipping. \e[0m"
+  fi
+
+
+
+
   #set hostname
   hostnamectl set-hostname server-perf.vbx
 
