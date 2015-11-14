@@ -94,6 +94,8 @@ EOF
 
   npm install format-json-stream -g
 
+  npm install lorem-ipsum -g
+
   npm install forever -g
 
   else

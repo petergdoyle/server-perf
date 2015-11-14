@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-sudo sh default/bin/jmeter.sh
+nohup sudo sh default/bin/jmeter.sh &
