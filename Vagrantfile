@@ -181,6 +181,7 @@ EOF
   export JETTY_HOME=/usr/jetty/default
   cat >/etc/profile.d/jetty.sh <<-EOF
 export JETTY_HOME=$JETTY_HOME
+export JETTY_ARGS=jetty.http.port=5050 jetty.ssl.port=5440
 EOF
 
   else
