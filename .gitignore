@@ -39,3 +39,5 @@ target
 apache-jmeter-*
 jmeter/default
 lorem-ipsum*
+
+nb-configuration.xml
