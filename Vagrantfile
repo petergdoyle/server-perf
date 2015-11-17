@@ -17,6 +17,11 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 5080, host: 5080, host_ip: "0.0.0.0", id: "spring-boot tomcat jetty server", auto_correct: true
 
 
+  config.vm.network "forwarded_port", guest: 3000, host: 3000, host_ip: "0.0.0.0", id: "jmx remote port", auto_correct: true
+  config.vm.network "forwarded_port", guest: 9840, host: 9840, host_ip: "0.0.0.0", id: "jmx rmiRegistryPortPlatform", auto_correct: true
+  config.vm.network "forwarded_port", guest: 9841, host: 9841, host_ip: "0.0.0.0", id: "jmx rmiServerPortPlatform port", auto_correct: true
+
+
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--cpuexecutioncap", "80"]
     vb.cpus=2 #recommended=4 if available
@@ -122,6 +127,14 @@ EOF
 export JAVA_HOME=$JAVA_HOME
 EOF
 
+  #continue setup the remote jmx monitoring security - JAVA_OPTS specifies the port - NOTE This means only 1 jvm can be running at a time
+#  cat >/usr/java/default/jre/lib/management/jmxremote.password <<-EOF
+#monitorRole  QED
+#controlRole   R&D
+#EOF
+
+#  chmod 600 /usr/java/jdk1.8.0_60/jre/lib/management/jmxremote.password
+
   else
     echo -e "\e[30;48;5;82m java already appears to be installed. skipping. \e[0m"
   fi
@@ -159,6 +172,9 @@ EOF
     #replace the default port with the port designated for tomcat
     sed -i.bak 's/8080/5040/' /usr/tomcat/default/conf/server.xml
     sed -i.bak1 's/8443/5443/' /usr/tomcat/default/conf/server.xml
+
+    curl -O http://apache.go-parts.com/tomcat/tomcat-8/v8.0.28/bin/extras/catalina-jmx-remote.jar
+      && mv catalina-jmx-remote.jar /usr/tomcat/default/lib/
 
   export TOMCAT_HOME=/usr/tomcat/default
   cat >/etc/profile.d/tomcat.sh <<-EOF
