@@ -3,8 +3,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.box = "petergdoyle/CentOS-7-x86_64-Minimal-1503-01"
 
-
-  config.vm.network "forwarded_port", guest: 22, host: 2222, host_ip: "0.0.0.0", id: "ssh", auto_correct: true
+  config.vm.network "forwarded_port", guest: 22, host: 5222, host_ip: "0.0.0.0", id: "ssh", auto_correct: true
 
   config.vm.network "forwarded_port", guest: 5000, host: 5000, host_ip: "0.0.0.0", id: "nginx http server", auto_correct: true
   config.vm.network "forwarded_port", guest: 5010, host: 5010, host_ip: "0.0.0.0", id: "apache http server", auto_correct: true
@@ -21,6 +20,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 9840, host: 9840, host_ip: "0.0.0.0", id: "jmx rmiRegistryPortPlatform", auto_correct: true
   config.vm.network "forwarded_port", guest: 9841, host: 9841, host_ip: "0.0.0.0", id: "jmx rmiServerPortPlatform port", auto_correct: true
 
+  config.vm.provision "file", source: "./README.md", destination: "/home/vagrant/README.md"
 
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--cpuexecutioncap", "80"]
@@ -98,9 +98,7 @@ EOF
   #useful node.js packages
 
   npm install format-json-stream -g
-
   npm install lorem-ipsum -g
-
   npm install forever -g
 
   else
@@ -173,13 +171,18 @@ EOF
     sed -i.bak 's/8080/5040/' /usr/tomcat/default/conf/server.xml
     sed -i.bak1 's/8443/5443/' /usr/tomcat/default/conf/server.xml
 
-    curl -O http://apache.go-parts.com/tomcat/tomcat-8/v8.0.28/bin/extras/catalina-jmx-remote.jar
+    curl -O http://apache.go-parts.com/tomcat/tomcat-8/v8.0.28/bin/extras/catalina-jmx-remote.jar \
       && mv catalina-jmx-remote.jar /usr/tomcat/default/lib/
 
   export TOMCAT_HOME=/usr/tomcat/default
   cat >/etc/profile.d/tomcat.sh <<-EOF
 export TOMCAT_HOME=$TOMCAT_HOME
 EOF
+
+    groupadd tomcat
+    usermod -aG tomcat vagrant
+    chown -R vagrant.tomcat /usr/tomcat/
+    chmod -R g+s /usr/tomcat/
 
   else
     echo -e "\e[30;48;5;82m tomcat already appears to be installed. skipping. \e[0m"
@@ -200,14 +203,20 @@ export JETTY_HOME=$JETTY_HOME
 export JETTY_ARGS=jetty.http.port=5050 jetty.ssl.port=5440
 EOF
 
+    groupadd jetty
+    usermod -aG jetty vagrant
+    chmod -R vagrant.jetty /usr/jetty/
+    chmod -R g+s /usr/jetty/
+
   else
     echo -e "\e[30;48;5;82m jetty already appears to be installed. skipping. \e[0m"
   fi
 
 
+
   if [ ! -d "/usr/netty/default" ]; then
   mkdir -p /usr/netty
-  curl -O http://dl.bintray.com/netty/downloads/netty-4.0.33.Final.tar.bz2 \
+  curl -O -L http://dl.bintray.com/netty/downloads/netty-4.0.33.Final.tar.bz2 \
     && tar -xvf netty-4.0.33.Final.tar.bz2 -C /usr/netty \
     && ln -s /usr/netty/netty-4.0.33.Final/ /usr/netty/default \
     && rm -f netty-4.0.33.Final.tar.bz2
@@ -216,6 +225,11 @@ EOF
   cat >/etc/profile.d/netty.sh <<-EOF
 export NETTY_HOME=$NETTY_HOME
 EOF
+
+    groupadd netty
+    usermod -aG netty vagrant
+    chown -R vagrant.netty /usr/netty/
+    chmod -R g+s /usr/netty/
 
   else
     echo -e "\e[30;48;5;82m netty already appears to be downloaded. skipping. \e[0m"
