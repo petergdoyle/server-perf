@@ -29,8 +29,21 @@ public class Echo extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String servletName = getServletName();
+        long startTime = System.currentTimeMillis();
+        System.out.println(servletName + " Start::Name="
+                + Thread.currentThread().getName() + "::ID="
+                + Thread.currentThread().getId());
+
         response.setContentType("text/plain;charset=UTF-8");
         copy(request.getInputStream(), response.getOutputStream());
+
+        long endTime = System.currentTimeMillis();
+        System.out.println(servletName + " End::Name="
+                + Thread.currentThread().getName() + "::ID="
+                + Thread.currentThread().getId() + "::Time Taken="
+                + (endTime - startTime) + " ms.");
     }
 
     private void copy(InputStream in, OutputStream out) throws IOException {

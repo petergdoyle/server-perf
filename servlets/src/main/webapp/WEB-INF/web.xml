@@ -18,7 +18,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>Echo</servlet-name>
-        <servlet-class>com.cleverfishsoftware.services.Echo</servlet-class>
+        <servlet-class>com.cleverfishsoftware.services.servlets.Echo</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Echo</servlet-name>
