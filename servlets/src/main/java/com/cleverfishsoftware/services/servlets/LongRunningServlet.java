@@ -4,8 +4,6 @@ package com.cleverfishsoftware.services.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,15 +37,16 @@ public class LongRunningServlet extends HttpServlet {
                     + Thread.currentThread().getName() + "::ID="
                     + Thread.currentThread().getId());
 
-            int secs;
+            int millis;
             String sleep = request.getParameter("sleep");
             if (sleep != null && !sleep.isEmpty() && sleep.matches("\\d+")) {
-                secs = Integer.valueOf(sleep);
+                millis = Integer.valueOf(sleep);
                 // max 10 seconds
-                if (secs > 10000) {
-                    secs = 10000;
+                if (millis > 10000) {
+                    millis = 10000;
                 }
-                Thread.sleep(secs);
+                System.out.println("sleeping "+millis +" ms...");
+                Thread.sleep(millis);
             }
 
             out.println("<!DOCTYPE html>");
@@ -57,7 +56,7 @@ public class LongRunningServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet LongRunningServlet at " + request.getContextPath() + "</h1>");
-            out.println("<h3>sleep time: " + sleep+ " seconds</h3>");
+            out.println("<h3>sleep time: " + sleep+ " ms</h3>");
             out.println("</body>");
             out.println("</html>");
 
