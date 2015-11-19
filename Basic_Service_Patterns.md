@@ -2,10 +2,10 @@
 
 ![Echo](images/echo.png)
 
-![Gateway](images/cannedresponse.png)
+![Gateway](images/canned_response.png)
 
 ![Gateway](images/gateway.png)
 
-![Long Running Local Sleep](images/longrunningsleep.png)
+![Long Running Local Sleep](images/long_running_sleep.png)
 
-![Long Running Local Process](images/longrunninglocalprocess.png)
+![Long Running Local Process](images/long_running_local_process.png)
