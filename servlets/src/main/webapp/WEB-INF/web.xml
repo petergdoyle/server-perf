@@ -14,7 +14,11 @@
     </servlet>
     <servlet>
         <servlet-name>LongRunningServlet</servlet-name>
-        <servlet-class>com.cleverfishsoftware.services.servlets.LongRunningServlet</servlet-class>
+        <servlet-class>com.cleverfishsoftware.services.servlets.LongRunningSleep</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Gateway</servlet-name>
+        <servlet-class>com.cleverfishsoftware.services.servlets.Gateway</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AsyncEcho</servlet-name>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>LongRunningServlet</servlet-name>
         <url-pattern>/LongRunningServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Gateway</servlet-name>
+        <url-pattern>/Gateway</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
