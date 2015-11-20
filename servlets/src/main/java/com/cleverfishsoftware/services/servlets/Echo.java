@@ -3,8 +3,6 @@
 package com.cleverfishsoftware.services.servlets;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,7 +27,7 @@ public class Echo extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+ 
         String servletName = getServletName();
         long startTime = System.currentTimeMillis();
         System.out.println(servletName + " Start::Name="
@@ -37,7 +35,7 @@ public class Echo extends HttpServlet {
                 + Thread.currentThread().getId());
 
         response.setContentType("text/plain;charset=UTF-8");
-        copy(request.getInputStream(), response.getOutputStream());
+        CommonUtils.copy(request.getInputStream(), response.getOutputStream());
 
         long endTime = System.currentTimeMillis();
         System.out.println(servletName + " End::Name="
@@ -46,17 +44,7 @@ public class Echo extends HttpServlet {
                 + (endTime - startTime) + " ms.");
     }
 
-    private void copy(InputStream in, OutputStream out) throws IOException {
-        byte[] buf = new byte[1024];
-        int len;
-        while ((len = in.read(buf)) > 0) {
-            out.write(buf, 0, len);
-        }
-        out.close();
-        in.close();
-    }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
     /**
      * Handles the HTTP <code>GET</code> method.
      *

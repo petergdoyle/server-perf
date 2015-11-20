@@ -35,7 +35,9 @@ ssh
 .DS_Store
 
 target
-
+*.war
+*.ear
+*.jar
 apache-jmeter-*
 jmeter/default
 lorem-ipsum*

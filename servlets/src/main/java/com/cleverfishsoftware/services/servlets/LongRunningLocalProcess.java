@@ -1,4 +1,7 @@
 /*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.cleverfishsoftware.services.servlets;
 
@@ -14,11 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author peter
  */
-
-
-
-@WebServlet(name = "LongRunningSleep", urlPatterns = {"/LongRunningSleep "})
-public class LongRunningSleep extends HttpServlet {
+@WebServlet(name = "LongRunningLocalProcess", urlPatterns = {"/LongRunningLocalProcess"})
+public class LongRunningLocalProcess extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,43 +33,16 @@ public class LongRunningSleep extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String servletName = getServletName();
-            long startTime = System.currentTimeMillis();
-            System.out.println(servletName + " Start::Name="
-                    + Thread.currentThread().getName() + "::ID="
-                    + Thread.currentThread().getId());
-
-            int millis;
-            String sleep = request.getParameter("sleep");
-            if (sleep != null && !sleep.isEmpty() && sleep.matches("\\d+")) {
-                millis = Integer.valueOf(sleep);
-                // max 10 seconds
-                if (millis > 10000) {
-                    millis = 10000;
-                }
-                System.out.println("sleeping "+millis +" ms...");
-                Thread.sleep(millis);
-            }
-
+            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LongRunningServlet</title>");
+            out.println("<title>Servlet LongRunningLocalProcess</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LongRunningServlet at " + request.getContextPath() + "</h1>");
-            out.println("<h3>sleep time: " + sleep+ " ms</h3>");
+            out.println("<h1>Servlet LongRunningLocalProcess at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-
-            long endTime = System.currentTimeMillis();
-            System.out.println(servletName + " End::Name="
-                    + Thread.currentThread().getName() + "::ID="
-                    + Thread.currentThread().getId() + "::Time Taken="
-                    + (endTime - startTime) + " ms.");
-
-        } catch (InterruptedException ex) {
-            System.out.println(ex);
         }
     }
 
