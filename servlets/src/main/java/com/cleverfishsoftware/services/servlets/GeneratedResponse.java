@@ -1,11 +1,14 @@
 /*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.cleverfishsoftware.services.servlets;
 
-import com.cleverfishsoftware.services.common.CommonUtils;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.ByteBuffer;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author peter
  */
-@WebServlet(name = "Echo", urlPatterns = {"/Echo"})
-public class Echo extends HttpServlet {
+public class GeneratedResponse extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -25,28 +27,34 @@ public class Echo extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     *
+     *
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
- 
-        String servletName = getServletName();
-        long startTime = System.currentTimeMillis();
-        System.out.println(servletName + " Start::Name="
-                + Thread.currentThread().getName() + "::ID="
-                + Thread.currentThread().getId());
-
-        response.setContentType("text/plain;charset=UTF-8");
+    private static final int ONE_MB = 1024;
+    private static final int BUFFER_SIZE = 10 * ONE_MB; 
+    private static final ByteBuffer BUFFER = ByteBuffer.allocateDirect(BUFFER_SIZE);
+    static {
         
-        CommonUtils.copy(request.getInputStream(), response.getOutputStream());
-
-        long endTime = System.currentTimeMillis();
-        System.out.println(servletName + " End::Name="
-                + Thread.currentThread().getName() + "::ID="
-                + Thread.currentThread().getId() + "::Time Taken="
-                + (endTime - startTime) + " ms.");
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet GeneratedResponse</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet GeneratedResponse at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

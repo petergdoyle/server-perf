@@ -2,12 +2,16 @@
  */
 package com.cleverfishsoftware.services.servlets;
 
+import com.cleverfishsoftware.services.common.CommonUtils;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Enumeration;
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,59 +36,56 @@ public class Gateway extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private final String USER_AGENT = "Mozilla/5.0";
+    private final String USER_AGENT = "User-Agent";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
+        response.setContentType("text/plain;charset=UTF-8");
+
         String servletName = getServletName();
         long startTime = System.currentTimeMillis();
         System.out.println(servletName + " Start::Name="
                 + Thread.currentThread().getName() + "::ID="
                 + Thread.currentThread().getId());
 
+        //write(request.getInputStream(), System.out);
         String url = request.getParameter("proxy");
         if (url == null || url.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "missing request param 'proxy'. cannot process request");
             return;
         }
 
-        URL proxy;
+        URL proxyURL;
         try {
-            proxy = new URL(url);
+            proxyURL = new URL(url);
         } catch (MalformedURLException ex) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "invalid uri provided. check connections.");
             return;
         }
 
-        HttpURLConnection con = (HttpURLConnection) proxy.openConnection();
+        HttpURLConnection remote = (HttpURLConnection) proxyURL.openConnection();
 
-        // pass the method through
-        String method = request.getMethod();
-        con.setRequestMethod(method);
-
-        // set the agent
-        con.setRequestProperty("User-Agent", USER_AGENT);
-
-        // pass the params through
-        String queryString = request.getQueryString();
-
-        switch (method) {
-            case "GET":
-
-            case "POST":
-                con.setDoOutput(true); // set it to POST...not enough by itself however, also need the getOutputStream call...
-                con.connect();
-                ServletInputStream requestBody = request.getInputStream();
-                CommonUtils.copy(requestBody, con.getOutputStream());
-
-            default:
+        Enumeration<String> parameterNames = request.getParameterNames();
+        while (parameterNames.hasMoreElements()) {
+            String key = parameterNames.nextElement();
+            if (!key.equals("proxy")) {
+                remote.setRequestProperty(key, request.getParameter(key));
+            }
         }
-
-        int responseCode = con.getResponseCode();
-        response.setStatus(responseCode);
-
-        CommonUtils.copy(con.getInputStream(), response.getOutputStream());
+        
+        String method = request.getMethod();
+        remote.setRequestMethod(method);
+        
+        String userAgent = request.getHeader(USER_AGENT);
+        remote.setRequestProperty(USER_AGENT, userAgent);
+        
+        remote.connect();
+        response.setStatus(remote.getResponseCode());
+        response.setContentType(remote.getContentType());
+        response.setContentLength(remote.getContentLength());
+        response.setCharacterEncoding(remote.getContentEncoding());
+        CommonUtils.copy(remote.getInputStream(), response.getOutputStream());
 
         long endTime = System.currentTimeMillis();
         System.out.println(servletName + " End::Name="
@@ -131,5 +132,11 @@ public class Gateway extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void write(InputStream in, PrintStream out) throws IOException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        CommonUtils.copy(in, bos);
+        out.println(new String(bos.toByteArray()));
+    }
 
 }

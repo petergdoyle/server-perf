@@ -9,14 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import static com.cleverfishsoftware.services.common.CommonUtils.*;
 
 /**
  *
  * @author peter
  */
-
-
-
 @WebServlet(name = "LongRunningSleep", urlPatterns = {"/LongRunningSleep "})
 public class LongRunningSleep extends HttpServlet {
 
@@ -39,16 +37,16 @@ public class LongRunningSleep extends HttpServlet {
                     + Thread.currentThread().getName() + "::ID="
                     + Thread.currentThread().getId());
 
-            int millis;
-            String sleep = request.getParameter("sleep");
-            if (sleep != null && !sleep.isEmpty() && sleep.matches("\\d+")) {
-                millis = Integer.valueOf(sleep);
+            int sleep;
+            String sleepParam = request.getParameter("sleep");
+            if (isSpecified(sleepParam) && isNumeric(sleepParam)) {
+                sleep = Integer.valueOf(sleepParam);
                 // max 10 seconds
-                if (millis > 10000) {
-                    millis = 10000;
+                if (sleep > 10000) {
+                    sleep = 10000;
                 }
-                System.out.println("sleeping "+millis +" ms...");
-                Thread.sleep(millis);
+                System.out.println("sleeping " + sleep + " ms...");
+                Thread.sleep(sleep);
             }
 
             out.println("<!DOCTYPE html>");
@@ -58,7 +56,7 @@ public class LongRunningSleep extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet LongRunningServlet at " + request.getContextPath() + "</h1>");
-            out.println("<h3>sleep time: " + sleep+ " ms</h3>");
+            out.println("<h3>sleep time: " + sleepParam + " ms</h3>");
             out.println("</body>");
             out.println("</html>");
 

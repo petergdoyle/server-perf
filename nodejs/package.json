@@ -1,0 +1,17 @@
+{
+  "name": "server-perf-nodejs",
+  "version": "0.0.1",
+  "description": "test servers based on patterns",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "petergdoyle",
+  "license": "BSD",
+  "dependencies": {
+    "http": "0.0.0",
+    "fs": "0.0.2",
+    "path": "~0.12.7",
+    "express": "~4.13.3"
+  }
+}
