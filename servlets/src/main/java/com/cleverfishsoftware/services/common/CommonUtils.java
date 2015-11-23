@@ -35,8 +35,7 @@ public class CommonUtils {
         }
         return buf.toString();
     }
-    
-    
+
     public static boolean isSpecified(String value) {
         return value != null && !value.isEmpty();
     }
@@ -44,6 +43,9 @@ public class CommonUtils {
     public static boolean isNumeric(String value) {
         return value.matches("\\d+");
     }
-    
-   
+
+    public static int getRandomInteger(int max, int min) {
+        return ((int) (Math.random() * (max - min))) + min;
+    }
+
 }

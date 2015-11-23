@@ -35,8 +35,7 @@ public class Echo extends HttpServlet {
                 + Thread.currentThread().getName() + "::ID="
                 + Thread.currentThread().getId());
 
-        response.setContentType("text/plain;charset=UTF-8");
-        
+        response.setContentType(request.getContentType());
         CommonUtils.copy(request.getInputStream(), response.getOutputStream());
 
         long endTime = System.currentTimeMillis();

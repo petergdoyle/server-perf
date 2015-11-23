@@ -17,7 +17,9 @@ sc
 
 
 
-###Network Speed
+###Network Speed 
+
+### Physical to Physical
 
 engine1 -> engine2
 ```bash
@@ -60,4 +62,72 @@ TCP window size: 85.3 KByte (default)
 [  4] local 192.168.1.81 port 5001 connected with 192.168.1.80 port 46625
 [ ID] Interval       Transfer     Bandwidth
 [  4]  0.0-10.0 sec  1.09 GBytes   934 Mbits/sec
+
+```
+
+###Physical to remote VM
+```bash
+[peter@engine1 ~]$ sudo iperf -c engine2 -p 15001
+------------------------------------------------------------
+Client connecting to engine2, TCP port 15001
+TCP window size: 22.5 KByte (default)
+------------------------------------------------------------
+[  3] local 192.168.1.80 port 46741 connected with 192.168.1.81 port 15001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0-10.0 sec   904 MBytes   758 Mbits/sec
+[peter@engine1 ~]$ sudo iperf -c engine2 -p 15001
+------------------------------------------------------------
+Client connecting to engine2, TCP port 15001
+TCP window size: 22.5 KByte (default)
+------------------------------------------------------------
+[  3] local 192.168.1.80 port 46742 connected with 192.168.1.81 port 15001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0-10.0 sec   791 MBytes   664 Mbits/sec
+```
+
+###Physical to local VM
+```bash
+[peter@engine2 iperf]$ sudo iperf -c localhost -p 15001
+------------------------------------------------------------
+Client connecting to localhost, TCP port 15001
+TCP window size:  648 KByte (default)
+------------------------------------------------------------
+[  3] local 127.0.0.1 port 50478 connected with 127.0.0.1 port 15001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0-10.5 sec   837 MBytes   668 Mbits/sec
+[peter@engine2 iperf]$ sudo iperf -c localhost -p 15001
+------------------------------------------------------------
+Client connecting to localhost, TCP port 15001
+TCP window size:  648 KByte (default)
+------------------------------------------------------------
+[  3] local 127.0.0.1 port 50479 connected with 127.0.0.1 port 15001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0-10.0 sec   809 MBytes   678 Mbits/sec
+[peter@engine2 iperf]$ 
+```
+
+###Physical to remote Container
+```bash
+[peter@engine1 ~]$ sudo iperf -c engine2 -p 15001
+------------------------------------------------------------
+Client connecting to engine2, TCP port 15001
+TCP window size: 22.5 KByte (default)
+------------------------------------------------------------
+[  3] local 192.168.1.80 port 46738 connected with 192.168.1.81 port 15001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0-10.0 sec  1.09 GBytes   935 Mbits/sec
+```
+
+###VM to VM (intra VM)
+
+###Container to Container (intra-container)
+```bash
+[peter@engine2 iperf]$ client/docker_run.sh 
+------------------------------------------------------------
+Client connecting to iperf_server, TCP port 5001
+TCP window size: 22.5 KByte (default)
+------------------------------------------------------------
+[  3] local 172.17.0.17 port 57902 connected with 172.17.0.16 port 5001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0-10.0 sec  58.1 GBytes  49.9 Gbits/sec
 ```

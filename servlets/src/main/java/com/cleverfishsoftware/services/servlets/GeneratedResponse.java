@@ -1,13 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
  */
 package com.cleverfishsoftware.services.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.ByteBuffer;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,12 +26,6 @@ public class GeneratedResponse extends HttpServlet {
      *
      *
      */
-    private static final int ONE_MB = 1024;
-    private static final int BUFFER_SIZE = 10 * ONE_MB; 
-    private static final ByteBuffer BUFFER = ByteBuffer.allocateDirect(BUFFER_SIZE);
-    static {
-        
-    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
