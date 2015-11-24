@@ -5,15 +5,15 @@ Vagrant.configure(2) do |config|
 
   config.vm.network "forwarded_port", guest: 22, host: 5222, host_ip: "0.0.0.0", id: "ssh", auto_correct: true
 
-  config.vm.network "forwarded_port", guest: 5000, host: 5000, host_ip: "0.0.0.0", id: "nginx http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5010, host: 5010, host_ip: "0.0.0.0", id: "apache http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5020, host: 5020, host_ip: "0.0.0.0", id: "nodejs http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5000, host: 15000, host_ip: "0.0.0.0", id: "nginx http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5010, host: 15010, host_ip: "0.0.0.0", id: "apache http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5020, host: 15020, host_ip: "0.0.0.0", id: "nodejs http server", auto_correct: true
 
-  config.vm.network "forwarded_port", guest: 5040, host: 5040, host_ip: "0.0.0.0", id: "tomcat http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5050, host: 5050, host_ip: "0.0.0.0", id: "jetty http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5060, host: 5060, host_ip: "0.0.0.0", id: "netty http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5070, host: 5070, host_ip: "0.0.0.0", id: "spring-boot http jetty server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5080, host: 5080, host_ip: "0.0.0.0", id: "spring-boot tomcat jetty server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5040, host: 15040, host_ip: "0.0.0.0", id: "tomcat http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5050, host: 15050, host_ip: "0.0.0.0", id: "jetty http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5060, host: 15060, host_ip: "0.0.0.0", id: "netty http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5070, host: 15070, host_ip: "0.0.0.0", id: "spring-boot http jetty server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5080, host: 15080, host_ip: "0.0.0.0", id: "spring-boot tomcat jetty server", auto_correct: true
 
 
   config.vm.network "forwarded_port", guest: 3000, host: 3000, host_ip: "0.0.0.0", id: "jmx remote port", auto_correct: true
@@ -53,7 +53,7 @@ Vagrant.configure(2) do |config|
   #install additional tools
   eval 'tree' > /dev/null 2>&1
   if [ $? -eq 127 ]; then
-  yum -y install vim htop curl wget net-tools tree unzip
+  yum -y install vim htop curl wget net-tools tree unzip siege
   fi
 
   eval 'docker --version' > /dev/null 2>&1
