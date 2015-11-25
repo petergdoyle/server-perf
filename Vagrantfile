@@ -71,7 +71,7 @@ EOF
   systemctl start docker.service
   systemctl enable docker.service
 
-  #allow non-sudo access to run docker commands for user vagrant
+  #allow non-#access to run docker commands for user vagrant
   #if you have problems running docker as the vagrant user on the vm (if you 'vagrant ssh'd in
   #after a 'vagrant up'), then
   #restart the host machine and ssh in again to the vm 'vagrant halt; vagrant up; vagrant ssh'
@@ -200,7 +200,7 @@ EOF
   export JETTY_HOME=/usr/jetty/default
   cat >/etc/profile.d/jetty.sh <<-EOF
 export JETTY_HOME=$JETTY_HOME
-export JETTY_ARGS=jetty.http.port=5050 jetty.ssl.port=5440
+export JETTY_ARGS="jetty.http.port=5050 jetty.ssl.port=5440"
 EOF
 
     groupadd jetty
@@ -295,6 +295,17 @@ EOF
   fi
 
 
+  # on the vm host you need to open up some temporary ports on the firewall
+  # if you are running on fedora or centos7 this is done with firewalld commands
+  #firewall-cmd --add-port=15000/tcp
+  #firewall-cmd --add-port=15010/tcp
+  #firewall-cmd --add-port=15020/tcp
+  #firewall-cmd --add-port=15030/tcp
+  #firewall-cmd --add-port=15040/tcp
+  #firewall-cmd --add-port=15050/tcp
+  #firewall-cmd --add-port=15060/tcp
+  #firewall-cmd --add-port=15070/tcp
+  #firewall-cmd --add-port=15080/tcp
 
 
   #set hostname
