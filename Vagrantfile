@@ -16,9 +16,10 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 5080, host: 15080, host_ip: "0.0.0.0", id: "spring-boot tomcat jetty server", auto_correct: true
 
 
-  config.vm.network "forwarded_port", guest: 3000, host: 3000, host_ip: "0.0.0.0", id: "jmx remote port", auto_correct: true
-  config.vm.network "forwarded_port", guest: 9840, host: 9840, host_ip: "0.0.0.0", id: "jmx rmiRegistryPortPlatform", auto_correct: true
-  config.vm.network "forwarded_port", guest: 9841, host: 9841, host_ip: "0.0.0.0", id: "jmx rmiServerPortPlatform port", auto_correct: true
+  config.vm.network "forwarded_port", guest: 4200, host: 14200, host_ip: "0.0.0.0", id: "node monitor-dashboard port", auto_correct: true
+  config.vm.network "forwarded_port", guest: 3000, host: 13000, host_ip: "0.0.0.0", id: "jmx remote port", auto_correct: true
+  config.vm.network "forwarded_port", guest: 9840, host: 19840, host_ip: "0.0.0.0", id: "jmx rmiRegistryPortPlatform", auto_correct: true
+  config.vm.network "forwarded_port", guest: 9841, host: 19841, host_ip: "0.0.0.0", id: "jmx rmiServerPortPlatform port", auto_correct: true
 
   config.vm.provision "file", source: "./README.md", destination: "/home/vagrant/README.md"
 
@@ -100,6 +101,7 @@ EOF
   npm install format-json-stream -g
   npm install lorem-ipsum -g
   npm install forever -g
+  npm install monitor-dashboard -g
 
   else
     echo -e "\e[30;48;5;82m node, npm, npm-libs already appear to be installed. skipping. \e[0m"

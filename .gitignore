@@ -42,5 +42,7 @@ apache-jmeter-*
 jmeter/default
 lorem-ipsum*
 
+webapps/*
+
 nb-configuration.xml
 nbactions.xml

@@ -1,5 +1,6 @@
 
 var http = require('http');
+require('monitor').start();
 
 var host = '0.0.0.0';
 var port = 5020;
