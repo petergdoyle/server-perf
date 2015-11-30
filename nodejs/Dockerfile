@@ -12,7 +12,3 @@ ENV NODE_ENV external
 WORKDIR $DOCKER_VOL
 
 EXPOSE 5020 4200
-
-#COPY supervisord.conf /etc/supervisord.conf
-
-#CMD /usr/bin/supervisord -c /etc/supervisord.conf
