@@ -33,8 +33,7 @@
   <!-- explicitly specify remote jmx and rmi ports -->
   <Listener className="org.apache.catalina.mbeans.JmxRemoteLifecycleListener"
     useLocalPorts="true"
-    rmiRegistryPortPlatform="9840" rmiServerPortPlatform="9841"
-    />
+    rmiRegistryPortPlatform="10001" rmiServerPortPlatform="10002"/>
   <!-- Global JNDI resources
        Documentation at /docs/jndi-resources-howto.html
   -->

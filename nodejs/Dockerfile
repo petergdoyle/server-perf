@@ -1,7 +1,7 @@
 
 FROM petergdoyle/centos:7
 
-RUN yum -y install supervisor
+RUN yum -y install supervisor sysstat htop
 RUN yum -y install epel-release gcc gcc-c++ \
 && yum -y install nodejs npm \
 && npm install monitor-dashboard -g
