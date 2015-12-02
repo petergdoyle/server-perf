@@ -127,14 +127,6 @@ EOF
 export JAVA_HOME=$JAVA_HOME
 EOF
 
-  #continue setup the remote jmx monitoring security - JAVA_OPTS specifies the port - NOTE This means only 1 jvm can be running at a time
-#  cat >/usr/java/default/jre/lib/management/jmxremote.password <<-EOF
-#monitorRole  QED
-#controlRole   R&D
-#EOF
-
-#  chmod 600 /usr/java/jdk1.8.0_60/jre/lib/management/jmxremote.password
-
   else
     echo -e "\e[30;48;5;82m java already appears to be installed. skipping. \e[0m"
   fi
