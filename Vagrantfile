@@ -52,9 +52,9 @@ Vagrant.configure(2) do |config|
   #best to update the os
   yum -y update
   #install additional tools
-  eval 'tree' > /dev/null 2>&1
+  eval 'iperf' > /dev/null 2>&1
   if [ $? -eq 127 ]; then
-  yum -y install vim htop curl wget net-tools tree unzip siege
+  yum -y install vim htop curl wget net-tools tree unzip siege telnet iperf
   fi
 
   eval 'docker --version' > /dev/null 2>&1
