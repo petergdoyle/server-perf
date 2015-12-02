@@ -9,6 +9,8 @@ RUN yum -y install epel-release gcc gcc-c++ \
 ENV DOCKER_VOL /docker
 ENV NODE_ENV external
 
+COPY supervisord.conf /docker/
+
 WORKDIR $DOCKER_VOL
 
 EXPOSE 5020 4200
