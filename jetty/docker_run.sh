@@ -31,5 +31,4 @@ echo "running command... $docker_cmd"
 eval $docker_cmd
 
 sleep 3s
-
 docker ps -a
