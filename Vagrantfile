@@ -120,7 +120,8 @@ EOF
 
   alternatives --install "/usr/bin/java" "java" "/usr/java/default/bin/java" 99999; \
   alternatives --install "/usr/bin/javac" "javac" "/usr/java/default/bin/javac" 99999; \
-  alternatives --install "/usr/bin/javaws" "javaws" "/usr/java/default/bin/javaws" 99999
+  alternatives --install "/usr/bin/javaws" "javaws" "/usr/java/default/bin/javaws" 99999; \
+  alternatives --install "/usr/bin/jvisualvm" "jvisualvm" "/usr/java/default/bin/jvisualvm" 99999
 
   export JAVA_HOME=/usr/java/default
   cat >/etc/profile.d/java.sh <<-EOF

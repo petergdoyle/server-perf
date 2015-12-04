@@ -27,4 +27,4 @@ done
 end_part="\"$url POST >$data\""
 cmd="siege -q --concurrent=$users --reps=$repetitions $end_part"
 echo "running... $cmd"
-eval $cmd
+#eval $cmd

@@ -26,4 +26,4 @@ done
 
 cmd="ab -p $data -n $users -c $concurrent_requests $url"
 echo "running... $cmd"
-eval $cmd
+#eval $cmd
