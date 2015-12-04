@@ -8,6 +8,10 @@
         <servlet-name>GeneratedResponse</servlet-name>
         <servlet-class>com.cleverfishsoftware.services.servlets.GeneratedResponse</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TestServlet</servlet-name>
+        <servlet-class>com.cleverfishsoftware.services.servlets.TestServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Echo</servlet-name>
         <url-pattern>/Echo</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>GeneratedResponse</servlet-name>
         <url-pattern>/GeneratedResponse</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TestServlet</servlet-name>
+        <url-pattern>/TestServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

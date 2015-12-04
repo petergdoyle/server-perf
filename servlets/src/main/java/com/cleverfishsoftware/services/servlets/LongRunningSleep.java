@@ -37,8 +37,9 @@ public class LongRunningSleep extends HttpServlet {
                     + Thread.currentThread().getName() + "::ID="
                     + Thread.currentThread().getId());
 
-            int sleep;
+            int sleep = 0;
             String sleepParam = request.getParameter("sleep");
+            System.out.println("sleepParam: "+sleepParam);
             if (isSpecified(sleepParam) && isNumeric(sleepParam)) {
                 sleep = Integer.valueOf(sleepParam);
                 // max 10 seconds
@@ -56,7 +57,7 @@ public class LongRunningSleep extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet LongRunningServlet at " + request.getContextPath() + "</h1>");
-            out.println("<h3>sleep time: " + sleepParam + " ms</h3>");
+            out.println("<h3>sleep time: " + sleep + " ms</h3>");
             out.println("</body>");
             out.println("</html>");
 
@@ -65,6 +66,8 @@ public class LongRunningSleep extends HttpServlet {
                     + Thread.currentThread().getName() + "::ID="
                     + Thread.currentThread().getId() + "::Time Taken="
                     + (endTime - startTime) + " ms.");
+            
+            out.close();
 
         } catch (InterruptedException ex) {
             System.out.println(ex);
