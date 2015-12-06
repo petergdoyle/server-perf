@@ -56,7 +56,7 @@ public class TestServlet extends HttpServlet {
             if (sleep > 10000) {
                 sleep = 10000;
             }
-            System.out.println("sleeping " + sleep + " ms...");
+//            System.out.println("sleeping " + sleep + " ms...");
             try {
                 Thread.sleep(sleep);
             } catch (InterruptedException ex) {
@@ -70,10 +70,10 @@ public class TestServlet extends HttpServlet {
         if (isSpecified(sizeParam) && isNumeric(sizeParam)) {
             size = Integer.valueOf(sizeParam);
             sendGeneratedResponse(response, request, size);
-            System.out.println("prepared response size " + size + " bytes");
+//            System.out.println("prepared response size " + size + " bytes");
 
         } else {
-            sendDefaultResponse(response, request, "servlet is running");
+            sendDefaultResponse(response, request);
         }
 
         long endTime = System.currentTimeMillis();
@@ -89,12 +89,12 @@ public class TestServlet extends HttpServlet {
         }
     }
 
-    private void sendDefaultResponse(HttpServletResponse response, HttpServletRequest request, String msg) throws IOException {
+    private void sendDefaultResponse(HttpServletResponse response, HttpServletRequest request) throws IOException {
         try (PrintWriter out = response.getWriter()) {
             out.println("Servlet: " + getServletName());
             out.println("Path: " + request.getContextPath());
-            out.println(msg);
-
+            out.println("Requests Processed: " + COUNTER.get());
+            out.println("Msg: server is running");
         }
     }
 
@@ -125,6 +125,7 @@ public class TestServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        int count = COUNTER.incrementAndGet();
         String servletName = getServletName();
         long startTime = System.currentTimeMillis();
         System.out.println(servletName + " Start::Name="
@@ -132,7 +133,6 @@ public class TestServlet extends HttpServlet {
                 + Thread.currentThread().getId());
 
         //any request that uses a POST will just echo back what is sent
-        
         response.setContentType(request.getContentType());
         CommonUtils.copy(request.getInputStream(), response.getOutputStream());
 
