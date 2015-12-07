@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author peter
  */
-@WebServlet(name = "TestServlet", urlPatterns = {"/TestServlet"})
+@WebServlet(name = "TestServlet", urlPatterns = {"/perf"})
 public class TestServlet extends HttpServlet {
 
     private final static AtomicInteger COUNTER = new AtomicInteger();

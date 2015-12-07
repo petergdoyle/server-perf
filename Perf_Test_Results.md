@@ -10,9 +10,9 @@
 [vagrant@server-perf scripts]$ ./run_ab_load_test_post_data.sh 
 Enter number of users: 100
 Enter number of concurrent requests: 100
-Enter the url: http://localhost:5040/servlets-1.0-SNAPSHOT/Echo
+Enter the url: http://localhost:5040/servlet/perf/Echo
 Enter the data file (absolute or relative path): ../data/lorem-ipsum-10kb
-running... ab -p ../data/lorem-ipsum-10kb -n 100 -c 100 http://localhost:5040/servlets-1.0-SNAPSHOT/Echo
+running... ab -p ../data/lorem-ipsum-10kb -n 100 -c 100 http://localhost:5040/servlet/perf/Echo
 This is ApacheBench, Version 2.3 <$Revision: 1430300 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
@@ -24,7 +24,7 @@ Server Software:        Apache-Coyote/1.1
 Server Hostname:        localhost
 Server Port:            5040
 
-Document Path:          /servlets-1.0-SNAPSHOT/Echo
+Document Path:          /servlet/perf/Echo
 Document Length:        10179 bytes
 
 Concurrency Level:      100
@@ -67,9 +67,9 @@ Percentage of the requests served within a certain time (ms)
 [vagrant@server-perf scripts]$ ./run_ab_load_test_post_data.sh 
 Enter number of users: 100
 Enter number of concurrent requests: 100
-Enter the url: http://localhost:5050/servlets-1.0-SNAPSHOT/Echo
+Enter the url: http://localhost:5050/servlet/perf/Echo
 Enter the data file (absolute or relative path): ../data/lorem-ipsum-10kb
-running... ab -p ../data/lorem-ipsum-10kb -n 100 -c 100 http://localhost:5050/servlets-1.0-SNAPSHOT/Echo
+running... ab -p ../data/lorem-ipsum-10kb -n 100 -c 100 http://localhost:5050/servlet/perf/Echo
 This is ApacheBench, Version 2.3 <$Revision: 1430300 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
@@ -81,7 +81,7 @@ Server Software:        Jetty(9.3.6.v20151106)
 Server Hostname:        localhost
 Server Port:            5050
 
-Document Path:          /servlets-1.0-SNAPSHOT/Echo
+Document Path:          /servlet/perf/Echo
 Document Length:        10179 bytes
 
 Concurrency Level:      100
@@ -241,9 +241,9 @@ Tomcat (non-async api)
 [vagrant@server-perf scripts]$ ./run_ab_load_test_post_data.sh 
 Enter number of users: 100
 Enter number of concurrent requests: 100
-Enter the url: http://localhost:5040/servlets-1.0-SNAPSHOT/Echo
+Enter the url: http://localhost:5040/servlet/perf/Echo
 Enter the data file (absolute or relative path): ../data/lorem-ipsum-1mb
-running... ab -p ../data/lorem-ipsum-1mb -n 100 -c 100 http://localhost:5040/servlets-1.0-SNAPSHOT/Echo
+running... ab -p ../data/lorem-ipsum-1mb -n 100 -c 100 http://localhost:5040/servlet/perf/Echo
 This is ApacheBench, Version 2.3 <$Revision: 1430300 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
@@ -255,7 +255,7 @@ Server Software:        Apache-Coyote/1.1
 Server Hostname:        localhost
 Server Port:            5040
 
-Document Path:          /servlets-1.0-SNAPSHOT/Echo
+Document Path:          /servlet/perf/Echo
 Document Length:        1020289 bytes
 
 Concurrency Level:      100
@@ -298,9 +298,9 @@ Jetty (servlet container: non-async api)
 [vagrant@server-perf scripts]$ ./run_ab_load_test_post_data.sh 
 Enter number of users: 100
 Enter number of concurrent requests: 100
-Enter the url:  http://localhost:5050/servlets-1.0-SNAPSHOT/Echo
+Enter the url:  http://localhost:5050/servlet/perf/Echo
 Enter the data file (absolute or relative path): ../data/lorem-ipsum-1mb
-running... ab -p ../data/lorem-ipsum-1mb -n 100 -c 100 http://localhost:5050/servlets-1.0-SNAPSHOT/Echo
+running... ab -p ../data/lorem-ipsum-1mb -n 100 -c 100 http://localhost:5050/servlet/perf/Echo
 This is ApacheBench, Version 2.3 <$Revision: 1430300 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
@@ -312,7 +312,7 @@ Server Software:        Jetty(9.3.6.v20151106)
 Server Hostname:        localhost
 Server Port:            5050
 
-Document Path:          /servlets-1.0-SNAPSHOT/Echo
+Document Path:          /servlet/perf/Echo
 Document Length:        1020289 bytes
 
 Concurrency Level:      100

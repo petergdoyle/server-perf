@@ -32,7 +32,7 @@ for (var i=0; i<BUF_SIZE; i++) {
 var host = '0.0.0.0';
 var port = 5020;
 var app = express();
-var context = '/nodejs/';
+var context = '/nodejs/perf';
 var COUNTER = 0;
 
 app.get(context, function(req, res){
@@ -72,7 +72,7 @@ app.get(context, function(req, res){
 /*
 echo whatever is in the body of the message back.
 */
-app.post('/', function (req, res) {
+app.post(context, function (req, res) {
  res.writeHead(200);
  req.on('data',function(message){
    res.write(message);
