@@ -1,6 +1,6 @@
 /*
  */
-package com.cleverfishsoftware.services.servlets;
+package com.cleverfishsoftware.services.servlet;
 
 import com.cleverfishsoftware.services.common.CommonUtils;
 import static com.cleverfishsoftware.services.common.CommonUtils.isNumeric;
@@ -19,23 +19,14 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author peter
  */
-@WebServlet(name = "TestServlet", urlPatterns = {"/perf"})
-public class TestServlet extends HttpServlet {
+@WebServlet(name = "SyncServlet", urlPatterns = {"/perf"})
+public class SyncServlet extends HttpServlet {
 
     private final static AtomicInteger COUNTER = new AtomicInteger();
-
     private final static GeneratedContent CONTENT = GeneratedContent.getInstance();
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/plain;charset=UTF-8");
 
@@ -48,7 +39,7 @@ public class TestServlet extends HttpServlet {
                 + Thread.currentThread().getId());
 
         // introduce latency
-        int sleep = 0;
+        int sleep;
         String sleepParam = request.getParameter("sleep");
         if (isSpecified(sleepParam) && isNumeric(sleepParam)) {
             sleep = Integer.valueOf(sleepParam);
@@ -56,7 +47,6 @@ public class TestServlet extends HttpServlet {
             if (sleep > 10000) {
                 sleep = 10000;
             }
-//            System.out.println("sleeping " + sleep + " ms...");
             try {
                 Thread.sleep(sleep);
             } catch (InterruptedException ex) {
@@ -65,16 +55,36 @@ public class TestServlet extends HttpServlet {
         }
 
         // determine how to respond
-        int size = 0;
+        int size;
         String sizeParam = request.getParameter("size");
         if (isSpecified(sizeParam) && isNumeric(sizeParam)) {
             size = Integer.valueOf(sizeParam);
             sendGeneratedResponse(response, request, size);
-//            System.out.println("prepared response size " + size + " bytes");
-
         } else {
             sendDefaultResponse(response, request);
         }
+
+        long endTime = System.currentTimeMillis();
+        System.out.println(servletName + " End::Name="
+                + Thread.currentThread().getName() + "::ID="
+                + Thread.currentThread().getId() + "::Time Taken="
+                + (endTime - startTime) + " ms.");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        int count = COUNTER.incrementAndGet();
+        String servletName = getServletName();
+        long startTime = System.currentTimeMillis();
+        System.out.println(servletName + " Start::Name="
+                + Thread.currentThread().getName() + "::ID="
+                + Thread.currentThread().getId());
+
+        //any request that uses a POST will just echo back what is sent
+        response.setContentType(request.getContentType());
+        CommonUtils.copy(request.getInputStream(), response.getOutputStream());
 
         long endTime = System.currentTimeMillis();
         System.out.println(servletName + " End::Name="
@@ -98,59 +108,9 @@ public class TestServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        int count = COUNTER.incrementAndGet();
-        String servletName = getServletName();
-        long startTime = System.currentTimeMillis();
-        System.out.println(servletName + " Start::Name="
-                + Thread.currentThread().getName() + "::ID="
-                + Thread.currentThread().getId());
-
-        //any request that uses a POST will just echo back what is sent
-        response.setContentType(request.getContentType());
-        CommonUtils.copy(request.getInputStream(), response.getOutputStream());
-
-        long endTime = System.currentTimeMillis();
-        System.out.println(servletName + " End::Name="
-                + Thread.currentThread().getName() + "::ID="
-                + Thread.currentThread().getId() + "::Time Taken="
-                + (endTime - startTime) + " ms.");
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
-        return "Servlet for testing various performance test patterns.";
-    }// </editor-fold>
+        return "Synchronous Servlet for testing various performance test patterns.";
+    }
 
 }

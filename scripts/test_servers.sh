@@ -32,11 +32,15 @@ done
 read -e -p "How many request: " -i "1" repetitions
 read -e -p "Size of Response (bytes): " -i "0" size
 read -e -p "Latency (millis): " -i "0" sleep
+read -e -p "Async (y/n): " -i "n" async
 read -e -p "host: " -i "localhost" host
 
-cmd_part_1="curl -i -X GET \"http://$host:$port/$context/$service\""
+cmd_part_1="curl -i -X GET \"http://$host:$port/$context/$service"
 cmd_part_2=""
 first=true
+if [ $async == "y" ]; then
+  cmd_part_1=$cmd_part_1"/async";
+fi
 #check sleep
 if [ $sleep -gt 0 ]; then
   if [ "$first" = true ]; then
@@ -58,7 +62,7 @@ if [ $size -gt 0 ]; then
   cmd_part_2=$cmd_part_2"size=$size"
 fi
 
-cmd=$cmd_part_1$cmd_part_2
+cmd=$cmd_part_1$cmd_part_2"\""
 
 read -e -p "Submit (y/n): $cmd " -i "y" submit
 

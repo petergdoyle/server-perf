@@ -1,6 +1,6 @@
 /*
  */
-package com.cleverfishsoftware.services.servlets;
+package com.cleverfishsoftware.services.servlet;
 
 import com.cleverfishsoftware.services.common.CommonUtils;
 import java.io.ByteArrayOutputStream;
@@ -132,11 +132,5 @@ public class Gateway extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private void write(InputStream in, PrintStream out) throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        CommonUtils.copy(in, bos);
-        out.println(new String(bos.toByteArray()));
-    }
 
 }

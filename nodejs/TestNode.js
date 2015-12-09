@@ -48,7 +48,6 @@ app.get(context, function(req, res){
   res.set('Content-Type', 'text/plain');
   var size = req.param('size');
   if (typeof size !== 'undefined') {
-    console.log('size: '+size);
     if (size>BUFFER.length) {
       size = BUFFER.length;
     }
