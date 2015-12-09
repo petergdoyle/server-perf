@@ -46,6 +46,8 @@ public class SyncServlet extends HttpServlet {
             // max 10 seconds
             if (sleep > 10000) {
                 sleep = 10000;
+            } else if (sleep < 0) {
+                sleep = 0;
             }
             try {
                 Thread.sleep(sleep);
@@ -74,7 +76,6 @@ public class SyncServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         int count = COUNTER.incrementAndGet();
         String servletName = getServletName();
         long startTime = System.currentTimeMillis();
@@ -82,7 +83,7 @@ public class SyncServlet extends HttpServlet {
                 + Thread.currentThread().getName() + "::ID="
                 + Thread.currentThread().getId());
 
-        //any request that uses a POST will just echo back what is sent
+        //any request that uses a POST will just echo back what is sent (using OIO in this case
         response.setContentType(request.getContentType());
         CommonUtils.copy(request.getInputStream(), response.getOutputStream());
 
@@ -94,9 +95,7 @@ public class SyncServlet extends HttpServlet {
     }
 
     private void sendGeneratedResponse(HttpServletResponse response, HttpServletRequest request, int size) throws IOException {
-        try (PrintWriter out = response.getWriter()) {
-            out.write(CONTENT.get(size));
-        }
+        response.getOutputStream().write(CONTENT.get(size));
     }
 
     private void sendDefaultResponse(HttpServletResponse response, HttpServletRequest request) throws IOException {

@@ -22,34 +22,32 @@ public class CommonUtils {
     public static final int ONE_MB = 1048576;
     public static final int ONE_GB = 1073741824;
 
-    private static final int STREAM_BUFFER = ONE_KB * 10;
-    private static final int COPY_BUFFER = ONE_KB;
-
     public static long stream(InputStream is, OutputStream os) throws IOException {
-        try (
-                ReadableByteChannel inputChannel = Channels.newChannel(is);
-                WritableByteChannel outputChannel = Channels.newChannel(os);) {
-            ByteBuffer buffer = ByteBuffer.allocateDirect(STREAM_BUFFER);
-            long size = 0;
-
-            while (inputChannel.read(buffer) != -1) {
-                buffer.flip();
-                size += outputChannel.write(buffer);
-                buffer.clear();
-            }
-
-            return size;
-        }
-    }
-
-    public static void copy(InputStream is, OutputStream os) throws IOException {
-        byte[] buf = new byte[COPY_BUFFER];
-        int len;
-        while ((len = is.read(buf)) > 0) {
-            os.write(buf, 0, len);
+        ReadableByteChannel inputChannel = Channels.newChannel(is);
+        WritableByteChannel outputChannel = Channels.newChannel(os);
+        ByteBuffer buffer = ByteBuffer.allocateDirect(ONE_KB * 10);
+        long size = 0;
+        while (inputChannel.read(buffer) != -1) {
+            buffer.flip();
+            size += outputChannel.write(buffer);
+            buffer.clear();
         }
         os.close();
         is.close();
+        return size;
+    }
+
+    public static long copy(InputStream is, OutputStream os) throws IOException {
+        byte[] buf = new byte[ONE_KB * 10];
+        int len;
+        long size = 0;
+        while ((len = is.read(buf)) != -1) {
+            os.write(buf, 0, len);
+            size += len;
+        }
+        os.close();
+        is.close();
+        return size;
     }
 
     public static String readInputStreamAsString(InputStream in) throws IOException {
