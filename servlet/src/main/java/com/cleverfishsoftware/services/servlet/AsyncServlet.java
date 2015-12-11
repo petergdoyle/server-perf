@@ -53,25 +53,6 @@ public class AsyncServlet extends HttpServlet {
         String servletName = getServletName();
         long startTime = System.currentTimeMillis();
         ThreadInfo ti = new ThreadInfo(getServletName(), Thread.currentThread(), System.currentTimeMillis());
-        asyncContext.addListener(new AsyncListener() {
-            @Override
-            public void onComplete(AsyncEvent event) throws IOException {
-                ti.done();
-            }
-
-            @Override
-            public void onTimeout(AsyncEvent event) throws IOException {
-            }
-
-            @Override
-            public void onError(AsyncEvent event) throws IOException {
-            }
-
-            @Override
-            public void onStartAsync(AsyncEvent event) throws IOException {
-            }
-
-        });
 
         int count = COUNTER.incrementAndGet();
 
@@ -96,9 +77,9 @@ public class AsyncServlet extends HttpServlet {
         String sizeParam = request.getParameter("size");
         if (isSpecified(sizeParam) && isNumeric(sizeParam)) {
             size = Integer.valueOf(sizeParam);
-            os.setWriteListener(new GeneratedContentWriteListener(os, CONTENT, size, asyncContext, sleep));
+            os.setWriteListener(new GeneratedContentWriteListener(os, CONTENT, size, asyncContext, sleep, ti));
         } else {
-        executor.schedule(asyncContext::complete, sleep, TimeUnit.MILLISECONDS);
+            executor.schedule(asyncContext::complete, sleep, TimeUnit.MILLISECONDS);
         }
 
     }
@@ -116,32 +97,4 @@ public class AsyncServlet extends HttpServlet {
         return "Asynchronous Servlet for testing various performance test patterns.";
     }
 
-    class ThreadInfo {
-
-        private final String name;
-        private final long id;
-        private final String servletName;
-        private final long startTime;
-
-        ThreadInfo(final String servletName, final Thread t, long startTime) {
-            this.servletName = servletName;
-            this.startTime = startTime;
-            this.name = t.getName();
-            this.id = t.getId();
-            System.out.println(servletName + " Start::Name="
-                    + name + "::ID="
-                    + id
-            );
-        }
-
-        void done() {
-            long endTime = System.currentTimeMillis();
-            System.out.println(servletName + " End::Name="
-                    + name + "::ID="
-                    + id + "::Time Taken="
-                    + (endTime - startTime) + " ms.");
-
-        }
-
-    }
 }
