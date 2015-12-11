@@ -12,24 +12,39 @@ public class ThreadInfo {
     private final long id;
     private final String servletName;
     private final long startTime;
+    private boolean quiet;
+
+    ThreadInfo(final String servletName, final Thread t, long startTime, boolean quiet) {
+        this(servletName, t, startTime);
+        this.quiet = quiet;
+    }
 
     ThreadInfo(final String servletName, final Thread t, long startTime) {
         this.servletName = servletName;
         this.startTime = startTime;
         this.name = t.getName();
         this.id = t.getId();
-        System.out.println(servletName + " Start::Name="
-                + name + "::ID="
-                + id
-        );
+        this.quiet = true;
+        if (!quiet) {
+            System.out.println(servletName + " Start::Name="
+                    + name + "::ID="
+                    + id
+            );
+        }
     }
 
     void done() {
         long endTime = System.currentTimeMillis();
-        System.out.println(servletName + " End::Name="
-                + name + "::ID="
-                + id + "::Time Taken="
-                + (endTime - startTime) + " ms.");
+        if (!quiet) {
+            System.out.println(servletName + " End::Name="
+                    + name + "::ID="
+                    + id + "::Time Taken="
+                    + (endTime - startTime) + " ms.");
+        }
+    }
 
+    @Override
+    public String toString() {
+        return "ThreadInfo{" + "name=" + name + ", id=" + id + ", servletName=" + servletName + ", startTime=" + startTime + ", quiet=" + quiet + '}';
     }
 }
