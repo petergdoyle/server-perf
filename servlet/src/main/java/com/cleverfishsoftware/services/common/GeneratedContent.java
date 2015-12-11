@@ -9,7 +9,6 @@ import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.WritableByteChannel;
-import java.util.Arrays;
 
 /**
  *
@@ -39,21 +38,21 @@ public class GeneratedContent {
             }
             on = !on;
         }
-        System.out.println("BUFFER after loading: position = " + BUFFER.position()
-                + "\tLimit = " + BUFFER.limit() + "\tcapacity = "
-                + BUFFER.capacity());
-        BUFFER.rewind();
-        ByteBuffer duplicate = BUFFER.duplicate();
-        System.out.println("slice after slicing: position = " + duplicate.position()
-                + "\tLimit = " + duplicate.limit() + "\tcapacity = "
-                + duplicate.capacity());
-        duplicate.rewind();
-        System.out.println("BUFFER after rewind: position = " + BUFFER.position()
-                + "\tLimit = " + BUFFER.limit() + "\tcapacity = "
-                + BUFFER.capacity());
-        System.out.println("slice after slicing: position = " + duplicate.position()
-                + "\tLimit = " + duplicate.limit() + "\tcapacity = "
-                + duplicate.capacity());
+//        System.out.println("BUFFER after loading: position = " + BUFFER.position()
+//                + "\tLimit = " + BUFFER.limit() + "\tcapacity = "
+//                + BUFFER.capacity());
+//        BUFFER.rewind();
+//        ByteBuffer duplicate = BUFFER.duplicate();
+//        System.out.println("slice after slicing: position = " + duplicate.position()
+//                + "\tLimit = " + duplicate.limit() + "\tcapacity = "
+//                + duplicate.capacity());
+//        duplicate.rewind();
+//        System.out.println("BUFFER after rewind: position = " + BUFFER.position()
+//                + "\tLimit = " + BUFFER.limit() + "\tcapacity = "
+//                + BUFFER.capacity());
+//        System.out.println("slice after slicing: position = " + duplicate.position()
+//                + "\tLimit = " + duplicate.limit() + "\tcapacity = "
+//                + duplicate.capacity());
 
     }
 
@@ -83,10 +82,32 @@ public class GeneratedContent {
         return data;
     }
 
-    public ByteBuffer getAsBuffer(final int size) {
-        ByteBuffer buffer = ByteBuffer.allocate(size); 
-        buffer.put(get(size)); 
-        return buffer;
+    public ByteBuffer getBUFFER() {
+        return BUFFER;
+    }
+
+//    public ByteBuffer getAsBuffer(final int size) {
+//        ByteBuffer buffer = ByteBuffer.allocate(size);
+//        buffer.put(get(size));
+//        return buffer;
+//    }
+    public void write(OutputStream os, final int size) throws IOException {
+        ByteBuffer duplicate = BUFFER.duplicate();
+        duplicate.rewind();
+        duplicate.position(size);
+        while (duplicate.hasRemaining()) {
+            os.write(duplicate.get());
+        }
+    }
+
+    public void writeChannel(OutputStream os, final int size) throws IOException {
+        ByteBuffer duplicate = BUFFER.duplicate();
+        duplicate.rewind();
+        duplicate.position(size);
+        WritableByteChannel oc = Channels.newChannel(os);
+        while (duplicate.hasRemaining()) {
+            oc.write(duplicate);
+        }
     }
 
     public static void main(String... args) throws UnsupportedEncodingException, IOException {
