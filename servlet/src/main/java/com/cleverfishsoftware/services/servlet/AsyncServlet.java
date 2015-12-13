@@ -6,14 +6,12 @@ import static com.cleverfishsoftware.services.common.CommonUtils.isNumeric;
 import static com.cleverfishsoftware.services.common.CommonUtils.isSpecified;
 import com.cleverfishsoftware.services.common.GeneratedContent;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.servlet.AsyncContext;
-import javax.servlet.AsyncEvent;
-import javax.servlet.AsyncListener;
 import javax.servlet.ReadListener;
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -30,14 +28,17 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "AsyncServlet", urlPatterns = {"/perf/async"}, asyncSupported = true)
 public class AsyncServlet extends HttpServlet {
 
-    private final ScheduledExecutorService executor;
+    private ScheduledExecutorService executor;
+    private ScheduledThreadPoolExecutor scheduler;
 
     private final static AtomicInteger COUNTER = new AtomicInteger();
 
     private final static GeneratedContent CONTENT = GeneratedContent.getInstance();
 
-    public AsyncServlet() {
+    @Override
+    public void init() {
         this.executor = Executors.newSingleThreadScheduledExecutor();
+        this.scheduler = new ScheduledThreadPoolExecutor(Runtime.getRuntime().availableProcessors());
     }
 
     @Override
@@ -68,16 +69,22 @@ public class AsyncServlet extends HttpServlet {
                 sleep = 0;
             }
         }
+        System.out.println("sleep is set to " + sleep);
 
         // simple sleep and call complete on asyncContext 
         ServletOutputStream os = response.getOutputStream();
 
         // determine how to respond
-        int size = 0;
+        int size;
         String sizeParam = request.getParameter("size");
         if (isSpecified(sizeParam) && isNumeric(sizeParam)) {
             size = Integer.valueOf(sizeParam);
-            os.setWriteListener(new GeneratedContentWriteListener(os, CONTENT, size, asyncContext, sleep, ti));
+            if (sleep > 0) {
+                System.out.println("here i am. going to process with sleep");
+                os.setWriteListener(new GeneratedContentWriteListenerAndSleep(os, CONTENT, size, asyncContext, sleep, scheduler, ti));
+            } else {
+                os.setWriteListener(new GeneratedContentWriteListener(os, CONTENT, size, asyncContext, ti));
+            }
         } else {
             executor.schedule(asyncContext::complete, sleep, TimeUnit.MILLISECONDS);
         }

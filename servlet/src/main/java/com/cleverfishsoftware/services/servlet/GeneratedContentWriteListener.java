@@ -19,18 +19,15 @@ public class GeneratedContentWriteListener implements WriteListener {
     private final GeneratedContent content;
     private final ByteBuffer buffer;
     private final AsyncContext context;
-    private final long sleep;
     private final int size;
     private final ThreadInfo ti;
 
     public GeneratedContentWriteListener(ServletOutputStream sos, final GeneratedContent content,
-            final int size, final AsyncContext context,
-            final long sleep, ThreadInfo ti) {
+            final int size, final AsyncContext context, ThreadInfo ti) {
         this.sos = sos;
         this.content = content;
         this.size = size;
         this.context = context;
-        this.sleep = sleep;
         this.ti = ti;
         buffer = content.getBUFFER().duplicate();
         buffer.rewind();

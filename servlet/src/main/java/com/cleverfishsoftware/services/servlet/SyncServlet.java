@@ -95,7 +95,7 @@ public class SyncServlet extends HttpServlet {
     }
 
     private void sendGeneratedResponse(HttpServletResponse response, HttpServletRequest request, int size) throws IOException {
-        response.getOutputStream().write(CONTENT.get(size));
+        CONTENT.writeChannel(response.getOutputStream(), size);
     }
 
     private void sendDefaultResponse(HttpServletResponse response, HttpServletRequest request) throws IOException {
