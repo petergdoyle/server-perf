@@ -1,0 +1,2 @@
+/servlet/perf/async method=GET contents="size=100000"
+/servlet/perf method=GET contents="size=100000"

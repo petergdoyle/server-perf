@@ -38,6 +38,7 @@ public class SyncServlet extends HttpServlet {
                 + Thread.currentThread().getName() + "::ID="
                 + Thread.currentThread().getId());
 
+        System.out.println("YOU ARE CALLING THE SYNC SERVLET");
         // introduce latency
         int sleep;
         String sleepParam = request.getParameter("sleep");
