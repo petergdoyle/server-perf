@@ -34,6 +34,9 @@ ssh
 *.tar
 .DS_Store
 
+*.*~
+*.tlv
+
 target
 *.war
 *.ear
