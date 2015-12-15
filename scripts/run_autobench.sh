@@ -32,8 +32,8 @@ timeout='5'
 # times, starting with 10 requests/sec and going up to 50 requests/sec in
 # increments of 10.
 
-host='localhost'
-port='5040'
+host1='localhost'
+port1='5040'
 
 run_autobench() {
   autobench --single_host \
@@ -42,7 +42,6 @@ run_autobench() {
     --num_call $num_call --num_conn $num_conn \
     --timeout $timeout \
     --file $file
-
 }
 
 
