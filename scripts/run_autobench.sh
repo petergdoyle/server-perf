@@ -32,7 +32,7 @@ timeout='5'
 # times, starting with 10 requests/sec and going up to 50 requests/sec in
 # increments of 10.
 
-host1='localhost'
+host1='engine2'
 port1='5040'
 
 run_autobench() {
