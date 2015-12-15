@@ -297,16 +297,16 @@ EOF
   eval 'curl-loader' > /dev/null 2>&1
   if [ $? -eq 127 ]; then
     mkdir /usr/curl-loader
-    curl -L -o curl-loader-0.56.tar.bz2 http://sourceforge.net/projects/curl-loader/files/latest/download?source=files
-    && bunzip2 curl-loader-0.56.tar.bz2
-    && tar -xvf curl-loader-0.56.tar -C /usr/curl-loader
+    curl -L -o curl-loader-0.56.tar.bz2 http://sourceforge.net/projects/curl-loader/files/latest/download?source=files \
+    && bunzip2 curl-loader-0.56.tar.bz2 \
+    && tar -xvf curl-loader-0.56.tar -C /usr/curl-loader \
     && ln -s /usr/curl-loader/curl-loader-0.56/ /usr/curl-loader/default
 
     cd /usr/curl-loader/default
     yum -y install make libcurl-devel libevent binutils gcc patch openssl-devel
     make
     if [ $? -ne 127 ]; then
-      echo -e "\e[1;31m curl-loader - make did not run successfully. skipping. \e[0m"
+      echo -e "\e[1;31m curl-loader - curl-loader make did not run successfully. skipping. \e[0m"
     else
       alternatives --install "/usr/bin/curl-loader" "curl-loader" "/usr/curl-loader/default/curl-loader" 99999
     fi
@@ -319,11 +319,26 @@ EOF
 
   #httperf
   if [ ! -d "/usr/httperf/default" ]; then
-    curl -L -O http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el7.rf.x86_64.rpm
-    yum -y localinstall rpmforge-release-0.5.3-1.el7.rf.x86_64.rpm
-    yum -y install httperf
+    curl -L -O http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el7.rf.x86_64.rpm \
+    && yum -y localinstall rpmforge-release-0.5.3-1.el7.rf.x86_64.rpm \
+    && yum -y install httperf \
+    && rm -f rpmforge-release-0.5.3-1.el7.rf.x86_64.rpm
   else
     echo -e "\e[30;48;5;82m httperf already appears to be downloaded. skipping. \e[0m"
+  fi
+
+  eval 'curl-loader' > /dev/null 2>&1
+  if [ $? -eq 127 ]; then
+    mkdir /usr/autobench
+    git clone https://github.com/menavaur/Autobench.git  /usr/autobench
+    cd /usr/autobench
+    make \
+    && make install
+    if [ $? -ne 127 ]; then
+      echo -e "\e[1;31m curl-loader - autobench make did not run successfully. skipping. \e[0m"
+    else
+  else
+    echo -e "\e[30;48;5;82m autobench already appears to be downloaded. skipping. \e[0m"
   fi
 
 

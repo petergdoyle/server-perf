@@ -35,7 +35,7 @@ ssh
 .DS_Store
 
 *.*~
-*.tlv
+*.tsv
 
 target
 *.war
@@ -46,6 +46,8 @@ jmeter/default
 lorem-ipsum*
 
 webapps
+
+*.numbers
 
 nb-configuration.xml
 nbactions.xml

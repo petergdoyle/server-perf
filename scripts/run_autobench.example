@@ -1,0 +1,13 @@
+autobench \
+  --single_host --host1=localhost --port1=5040 --uri1="/servlet/perf&size=100000" \
+  --low_rate 20 --high_rate 200 --rate_step 20 --num_call 10 --num_conn 5000 \
+  --timeout 5 \
+  --file server_perf_tomcat_size_10k.tsv
+
+
+  # Will benchmark "http://localhost:5040/servlet/perf?size=10000", with a series
+  # of tests starting at 20 connections per second (with 10 requests per connection),
+  # and increasing by 20 connections per second until 200 connections a second
+  # are being requested.  Each test will comprise a total of 5000 connections,
+  # and any responses which take longer than 5 seconds to arrive will be counted
+  # as errors. The results will be saved in the file 'results.tsv'.

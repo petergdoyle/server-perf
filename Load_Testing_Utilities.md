@@ -26,3 +26,14 @@ This will execute 1500 POSTs to the target URL  processing up to 500 concurrentl
 ```bash
 	 ab -p ../data/lorem-ipsum-10kb -T text/plain -n 1500 -c 500 http://localhost:5040/servlet/perf/async?sleep=500
 ```
+
+###httperf
+
+> Example Usage
+> GET
+> ```bash
+> httperf --client=0/1 --server=localhost --port=5040 --uri=/servlet/perf/async --send-buffer=4096 --recv-buffer
+> =16384 --num-conns=4000 --num-call 16 --rate=128 --timeout 5
+> ```
+
+###curl-loader
