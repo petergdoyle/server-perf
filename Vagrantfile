@@ -331,7 +331,7 @@ EOF
   if [ $? -eq 127 ]; then
     mkdir /usr/autobench
     git clone https://github.com/menavaur/Autobench.git  /usr/autobench
-    cd /usr/autobench
+    cd /usr/autobench 
     make \
     && make install
     if [ $? -ne 127 ]; then
