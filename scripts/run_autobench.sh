@@ -34,12 +34,81 @@ timeout='5'
 
 host='localhost'
 port='5040'
-uri1='"/servlet/perf"'
-file='engine2_server_perf_tomcat_size_sync_0k.tsv'
 
-autobench --single_host \
-  --host1=$host1 --port1=$port1 --uri1=$uri1 \
-  --low_rate $low_rate --high_rate $high_rate --rate_step $rate_step \
-  --num_call $num_call --num_conn $num_conn \
-  --timeout $timeout \
-  --file $file
+run_autobench() {
+  autobench --single_host \
+    --host1=$host1 --port1=$port1 --uri1=$uri1 \
+    --low_rate $low_rate --high_rate $high_rate --rate_step $rate_step \
+    --num_call $num_call --num_conn $num_conn \
+    --timeout $timeout \
+    --file $file
+
+}
+
+
+shell_sleep_time='5m' # Waits 5 minutes.
+
+
+### ### ### ### ### ### ### ###
+###
+### increased io
+###
+### ### ### ### ### ### ### ###
+sleep='0'
+size='0'
+uri1='"/servlet/perf"'; file=$(echo ${host}'_server_perf_tomcat_sync_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
+uri1='"/servlet/perf/async"'; file=$(echo ${host}'_server_perf_tomcat_async_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
+
+size='1000'
+uri1='"/servlet/perf?size=1000"'; file=$(echo ${host}'_server_perf_tomcat_sync_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
+uri1='"/servlet/perf/async?size=1000"'; file=$(echo ${host}'_server_perf_tomcat_async_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
+
+size='10000'
+uri1='"/servlet/perf?size=10000"'; file=$(echo ${host}'_server_perf_tomcat_sync_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
+uri1='"/servlet/perf/async?size=10000"'; file=$(echo ${host}'_server_perf_tomcat_async_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
+
+size='100000'
+uri1='"/servlet/perf?size=100000"'; file=$(echo ${host}'_server_perf_tomcat_sync_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
+uri1='"/servlet/perf/async?size=100000"'; file=$(echo ${host}'_server_perf_tomcat_async_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
+
+size='1000000'
+uri1='"/servlet/perf?size=1000000"'; file=$(echo ${host}'_server_perf_tomcat_sync_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
+uri1='"/servlet/perf/async?size=1000000"'; file=$(echo ${host}'_server_perf_tomcat_async_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
+
+
+
+### ### ### ### ### ### ### ###
+###
+### increased latency
+###
+### ### ### ### ### ### ### ###
+timeout='15'
+
+size='0'
+sleep='1000'
+uri1='"/servlet/perf?sleep=1000"'; file=$(echo ${host}'_server_perf_tomcat_sync_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
+uri1='"/servlet/perf/async?sleep=1000"'; file=$(echo ${host}'_server_perf_tomcat_async_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
+
+sleep='2500'
+uri1='"/servlet/perf?sleep=2500"'; file=$(echo ${host}'_server_perf_tomcat_sync_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
+uri1='"/servlet/perf/async?sleep=2500"'; file=$(echo ${host}'_server_perf_tomcat_async_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
+
+sleep='5000'
+uri1='"/servlet/perf?sleep=5000"'; file=$(echo ${host}'_server_perf_tomcat_sync_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
+uri1='"/servlet/perf/async?sleep=5000"'; file=$(echo ${host}'_server_perf_tomcat_async_size_'${size}'k_sleep_'${sleep}'ms.tsv'); run_autobench
+sleep $shell_sleep_time
