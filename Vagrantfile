@@ -305,8 +305,8 @@ EOF
     cd /usr/curl-loader/default
     yum -y install make libcurl-devel libevent binutils gcc patch openssl-devel
     make
-    if [ $? -ne 127 ]; then
-      echo -e "\e[1;31m curl-loader - curl-loader make did not run successfully. skipping. \e[0m"
+    if [ $? -ne 0 ]; then
+      echo -e "\e[1;31m curl-loader - make did not run successfully. skipping. \e[0m"
     else
       alternatives --install "/usr/bin/curl-loader" "curl-loader" "/usr/curl-loader/default/curl-loader" 99999
     fi
@@ -331,14 +331,34 @@ EOF
   if [ $? -eq 127 ]; then
     mkdir /usr/autobench
     git clone https://github.com/menavaur/Autobench.git  /usr/autobench
-    cd /usr/autobench 
+    cd /usr/autobench
     make \
     && make install
-    if [ $? -ne 127 ]; then
-      echo -e "\e[1;31m curl-loader - autobench make did not run successfully. skipping. \e[0m"
+    if [ $? -ne 0 ]; then
+      echo -e "\e[1;31m curl-loader - make did not run successfully. skipping. \e[0m"
     else
   else
     echo -e "\e[30;48;5;82m autobench already appears to be downloaded. skipping. \e[0m"
+  fi
+
+
+  eval 'cutter' > /dev/null 2>&1
+  if [ $? -eq 127 ]; then
+    mkdir /usr/cutter
+    curl -L -O http://www.digitage.co.uk/digitage/files/cutter/cutter-1.04.tgz
+    && tar -xvf cutter-1.04.tgz -C /usr/cutter
+    && ln -s /usr/cutter/cutter-1.04/ /usr/cutter/default
+    && cd /usr/cutter/default
+    && make
+    if [ $? -ne 0 ]; then
+      echo -e "\e[1;31m cutter - make did not run successfully. skipping. \e[0m"
+    else
+      alternatives --install "/usr/bin/cutter" "cutter" "/usr/cutter/default/cutter" 99999
+    fi
+    cd -
+    rm -f cutter-1.04.tgz
+  else
+    echo -e "\e[30;48;5;82m cutter already appears to be downloaded. skipping. \e[0m"
   fi
 
 
