@@ -99,25 +99,25 @@ sleep $shell_sleep_time
 
 size='1000'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf?size=${size}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf?size=${size}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
 
 size='10000'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf?size=${size}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf?size=${size}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
 
 size='100000'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf?size=${size}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf?size=${size}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
 
 size='1000000'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf?size=${size}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf?size=${size}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
 
@@ -129,25 +129,25 @@ sleep $shell_sleep_time
 
 size='1000'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf/async?size=${size}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf/async?size=${size}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
 
 size='10000'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf/async?size=${size}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf/async?size=${size}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
 
 size='100000'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf/async?size=${size}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf/async?size=${size}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
 
 size='1000000'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf/async?size=${size}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf/async?size=${size}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
 
@@ -163,49 +163,49 @@ timeout='90'
 size='0'
 sleep='1000'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
 
 sleep='2500'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
 
 sleep='5000'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
 
 sleep='25000'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
 
 size='0'
 sleep='1000'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf/async?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf/async?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
 
 sleep='2500'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf/async?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf/async?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
 
 sleep='5000'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf/async?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf/async?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
 
 sleep='25000'
 netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1="\"servlet/perf/async?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
+uri1="\"/servlet/perf/async?sleep=${sleep}\""; file=$(echo ${host1}'_'$container_name'_async_size_'${size}'k_sleep_'${sleep}'ms');
 run_autobench
 sleep $shell_sleep_time
