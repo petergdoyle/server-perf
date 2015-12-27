@@ -10,7 +10,7 @@ else
   done
 fi
 
-cmd="netstat -anl | grep $ip | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'"
+cmd="netstat -anl | grep $ip | awk '/^tcp/ {t[\$NF]++}END{for(state in t){print state, t[state]} }'"
 
 echo "running $cmd..."
 

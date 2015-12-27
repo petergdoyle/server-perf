@@ -15,9 +15,9 @@ done
 # increasing by rate step, and finishing at high_rate.
 # The default settings test at rates of 20,30,40,50...180,190,200
 
-low_rate='20'
+low_rate='100'
 high_rate='500'
-rate_step='20'
+rate_step='100'
 
 # num_conn, num_call
 # num_conn is the total number of connections to make during a test
