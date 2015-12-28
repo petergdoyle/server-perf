@@ -1,0 +1,150 @@
+Intel(R) Core(TM) i7-2630QM CPU @ 2.00GHz
+MemTotal:        3956836 kB
+
+build/default/weighttp -n 1000000 -k -c 100 http://localhost:9999/
+weighttp - a lightweight and simple webserver benchmarking tool
+
+starting benchmark...
+spawning thread #1: 100 concurrent requests, 1000000 total requests
+progress:  10% done
+progress:  20% done
+progress:  30% done
+progress:  40% done
+progress:  50% done
+progress:  60% done
+progress:  70% done
+progress:  80% done
+progress:  90% done
+progress: 100% done
+
+finished in 9 sec, 298 millisec and 269 microsec, 107546 req/s, 10292 kbyte/s
+requests: 1000000 total, 1000000 started, 1000000 done, 1000000 succeeded, 0 failed, 0 errored
+status codes: 1000000 2xx, 0 3xx, 0 4xx, 0 5xx
+traffic: 98000000 bytes total, 94000000 bytes http, 4000000 bytes data
+
+
+With MyBatis and cache
+build/default/weighttp -n 100000 -k -c 100 http://localhost:9999/
+weighttp - a lightweight and simple webserver benchmarking tool
+
+starting benchmark...
+spawning thread #1: 100 concurrent requests, 100000 total requests
+progress:  10% done
+progress:  20% done
+progress:  30% done
+progress:  40% done
+progress:  50% done
+progress:  60% done
+progress:  70% done
+progress:  80% done
+progress:  90% done
+progress: 100% done
+
+finished in 11 sec, 307 millisec and 917 microsec, 8843 req/s, 1485 kbyte/s
+requests: 100000 total, 100000 started, 100000 done, 100000 succeeded, 0 failed, 0 errored
+status codes: 100000 2xx, 0 3xx, 0 4xx, 0 5xx
+traffic: 17196761 bytes total, 14696761 bytes http, 2500000 bytes data
+
+
+With MyBatis without cache
+build/default/weighttp -n 100000 -k -c 100 http://localhost:9999/
+weighttp - a lightweight and simple webserver benchmarking tool
+
+starting benchmark...
+spawning thread #1: 100 concurrent requests, 100000 total requests
+progress:  10% done
+progress:  20% done
+progress:  30% done
+progress:  40% done
+progress:  50% done
+progress:  60% done
+progress:  70% done
+progress:  80% done
+progress:  90% done
+progress: 100% done
+
+finished in 96 sec, 461 millisec and 30 microsec, 1036 req/s, 174 kbyte/s
+requests: 100000 total, 100000 started, 100000 done, 100000 succeeded, 0 failed, 0 errored
+status codes: 100000 2xx, 0 3xx, 0 4xx, 0 5xx
+traffic: 17196741 bytes total, 14696741 bytes http, 2500000 bytes data
+
+
+telnet localhost 9999
+Trying ::1...
+Connected to localhost.
+Escape character is '^]'.
+GET /?duration=5 HTTP/1.1
+User-Agent: curl/7.33.0
+Host: localhost:9999
+Accept: */*
+
+GET /?duration=3 HTTP/1.1
+User-Agent: curl/7.33.0
+Host: localhost:9999
+Accept: */*
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 18
+Set-Cookie: JSESSIOINID=e9ma1foeretnh19u4demqta7tr
+Connection: keep-alive
+
+"Slept for 5 secs"HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 18
+Set-Cookie: JSESSIOINID=8ti5pbfc0dmd4r09i6or005r6b
+Connection: keep-alive
+
+"Slept for 3 secs"Connection closed by foreign host.
+
+
+nginx
+build/default/weighttp -n 1000000 -k -c 100 http://localhost:6666/
+weighttp - a lightweight and simple webserver benchmarking tool
+
+starting benchmark...
+spawning thread #1: 100 concurrent requests, 1000000 total requests
+progress:  10% done
+progress:  20% done
+progress:  30% done
+progress:  40% done
+progress:  50% done
+progress:  60% done
+progress:  70% done
+progress:  80% done
+progress:  90% done
+progress: 100% done
+
+finished in 11 sec, 402 millisec and 913 microsec, 87696 req/s, 72705 kbyte/s
+requests: 1000000 total, 1000000 started, 1000000 done, 1000000 succeeded, 0 failed, 0 errored
+status codes: 1000000 2xx, 0 3xx, 0 4xx, 0 5xx
+traffic: 848950295 bytes total, 236950295 bytes http, 612000000 bytes data
+
+
+foobar.py
+def application(env, start_response):
+    start_response('200 OK', [('Content-Type','text/html')])
+    return ["Hello World"]
+
+uwsgi --socket uwsgi.sock --wsgi-file foobar.py --master --processes 4 --threads 2
+
+build/default/weighttp -n 100000 -k -c 100 http://localhost:6666/test
+weighttp - a lightweight and simple webserver benchmarking tool
+
+starting benchmark...
+spawning thread #1: 100 concurrent requests, 100000 total requests
+progress:  10% done
+progress:  20% done
+progress:  30% done
+progress:  40% done
+progress:  50% done
+progress:  60% done
+progress:  70% done
+progress:  80% done
+progress:  90% done
+progress: 100% done
+
+finished in 9 sec, 264 millisec and 26 microsec, 10794 req/s, 1844 kbyte/s
+requests: 100000 total, 100000 started, 100000 done, 100000 succeeded, 0 failed, 0 errored
+status codes: 100000 2xx, 0 3xx, 0 4xx, 0 5xx
+traffic: 17495280 bytes total, 15395280 bytes http, 2100000 bytes data
