@@ -27,7 +27,7 @@ public class Server {
 					.option(ChannelOption.SO_BACKLOG, conf.getBacklog())
 					.option(ChannelOption.SO_REUSEADDR, true);
 
-			Channel ch = b.bind(conf.getPort()).sync().channel();
+			Channel ch = b.bind(conf.getHost(), conf.getPort()).sync().channel();
 			ch.closeFuture().sync();
 		} finally {
 			bossGroup.shutdownGracefully();
