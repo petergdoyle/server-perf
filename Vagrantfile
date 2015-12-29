@@ -33,7 +33,7 @@ Vagrant.configure(2) do |config|
 
   # Global Proxy Settings
 #  export HTTP_PROXY=http://myproxy.net:80 HTTPS_PROXY=$HTTP_PROXY http_proxy=$HTTP_PROXY https_proxy=$HTTP_PROXY
-#  echo "proxy=$HTTP_PROXY" >> /etc/yum.conf
+#  echo "py=$HTTP_PROXY" >> /etc/yum.conf
 #  cat >/etc/profile.d/proxy.sh <<-EOF
 #export HTTP_PROXY=$HTTP_PROXY
 #export HTTPS_PROXY=$HTTP_PROXY

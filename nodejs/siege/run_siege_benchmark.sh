@@ -14,7 +14,9 @@ for i in $(eval echo "{1..$repetitions"}); do
     timestamp=$(date +%Y-%m-%d:%H:%M:%S)
     echo "running siege $i of $repetitions at $timestamp..."
     timeout $timeout_time's' siege -b 't'$siege_time's' http://$host:$port$uri
-    echo "done. sleeping $shell_sleep_time..."
-    sleep $shell_sleep_time
+    if [ "$i" -lt "$repetitions" ]; then
+        echo "done. sleeping $shell_sleep_time..."
+        sleep $shell_sleep_time
+    fi
 done
 cp ~/siege.log ./siege.csv

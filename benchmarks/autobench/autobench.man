@@ -1,0 +1,124 @@
+AUTOBENCH(1)                                                                                                                                                                                                                                      AUTOBENCH(1)
+
+
+
+NAME
+       autobench - Automates the benchmarking of web servers using httperf
+
+SYNOPSIS
+       autobench [OPTIONS]...
+
+DESCRIPTION
+       autobench is used to to automate web server benchmarking.  It runs httperf against the specified host or hosts, ramping up the number of requested connections, and logging the results in TSV or CSV format files.  Most options can also be specified
+       in the configuration file $HOME/.autobench.conf. Options specified on the command line override those in the configuration file.
+
+       autobench conducts benchmarks from a single test machine against the specified host or host.  To run a distributed benchmark (with several test machines), use autobench_admin and autobenchd.  See the man page for autobench_admin(1) for details.
+
+OPTIONS
+       Note that all of the options below with the exception of --quiet may also be used with autobench_admin.
+
+       --file filename
+              Send output to filename instead of STDOUT
+
+       --high_rate hrate
+              The number of connections per second to open at the end of the test
+
+       --low_rate lrate
+              The number of connections per second to open at the start of the test
+
+       --rate_step step
+              autobench runs httperf numerous times against the target machines, starting at lrate connections per second, increasing the number of connections per second requested by step until hrate is reached.
+
+       --host1 hostname
+              The hostname of the first server under test
+
+       --host2 hostname
+              The hostname of the second server under test (ignored if --single_host is specified)
+
+       --port1 port
+              The port number on which host1's server is listening
+
+       --port2 port
+              The port number on which host2's server is listening (ignored if --single_host is specified)
+
+       --num_conn nconn
+              nconn is the number total number of connections to open per test
+
+       --const_test_time length
+              Used instead of --num_conn, this causes autobench to calculate a value for nconn for each test to make the test last length seconds.  It is recommended that this be used instead of --num_conn.  For each test, nconn is set to (current_rate *
+              length).   Note  that  no  results will be obtained if length is set to less than 10 seconds (since httperf samples only once every 10 seconds), and meaningful results (reproducible results derived from a significant number of samples) will
+              require each test to last at least 60 seconds.  Use low values to gain a feel for the performance of the servers under test and to find appropriate values for --low_rate and --high_rate, and much higher values  (at  least  300  seconds  for
+              serious benchmarking) to obtain accurate results.
+
+       --num_call ncall
+              specifies the number of requests to send down each connection.  (Total number of requests per second = current rate * ncall.)
+
+       --output_fmt tsv|csv
+              Set the output format to either CSV or TSV
+
+       --quiet
+              Don't display httperf output on STDOUT.  This option should always be used if --file is not specified, since the httperf output will otherwise break up the results table.
+
+       --single_host
+              Only test a single server
+
+       --timeout time
+              time is the time in seconds for which httperf will wait for a response from the server - responses received after this time will be counted as errors.
+
+       --uri1 uri
+              The URI to test on the first server (eg. /foo/bar/index.html)
+
+       --uri2 uri
+              The URI to test on the second server
+
+       --debug
+              Print additional debugging information on stderr
+
+       --version
+              Returns the current version
+
+EXAMPLES
+       Notice that in each of the examples below, configuration options not specified on the command line will be taken from the configuration file ($HOME/.autobench.conf)
+
+       autobench --single_host --host1 testhost.foo.com --uri1 /index.html --quiet --file bench.tsv
+              Benchmark testhost.foo.com using the URI /index.html, don't display httperf output on STDOUT, and save the results in 'bench.tsv'.
+
+       autobench --host1 test1.foo.com --host2 test2.foo.com --uri1 /10k.txt --uri2 /10k.txt --rate_step 50 --quiet
+              Conduct a comparative test of test1.foo.com and test2.foo.com, increasing the requested number of connections per second by 50 on each iteration.  Output will go to STDOUT.
+
+ADDITIONAL HTTPERF OPTIONS
+       Additional options may be passed to httperf by including them in the configuration file $HOME/.autobench.conf prefixed with "httperf_", as in the example below.  Options that don't take arguments may be specified by assigning them a value of NULL.
+       The following lines add '--add-header "Authorization: Basic cm9iOjBjdGFuZQ==" --ssl --print-reply body --print-request header' to the httperf command line, for example.
+
+       httperf_add-header = "Authorization: Basic cm9iOjBjdGFuZQ=="
+
+       httperf_ssl = NULL
+
+       httperf_print-reply = body
+
+       httperf_print-request = header
+
+FILES
+       [/usr/local]/etc/autobench.conf
+              Default configuration file, copied into the user's home directory when autobench or autobench_admin is first run.  Defaults to /etc/autobench.conf if autobench was installed from the Debian package, /usr/local/etc/autobench.conf otherwise.
+
+       $HOME/.autobench.conf
+              The active autobench configuration file.
+
+ERRORS
+       If zero replies are received for any reason, autobench will print the message: "Zero replies received, test invalid: rate <r>" to stderr where <r> will be the rate at which the problem occurred.  The output will also contain an error percentage of
+       101 for that rate.
+
+SEE ALSO
+       autobench_admin(1), autobenchd(1), httperf(1), crfile(1), bench2graph(1)
+
+       The Linux HTTP Benchmarking HOWTO at
+       http://www.xenoclast.org/doc/benchmark/
+       has further examples of the use of autobench.
+
+AUTHOR
+       Julian T. J. Midgley <jtjm@xenoclast.org>
+
+
+
+                                                                                                                       October 14, 2002                                                                                                           AUTOBENCH(1)
