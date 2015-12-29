@@ -36,6 +36,7 @@ ssh
 
 *.*~
 *.tsv
+*.csv
 
 target
 *.war
