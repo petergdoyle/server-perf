@@ -2,7 +2,7 @@
  */
 package com.cleverfishsoftware.services.servlet;
 
-import com.cleverfishsoftware.services.common.GeneratedContent;
+import com.cleverfishsoftware.services.common.ContentGeneratorStatic;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import javax.servlet.AsyncContext;
@@ -16,13 +16,13 @@ import javax.servlet.WriteListener;
 public class GeneratedContentWriteListener implements WriteListener {
 
     private final ServletOutputStream sos;
-    private final GeneratedContent content;
+    private final ContentGeneratorStatic content;
     private final ByteBuffer buffer;
     private final AsyncContext context;
     private final int size;
     private final ThreadInfo ti;
 
-    public GeneratedContentWriteListener(ServletOutputStream sos, final GeneratedContent content,
+    public GeneratedContentWriteListener(ServletOutputStream sos, final ContentGeneratorStatic content,
             final int size, final AsyncContext context, ThreadInfo ti) {
         this.sos = sos;
         this.content = content;

@@ -14,16 +14,16 @@ import java.nio.channels.WritableByteChannel;
  *
  * @author peter
  */
-public class GeneratedContent {
+public class ContentGeneratorStatic implements ContentGenerator {
 
     private static final int ONE_KB = 1024;
     private static final int ONE_MB = 1000 * ONE_KB;
     private static final int BUFFER_SIZE = 10 * ONE_MB;
     private static final ByteBuffer BUFFER = ByteBuffer.allocateDirect(BUFFER_SIZE);
-    private static final GeneratedContent INSTANCE;
+    private static final ContentGeneratorStatic INSTANCE;
 
     static {
-        INSTANCE = new GeneratedContent();
+        INSTANCE = new ContentGeneratorStatic();
         boolean on = false;
         byte[] one = "1".getBytes();
         byte[] zero = "0".getBytes();
@@ -58,13 +58,14 @@ public class GeneratedContent {
                 + duplicate.capacity());
     }
 
-    private GeneratedContent() {
+    private ContentGeneratorStatic() {
     }
 
-    public static GeneratedContent getInstance() {
+    public static ContentGeneratorStatic getInstance() {
         return INSTANCE;
     }
 
+    @Override
     public final int getMaxLength() {
         return BUFFER.capacity();
     }
@@ -88,6 +89,7 @@ public class GeneratedContent {
         return BUFFER;
     }
 
+    @Override
     public void write(OutputStream os, final int size) throws IOException {
         ByteBuffer duplicate = BUFFER.duplicate();
         duplicate.rewind();
@@ -115,7 +117,7 @@ public class GeneratedContent {
     }
 
     public static void main(String... args) throws UnsupportedEncodingException, IOException {
-        GeneratedContent instance = getInstance();
+        ContentGeneratorStatic instance = getInstance();
         int maxLength = instance.getMaxLength();
         System.out.println("content max length: " + maxLength);
         for (int i = 0; i < 5; i++) {

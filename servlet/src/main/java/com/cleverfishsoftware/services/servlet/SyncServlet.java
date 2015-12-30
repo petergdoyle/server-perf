@@ -5,7 +5,7 @@ package com.cleverfishsoftware.services.servlet;
 import com.cleverfishsoftware.services.common.CommonUtils;
 import static com.cleverfishsoftware.services.common.CommonUtils.isNumeric;
 import static com.cleverfishsoftware.services.common.CommonUtils.isSpecified;
-import com.cleverfishsoftware.services.common.GeneratedContent;
+import com.cleverfishsoftware.services.common.ContentGeneratorStatic;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SyncServlet extends HttpServlet {
 
     private final static AtomicInteger COUNTER = new AtomicInteger();
-    private final static GeneratedContent CONTENT = GeneratedContent.getInstance();
+    private final static ContentGeneratorStatic CONTENT = ContentGeneratorStatic.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

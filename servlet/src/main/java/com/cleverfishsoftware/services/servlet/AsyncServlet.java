@@ -4,7 +4,7 @@ package com.cleverfishsoftware.services.servlet;
 
 import static com.cleverfishsoftware.services.common.CommonUtils.isNumeric;
 import static com.cleverfishsoftware.services.common.CommonUtils.isSpecified;
-import com.cleverfishsoftware.services.common.GeneratedContent;
+import com.cleverfishsoftware.services.common.ContentGeneratorStatic;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -33,7 +33,7 @@ public class AsyncServlet extends HttpServlet {
 
     private final static AtomicInteger COUNTER = new AtomicInteger();
 
-    private final static GeneratedContent CONTENT = GeneratedContent.getInstance();
+    private final static ContentGeneratorStatic CONTENT = ContentGeneratorStatic.getInstance();
 
     @Override
     public void init() {
