@@ -3,7 +3,7 @@
 img_name='serverperf/springboot'
 container_name='server_perf_springboot'
 shell_cmd='/bin/bash'
-docker_cmd='java -jar target/gs-actuator-service-0.1.0.jar'
+docker_cmd='java -jar target/springboot-1.0-SNAPSHOT.jar'
 port_map_1='0.0.0.0:5070:5070'
 daemon='-d'
 transient='--rm'

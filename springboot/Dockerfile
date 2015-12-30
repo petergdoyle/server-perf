@@ -1,12 +1,12 @@
 
 FROM petergdoyle/oraclejdk:8
 
-COPY gs-actuator-service /gs-actuator-service
+COPY gs-actuator-service /springboot
 
-WORKDIR /gs-actuator-service/initial
+WORKDIR /springboot
 
 RUN mvn clean install
 
 EXPOSE 5070
 
-CMD java -jar target/gs-actuator-service-0.1.0.jar
+CMD java -jar target/springboot-1.0-SNAPSHOT.jar
