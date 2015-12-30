@@ -10,7 +10,8 @@ echo -e "*** select the server *** \n\
 4)jetty(sync) 4 \n\
 5)jetty(async) 5 \n\
 6)netty(~async) 6 \n\
-7)nodejs(~async, http) 7 \n "
+7)nodejs(~async, http) 7 \n\
+8)springboot(sync, tomcat) 8 \n "
 read opt
 
 #5)spring(async) 5 \n\
@@ -43,6 +44,10 @@ case $opt in
     ;;
     7) #nodejs without express 
     port='5021'; context='/'; service=''; server_type='nodejs_http'
+    break
+    ;;
+    8) #nodejs without express 
+    port='5070'; context='/hello-world'; service=''; server_type='springboot_tomcat'
     break
     ;;
     *)
