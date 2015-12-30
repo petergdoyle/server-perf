@@ -1,13 +1,13 @@
-package hello;
+package com.cleverfishsoftware.services.springboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HelloWorldConfiguration {
+public class ServerPerfControllerConfiguration {
 
     public static void main(String[] args) {
-        SpringApplication.run(HelloWorldConfiguration.class, args);
+        SpringApplication.run(ServerPerfControllerConfiguration.class, args);
     }
 
 } 
