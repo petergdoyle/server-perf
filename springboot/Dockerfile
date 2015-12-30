@@ -3,7 +3,7 @@ FROM petergdoyle/oraclejdk:8
 
 COPY gs-actuator-service /gs-actuator-service
 
-WORKDIR /gs-actuator-service
+WORKDIR /gs-actuator-service/initial
 
 RUN mvn clean install
 
