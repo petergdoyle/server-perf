@@ -5,14 +5,15 @@ shell_cmd='/bin/bash'
 start_cmd='/usr/bin/supervisord -c /docker/supervisord.conf'
 shared_volume_1="$PWD:/docker"
 port_map_1='5020:5020'
-port_map_2='4200:4200'
+port_map_2='5021:5021'
+port_map_3='4200:4200'
 
 docker stop $container_name && docker rm $container_name
 
 docker_cmd="docker run -d -ti \
   --name $container_name \
   -v $shared_volume_1 \
-  -p $port_map_1 -p $port_map_2 \
+  -p $port_map_1 -p $port_map_2 -p $port_map_3 \
   -h $container_name.dkr \
   $img_name \
   $start_cmd"
