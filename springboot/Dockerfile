@@ -1,7 +1,8 @@
 
 FROM petergdoyle/oraclejdk:8
 
-COPY gs-actuator-service /springboot
+COPY src /springboot/src
+COPY pom.xml /springboot/pom.xml
 
 WORKDIR /springboot
 
