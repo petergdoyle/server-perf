@@ -21,7 +21,7 @@ case $opt in
     break
     ;;
     2) #tomcat sync servlet
-    port='5040'; context='/servlet'; service='/perf'; server_type='tomcat_sync'
+    port='5040'; context='/servlet'; service='/perf/sync'; server_type='tomcat_sync'
     break
     ;;
     3) #tomcat async servlet
@@ -29,7 +29,7 @@ case $opt in
     break
     ;;
     4) #jetty sync servlet
-    port='5050'; context='/servlet'; service='/perf'; server_type='jetty_sync'
+    port='5050'; context='/servlet'; service='/perf/sync'; server_type='jetty_sync'
     break
     ;;
     5) #jetty async servlet
@@ -63,4 +63,10 @@ if [ "$response_body_size" -gt "0" ]; then
   else
     target_url=$target_url'&size='$response_body_size
   fi
+fi
+
+response_code=$(curl --write-out %{http_code} --silent --output /dev/null $target_url)
+if [ "$response_code" -ne "200" ]; then 
+  echo "bad url specified as $target_url. server returned $response_code. cannot continue"; 
+  return $response_code
 fi
