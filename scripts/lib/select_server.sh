@@ -9,7 +9,7 @@ echo -e "*** select the server *** \n\
 3)tomcat(async) 3 \n\
 4)jetty(sync) 4 \n\
 5)jetty(async) 5 \n\
-6)jetty(~async) 6 \n\
+6)netty(~async) 6 \n\
 7)nodejs(~async, http) 7 \n "
 read opt
 
