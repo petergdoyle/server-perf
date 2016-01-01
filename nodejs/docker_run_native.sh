@@ -28,7 +28,9 @@ $start_cmd"
 echo "running command... $docker_cmd"
 eval $docker_cmd
 
+#
 #native ports have to be allowed through the firewall individually, docker port-forwarding doesn't require this manual configuration, all ports exposed through docker containers are allow to pass through the firewall by default
+#
 sudo firewall-cmd --add-forward-port=port=15020:proto=tcp:toport=5020
 sudo firewall-cmd --add-forward-port=port=15021:proto=tcp:toport=5021
 sudo firewall-cmd --add-forward-port=port=14200:proto=tcp:toport=4200

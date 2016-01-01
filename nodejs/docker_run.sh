@@ -2,31 +2,15 @@
 
 img_name='serverperf/nodejs'
 container_name='server_perf_nodejs'
-shell_cmd='/bin/bash'
-start_cmd='/usr/bin/supervisord -c /docker/supervisord.conf'
-shared_volume_1="$PWD:/docker"
-port_map_1='5020:5020'
-port_map_2='5021:5021'
-port_map_3='4200:4200'
 
-networking_mapped="-p $port_map_1 -p $port_map_2 -p $port_map_3 \
--h $container_name.dkr"
-networking_native="--net host"
-networking=$networking_mapped
+start_cmd="$supervisord_cmd"
 
-volumes="$shared_volume_1"
+volumes="$shared_volume_base"
 
-docker stop $container_name && docker rm $container_name
+port_map_1='-p 0.0.0.0:15020:5020'
+port_map_2='-p 0.0.0.0:15021:5021'
+port_map_3='-p 0.0.0.0:14200:4200'
 
-docker_cmd="docker run -d -ti \
---name $container_name \
-$volumes
-$networking \
-$img_name \
-$start_cmd"
+network="$port_map_1 $port_map_2 $port_map_3"
 
-echo "running command... $docker_cmd"
-eval $docker_cmd
-
-sleep 3s
-docker ps -a
+docker_run
