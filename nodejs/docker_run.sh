@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. ../scripts/lib/docker_run.sh
+
 img_name='serverperf/nodejs'
 container_name='server_perf_nodejs'
 
