@@ -11,11 +11,9 @@ echo -e "*** select the server *** \n\
 5)jetty(async) 5 \n\
 6)netty(~async) 6 \n\
 7)nodejs(~async, http) 7 \n\
-8)springboot(sync, tomcat) 8 \n "
+8)springboot(sync, tomcat) 8 \
+"
 read opt
-
-#5)spring(async) 5 \n\
-#6)jaxrs(async) 6 \n\
 
 case $opt in
     1) #nodejs
@@ -23,7 +21,7 @@ case $opt in
     break
     ;;
     2) #tomcat sync servlet
-    port='5040'; context='/servlet'; service='/perf/sync'; server_type='tomcat_sync'
+    port='5040'; context='/servlet'; service='/perf'; server_type='tomcat_sync'
     break
     ;;
     3) #tomcat async servlet
@@ -31,7 +29,7 @@ case $opt in
     break
     ;;
     4) #jetty sync servlet
-    port='5050'; context='/servlet'; service='/perf/sync'; server_type='jetty_sync'
+    port='5050'; context='/servlet'; service='/perf'; server_type='jetty_sync'
     break
     ;;
     5) #jetty async servlet
@@ -78,5 +76,5 @@ fi
 response_code=$(curl --write-out %{http_code} --silent --output /dev/null $target_url)
 if [ "$response_code" -ne "200" ]; then 
   echo "bad url specified as $target_url. server returned $response_code. cannot continue"; 
-  return $response_code
+  exit $response_code
 fi
