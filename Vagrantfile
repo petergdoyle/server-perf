@@ -5,23 +5,28 @@ Vagrant.configure(2) do |config|
 
   config.vm.network "forwarded_port", guest: 22, host: 5222, host_ip: "0.0.0.0", id: "ssh", auto_correct: true
 
-  config.vm.network "forwarded_port", guest: 5000, host: 15000, host_ip: "0.0.0.0", id: "nginx http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5010, host: 15010, host_ip: "0.0.0.0", id: "apache http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5020, host: 15020, host_ip: "0.0.0.0", id: "nodejs http server", auto_correct: true
+  # by convention the servers will run on specific ports in the 5000-6000 range
+  # if running in docker "host" networking mode then those ports will be exposed directly from the host network interface
+  # if running in docker on "port-forwarded" networking mode, then those ports use the same port +10000
+  # - NOTE: port-forwarded ports do not need to be exposed individually by a firewall because by default docker exposes them all on its docker0 interface
+  # if running in a vm (vagrant), then those server ports will use the same port +20000
+  # - NOTE: these ports must be exposed by a firewall rule
+  # if running on the host directly, then the same server ports in the 5000-6000 range will be used (or possibly port-mapped by the host)
+  # - NOTE: these ports must be exposed by a firewall rule
+  config.vm.network "forwarded_port", guest: 5000, host: 25000, host_ip: "0.0.0.0", id: "nginx http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5010, host: 25010, host_ip: "0.0.0.0", id: "apache http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5020, host: 25020, host_ip: "0.0.0.0", id: "nodejs http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5040, host: 25040, host_ip: "0.0.0.0", id: "tomcat http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5050, host: 25050, host_ip: "0.0.0.0", id: "jetty http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5060, host: 25060, host_ip: "0.0.0.0", id: "netty http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5070, host: 25070, host_ip: "0.0.0.0", id: "spring-boot http jetty server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5080, host: 25080, host_ip: "0.0.0.0", id: "spring-boot tomcat jetty server", auto_correct: true
 
-  config.vm.network "forwarded_port", guest: 5040, host: 15040, host_ip: "0.0.0.0", id: "tomcat http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5050, host: 15050, host_ip: "0.0.0.0", id: "jetty http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5060, host: 15060, host_ip: "0.0.0.0", id: "netty http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5070, host: 15070, host_ip: "0.0.0.0", id: "spring-boot http jetty server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5080, host: 15080, host_ip: "0.0.0.0", id: "spring-boot tomcat jetty server", auto_correct: true
 
+  config.vm.network "forwarded_port", guest: 4200, host: 24200, host_ip: "0.0.0.0", id: "node monitor-dashboard port", auto_correct: true
 
-  config.vm.network "forwarded_port", guest: 4200, host: 14200, host_ip: "0.0.0.0", id: "node monitor-dashboard port", auto_correct: true
-
-  config.vm.network "forwarded_port", guest: 10001, host: 10001, host_ip: "0.0.0.0", id: "jmx rmiRegistryPortPlatform port", auto_correct: true
-  config.vm.network "forwarded_port", guest: 10002, host: 10002, host_ip: "0.0.0.0", id: "jmx rmiServerPortPlatform port", auto_correct: true
-
-  config.vm.provision "file", source: "./README.md", destination: "/home/vagrant/README.md"
+  config.vm.network "forwarded_port", guest: 10001, host: 20001, host_ip: "0.0.0.0", id: "jmx rmiRegistryPortPlatform port", auto_correct: true
+  config.vm.network "forwarded_port", guest: 10002, host: 20002, host_ip: "0.0.0.0", id: "jmx rmiServerPortPlatform port", auto_correct: true
 
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--cpuexecutioncap", "80"]
