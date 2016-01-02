@@ -1,2 +1,2 @@
 
-docker build -t="petergdoyle/iperf" .
+docker build -t="server-perf/iperf" .

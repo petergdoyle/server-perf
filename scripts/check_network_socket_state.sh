@@ -11,4 +11,4 @@ else
   done
 fi
 
-. lib/check_network_socket_state.sh
+. ../scripts/lib/check_network_socket_state.sh
