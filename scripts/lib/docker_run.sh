@@ -25,6 +25,9 @@ network_native="--net host"
 network_default=""
 network="$network_default"
 
+daemon='-d'
+transient='--rm'
+mode=$daemon
 
 #clean up old containers
 docker_clean() {
@@ -46,7 +49,7 @@ docker_run() {
     return 1
   fi
   docker_clean
-  docker_cmd="docker run -d -ti \
+  docker_cmd="docker run $mode -ti \
   --name $container_name \
   $volumes \
   $network \

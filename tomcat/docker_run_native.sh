@@ -1,11 +1,13 @@
+
+
 #!/bin/sh
 
 . ../scripts/lib/docker_run.sh
 
-img_name='serverperf/nodejs'
-container_name='server_perf_nodejs_native'
+img_name='serverperf/tomcat'
+container_name='server_perf_tomcat_native'
 
-start_cmd="$supervisord_cmd"
+start_cmd='/tomcat/default/bin/catalina.sh run'
 
 volumes="$shared_volume_base"
 
@@ -26,6 +28,4 @@ docker_run
 #
 # open ports that services are running on in container
 #
-sudo firewall-cmd --add-port=5020/tcp
-sudo firewall-cmd --add-port=5021/tcp
-sudo firewall-cmd --add-port=4200/tcp
+sudo firewall-cmd --add-port=5040/tcp

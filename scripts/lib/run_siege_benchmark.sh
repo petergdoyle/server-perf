@@ -12,8 +12,6 @@ read -e -p "Enter sleep time between sieges(in minutes): " -i "$default_shell_sl
 default_repetitions='5'
 read -e -p "Enter number of siege repetitions: " -i "$default_repetitions" repetitions
 
-. ../scripts/lib/select_perf_env.sh
-
 default_log_file=$PWD'/siege/siege_'$host'_'$env_type'_'$server_type'_sleep_'$sleep_time'ms_response_body_size_'$response_body_size'b.csv'
 read -e -p "Enter siege log file location/name: " -i "$default_log_file" log_file
 

@@ -1,0 +1,4 @@
+
+
+httperf --server $server :wq
+
