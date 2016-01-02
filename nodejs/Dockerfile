@@ -12,4 +12,4 @@ COPY supervisord.conf /docker/
 
 WORKDIR $DOCKER_VOL
 
-EXPOSE 5020 4200
+#EXPOSE 5020 4200

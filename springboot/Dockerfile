@@ -8,6 +8,6 @@ WORKDIR /springboot
 
 RUN mvn clean install
 
-EXPOSE 5070
+#EXPOSE 5070
 
 CMD java -jar target/springboot-1.0-SNAPSHOT.jar

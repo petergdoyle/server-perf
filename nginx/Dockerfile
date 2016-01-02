@@ -7,4 +7,4 @@ RUN yum -y install vim nginx
 VOLUME [ "/logs" ]
 VOLUME [ "/data" ]
 
-EXPOSE 5000
+#EXPOSE 5000
