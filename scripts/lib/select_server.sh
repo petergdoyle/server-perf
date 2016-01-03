@@ -11,7 +11,8 @@ echo -e "*** select the server *** \n\
 5)jetty(async) 5 \n\
 6)netty(~async) 6 \n\
 7)nodejs(~async, http) 7 \n\
-8)springboot(sync, tomcat) 8 \
+8)springboot(sync, tomcat) 8 \n\
+9)undertow(~async http) 9 \
 "
 read opt
 
@@ -40,12 +41,16 @@ case $opt in
     port='5060'; context='/'; service=''; server_type='netty'
     break
     ;;
-    7) #nodejs without express 
+    7) #nodejs without express
     port='5021'; context='/'; service=''; server_type='nodejs_http'
     break
     ;;
-    8) #nodejs without express 
+    8) #nodejs without express
     port='5070'; context='/hello-world'; service=''; server_type='springboot_tomcat'
+    break
+    ;;
+    9) #nodejs without express
+    port='5090'; context='/'; service=''; server_type='undertow_http'
     break
     ;;
     *)
@@ -67,11 +72,12 @@ read opt
 case $opt in
     1)
     env_type='docker'
-    port='1'$port  #docker port forwarding adds a 1 to the front of the container default port / native port
+    port='1'$port  #docker port forwarding adds a 1 to the front of the container default port / native portserver_type
     break
     ;;
     2)
     env_type='docker_native'
+    server_type=$server_type'_native'
     break
     ;;
     3)
@@ -110,8 +116,7 @@ if [ "$response_body_size" -gt "0" ]; then
 fi
 
 response_code=$(curl --write-out %{http_code} --silent --output /dev/null $target_url)
-if [ "$response_code" -ne "200" ]; then 
-  echo "bad url specified as $target_url. server returned $response_code. cannot continue"; 
+if [ "$response_code" -ne "200" ]; then
+  echo "bad url specified as $target_url. server returned $response_code. cannot continue";
   exit $response_code
 fi
-

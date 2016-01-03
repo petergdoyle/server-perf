@@ -21,7 +21,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 5060, host: 25060, host_ip: "0.0.0.0", id: "netty http server", auto_correct: true
   config.vm.network "forwarded_port", guest: 5070, host: 25070, host_ip: "0.0.0.0", id: "spring-boot http jetty server", auto_correct: true
   config.vm.network "forwarded_port", guest: 5080, host: 25080, host_ip: "0.0.0.0", id: "spring-boot tomcat jetty server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5090, host: 25090, host_ip: "0.0.0.0", id: "undertow", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5090, host: 25090, host_ip: "0.0.0.0", id: "undertow http server", auto_correct: true
 
 
   config.vm.network "forwarded_port", guest: 4200, host: 24200, host_ip: "0.0.0.0", id: "node monitor-dashboard port", auto_correct: true
