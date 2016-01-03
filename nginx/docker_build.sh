@@ -1,3 +1,7 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-docker build -t="server-perf/nginx_http" .
+. ../scripts/lib/docker_build.sh
+
+img_name='serverperf/nginx_http'
+
+docker_build $1

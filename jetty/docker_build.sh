@@ -1,6 +1,7 @@
+#!/bin/sh
 
+. ../scripts/lib/docker_build.sh
 
-no_cache=$1
 img_name='serverperf/jetty'
 
-docker build $no_cache -t=$img_name .
+docker_build $1

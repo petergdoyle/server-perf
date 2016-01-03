@@ -1,8 +1,7 @@
 
-no_cache=$1
-
-
 docker_build() {
+  no_cache=$1
+
   if [ -e $img_name ]; then
     echo "variable img_name is not set. cannot continue"
     return 1
@@ -11,5 +10,4 @@ docker_build() {
 
   docker build $no_cache -t=$img_name .
 
-  docker images
 }

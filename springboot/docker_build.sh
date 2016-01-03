@@ -1,5 +1,7 @@
+#!/bin/sh
 
-no_cache=$1
+. ../scripts/lib/docker_build.sh
+
 img_name='serverperf/springboot'
 
-docker build $no_cache -t=$img_name .
+docker_build $1
