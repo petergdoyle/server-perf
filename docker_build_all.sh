@@ -2,14 +2,14 @@
 
 . scripts/lib/docker_clean_up_dangling_images.sh
 
-no_cache=$1
+no_cache=$1 
 
 for each in $(find . -type f -name 'Dockerfile' -exec dirname {} \;); do
   cd $each
 
   echo "building $each container"
 
-  ./docker_build.sh
+  ./docker_build.sh $no_cache
 
   if [ $? -ne 0 ]; then
     echo -e "\e[1;31m the docker build for $each did not complete successfully \e[0m"
