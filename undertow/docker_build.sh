@@ -4,4 +4,4 @@
 
 img_name='serverperf/undertow'
 
-docker_build $1
+mvn clean install && docker_build $1
