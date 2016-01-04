@@ -1,3 +1,4 @@
+#!/bin/sh
 
 docker_iftop() {
   if [ -e $container_name ]; then

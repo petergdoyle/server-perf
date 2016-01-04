@@ -4,4 +4,6 @@
 
 img_name='serverperf/springboot'
 
+mvn clean install
+
 docker_build $1
