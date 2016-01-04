@@ -77,7 +77,6 @@ case $opt in
     ;;
     2)
     env_type='docker_native'
-    server_type=$server_type'_native'
     break
     ;;
     3)
