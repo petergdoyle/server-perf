@@ -12,6 +12,6 @@ RUN curl -L -O http://www.gtlib.gatech.edu/pub/apache/tomcat/tomcat-8/v8.0.30/bi
 #COPY setenv.sh /tomcat/default/bin/
 
 COPY conf/* /tomcat/default/conf/
-COPY webapps/* /tomcat/default/webapps/
+COPY webapps/*war /tomcat/default/webapps/
 
 CMD /bin/bash

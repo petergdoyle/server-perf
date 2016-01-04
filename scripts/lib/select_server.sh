@@ -105,13 +105,13 @@ if [ "$sleep_time" -gt "0" ]; then
   target_url=$target_url'?sleep='$sleep_time
   first_param_set=false
 fi
-read -e -p "Response Body size: " -i "0" response_body_size
-if [ "$response_body_size" -gt "0" ]; then
+read -e -p "Response Body size: " -i "0" size
+if [ "$size" -gt "0" ]; then
   if [ "$first_param_set" = true ]; then
-    target_url=$target_url'?size='$response_body_size
+    target_url=$target_url'?size='$size
     first_param_set=false
   else
-    target_url=$target_url'&size='$response_body_size
+    target_url=$target_url'&size='$size
   fi
 fi
 
