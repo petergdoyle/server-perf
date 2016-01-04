@@ -46,7 +46,7 @@ case $opt in
     break
     ;;
     8) #nodejs without express
-    port='5070'; context='/hello-world'; service=''; server_type='springboot_tomcat'
+    port='5070'; context='/springboot/perf'; service=''; server_type='springboot_tomcat'
     break
     ;;
     9) #nodejs without express
