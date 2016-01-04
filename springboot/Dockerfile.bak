@@ -1,9 +1,12 @@
 
 FROM petergdoyle/oraclejdk:8
 
-COPY target/springboot-1.0-SNAPSHOT.jar /springboot/target/springboot-1.0-SNAPSHOT.jar
+COPY src /springboot/src
+COPY pom.xml /springboot/pom.xml
 
 WORKDIR /springboot
+
+RUN mvn clean install
 
 #EXPOSE 5070
 

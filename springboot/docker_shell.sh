@@ -1,4 +1,7 @@
+#!/bin/sh
+
+. ../scripts/lib/docker_shell.sh
 
 container_name='server_perf_springboot'
 
-docker exec -ti $container_name /bin/bash
+docker_shell

@@ -8,3 +8,4 @@ docker_cleanup_dangling_images() {
     eval $cmd
   fi
 }
+docker_cleanup_dangling_images

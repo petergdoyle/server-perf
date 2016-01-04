@@ -1,4 +1,7 @@
+#!/bin/sh
+
+. ../scripts/lib/docker_iftop.sh
 
 container_name='server_perf_springboot'
 
-docker exec -ti $container_name /usr/sbin/iftop
+docker_iftop
