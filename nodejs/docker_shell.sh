@@ -1,4 +1,4 @@
 
-container_name='server_perf_nodejs'
+. ../scripts/docker_shell
 
-docker exec -ti $container_name /bin/bash
+container_name='server_perf_nodejs'

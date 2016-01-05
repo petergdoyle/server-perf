@@ -2,6 +2,7 @@
 
 . ../scripts/lib/docker_build.sh
 
-img_name='serverperf/undertow'
+
+image_name='server-perf/undertow'
 
 mvn clean install && docker_build $1

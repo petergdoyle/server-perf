@@ -1,6 +1,7 @@
 
 
-img_name='serverperf/jetty'
+
+image_name='server-perf/jetty'
 container_name='server_perf_jetty'
 shell_cmd='/bin/bash'
 start_cmd='java \

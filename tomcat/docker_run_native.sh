@@ -4,12 +4,13 @@
 
 . ../scripts/lib/docker_run.sh
 
-img_name='serverperf/tomcat'
+
+image_name='server-perf/tomcat'
 container_name='server_perf_tomcat_native'
 
 start_cmd='/tomcat/default/bin/catalina.sh run'
 
-volumes="$shared_volume_base"
+volumes=""
 
 network="$network_native"
 

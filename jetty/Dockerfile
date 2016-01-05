@@ -7,9 +7,8 @@ RUN curl -O http://download.eclipse.org/jetty/stable-9/dist/jetty-distribution-9
   && rm -f jetty-distribution-9.3.6.v20151106.tar.gz
 
 COPY etc/* /jetty/default/etc/
+COPY base/ /base/
 
-ENV BASE_VOL /base
-
-WORKDIR $BASE_VOL
+WORKDIR /base
 
 #EXPOSE 8080 1099

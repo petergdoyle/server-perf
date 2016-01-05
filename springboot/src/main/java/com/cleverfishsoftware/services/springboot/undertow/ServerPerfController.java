@@ -3,6 +3,7 @@
 package com.cleverfishsoftware.services.springboot.undertow;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/springboot")
 
-public class SampleController {
+public class ServerPerfController {
 
+    private final static AtomicInteger COUNT = new AtomicInteger();
+    
     @Autowired
-    private HelloWorldService helloWorldService;
+    private ServerPerfService service;
 
     @RequestMapping("/perf")
-    public String helloWorld() {
-        return this.helloWorldService.getHelloMessage();
+    public String perf() {
+        return this.service.getMessage();
     }
 
     @RequestMapping("/perf/async")
-    public Callable<String> helloWorldAsync() {
+    public Callable<String> perfAsync() {
         return () -> "async: "
-                + SampleController.this.helloWorldService.getHelloMessage();
+                + ServerPerfController.this.service.getMessage();
 
     }
 

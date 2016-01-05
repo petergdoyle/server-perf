@@ -2,9 +2,10 @@
 
 . ../scripts/lib/docker_build.sh
 
-if [ -d "node_modules" ]; then rm -fr node_modules; fi
+if [ -d "node_modules" ]; then rm -vfr node_modules; fi
 npm install
 
-img_name='serverperf/nodejs'
+
+image_name='server-perf/nodejs'
 
 docker_build $1

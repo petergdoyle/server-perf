@@ -10,7 +10,7 @@ container_name='server_perf_undertow_native'
 
 start_cmd='java -jar target/undertow-1.0-SNAPSHOT.jar'
 
-volumes="$shared_volume_base"
+volumes=""
 
 network="$network_native"
 

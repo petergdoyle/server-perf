@@ -2,7 +2,7 @@
  */
 package sample.undertow;
 
-import com.cleverfishsoftware.services.springboot.undertow.SampleUndertowApplication;
+import com.cleverfishsoftware.services.springboot.undertow.ServerPerfApplication;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.Charset;
 import java.util.zip.GZIPInputStream;
@@ -33,7 +33,7 @@ import static org.junit.Assert.assertEquals;
  * @author Andy Wilkinson
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(SampleUndertowApplication.class)
+@SpringApplicationConfiguration(ServerPerfApplication.class)
 @WebIntegrationTest(randomPort = true)
 @DirtiesContext
 public class SampleUndertowApplicationTests {

@@ -1,9 +1,14 @@
 #!/bin/sh
 
 . ../scripts/lib/docker_build.sh
+. ../scripts/lib/docker_cleanup_dangling_images.sh
 
-img_name='serverperf/springboot'
 
-mvn clean install
+image_name='server-perf/springboot'
 
-docker_build $1
+no_cache=$1
+
+. ./clean_and_build.sh
+
+docker_build $no_cache \
+&& docker_cleanup_dangling_images

@@ -3,7 +3,8 @@
 
 . ../scripts/lib/docker_run.sh
 
-img_name='serverperf/tomcat'
+
+image_name='server-perf/tomcat'
 container_name='server_perf_tomcat'
 
 shared_volume_1="$PWD/webapps:/tomcat/default/webapps"

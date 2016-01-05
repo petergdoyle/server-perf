@@ -2,6 +2,7 @@
 
 . ../scripts/lib/docker_build.sh
 
-img_name='serverperf/nginx_http'
+
+image_name='server-perf/nginx_http'
 
 docker_build $1

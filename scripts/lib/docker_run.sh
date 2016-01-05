@@ -4,7 +4,7 @@
 
 
 ## override img_name and container_name as required
-img_name='docker.io/centos'
+docker.io/centos'
 container_name='docker_io_centos'
 
 ## override start_cmd if required (not sometmes it is not necessary when CMD is set in Dockerfile)

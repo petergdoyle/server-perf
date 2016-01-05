@@ -2,10 +2,11 @@
 
 . ../scripts/lib/docker_run.sh
 
-img_name='serverperf/springboot'
+
+image_name='server-perf/springboot'
 container_name='server_perf_springboot_tomcat'
 
-start_cmd="java -jar springboot-tomcat/target/springboot-tomcat-1.0-SNAPSHOT.jar"
+start_cmd="java -jar target/springboot-tomcat-1.0-SNAPSHOT.jar"
 volumes=""
 port_map_1='-p 0.0.0.0:5070:5070'
 network_port_mapped="$port_map_1 \
@@ -22,7 +23,7 @@ sudo firewall-cmd --add-port=5070/tcp
 
 container_name='server_perf_springboot_undertow'
 
-start_cmd="java -jar springboot-undertow/target/springboot-undertow-1.0-SNAPSHOT.jar"
+start_cmd="java -jar target/springboot-undertow-1.0-SNAPSHOT.jar"
 volumes=""
 port_map_1='-p 0.0.0.0:5075:5075'
 network_port_mapped="$port_map_1 \

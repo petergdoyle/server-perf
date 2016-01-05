@@ -2,7 +2,8 @@
 
 . ../scripts/lib/docker_run.sh
 
-img_name='serverperf/nodejs'
+
+image_name='server-perf/nodejs'
 container_name='server_perf_nodejs_http_native'
 
 start_cmd="node http_server.js"

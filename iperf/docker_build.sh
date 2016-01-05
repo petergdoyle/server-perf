@@ -2,6 +2,6 @@
 
 . ../scripts/lib/docker_build.sh
 
-img_name='serverperf/iperf'
+image_name='server-perf/iperf'
 
 docker_build $1

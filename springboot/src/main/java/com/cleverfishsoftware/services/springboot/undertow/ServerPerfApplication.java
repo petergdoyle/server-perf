@@ -6,10 +6,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SampleUndertowApplication {
+public class ServerPerfApplication {
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(SampleUndertowApplication.class, args);
+        SpringApplication.run(ServerPerfApplication.class, args);
     }
 
 }

@@ -1,3 +1,3 @@
 
-cp target/servlet.war ../jetty/base/webapps/
-cp target/servlet.war ../tomcat/webapps/
+cp -v target/servlet.war ../jetty/base/webapps/
+cp -v target/servlet.war ../tomcat/webapps/
