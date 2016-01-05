@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. scripts/lib/docker_clean_up_dangling_images.sh
+. scripts/lib/docker_cleanup_dangling_images.sh
 
 no_cache=$1 
 
