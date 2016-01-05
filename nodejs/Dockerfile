@@ -5,11 +5,12 @@ RUN yum -y install epel-release gcc gcc-c++ \
   && yum -y install nodejs npm \
   && npm install monitor-dashboard -g
 
-ENV DOCKER_VOL /docker
-ENV NODE_ENV external
+COPY node_modules /node/node_modules/
+COPY express_server.js /node/express_server.js
+COPY http_server.js /node/http_server.js
 
-COPY supervisord.conf /docker/
-
-WORKDIR $DOCKER_VOL
+WORKDIR /node
 
 #EXPOSE 5020 4200
+
+CMD /bin/bash
