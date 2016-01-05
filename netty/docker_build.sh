@@ -2,6 +2,7 @@
 
 . ../scripts/lib/docker_build.sh
 
-img_name='serverperf/netty'
+
+img_name='server-perf/netty'
 
 docker_build $1

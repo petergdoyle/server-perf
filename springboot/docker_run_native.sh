@@ -3,7 +3,7 @@
 . ../scripts/lib/docker_run.sh
 
 
-image_name='server-perf/springboot'
+img_name='server-perf/springboot'
 
 volumes=""
 network="$network_native"

@@ -6,6 +6,6 @@ if [ -d "node_modules" ]; then rm -vfr node_modules; fi
 npm install
 
 
-image_name='server-perf/nodejs'
+img_name='server-perf/nodejs'
 
 docker_build $1

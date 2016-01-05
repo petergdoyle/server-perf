@@ -3,7 +3,7 @@
 . ../scripts/lib/docker_run.sh
 
 
-image_name='server-perf/springboot'
+img_name='server-perf/springboot'
 container_name='server_perf_springboot_tomcat'
 
 start_cmd="java -jar target/springboot-tomcat-1.0-SNAPSHOT.jar"

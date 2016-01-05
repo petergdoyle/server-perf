@@ -4,7 +4,7 @@
 . ../scripts/lib/docker_cleanup_dangling_images.sh
 
 
-image_name='server-perf/springboot'
+img_name='server-perf/springboot'
 
 no_cache=$1
 

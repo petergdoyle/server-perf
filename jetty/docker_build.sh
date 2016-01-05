@@ -5,7 +5,7 @@
 
 no_cache=$1
 
-image_name='server-perf/jetty'
+img_name='server-perf/jetty'
 
 . ./clean_and_build.sh
 

@@ -5,7 +5,7 @@
 . ../scripts/lib/docker_run.sh
 
 
-image_name='server-perf/undertow'
+img_name='server-perf/undertow'
 container_name='server_perf_undertow_native'
 
 start_cmd='java -jar target/undertow-1.0-SNAPSHOT.jar'

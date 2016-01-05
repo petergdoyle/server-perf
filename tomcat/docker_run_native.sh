@@ -5,7 +5,7 @@
 . ../scripts/lib/docker_run.sh
 
 
-image_name='server-perf/tomcat'
+img_name='server-perf/tomcat'
 container_name='server_perf_tomcat_native'
 
 start_cmd='/tomcat/default/bin/catalina.sh run'

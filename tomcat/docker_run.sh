@@ -4,7 +4,7 @@
 . ../scripts/lib/docker_run.sh
 
 
-image_name='server-perf/tomcat'
+img_name='server-perf/tomcat'
 container_name='server_perf_tomcat'
 
 shared_volume_1="$PWD/webapps:/tomcat/default/webapps"

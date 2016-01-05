@@ -6,7 +6,7 @@
 no_cache=$1
 
 
-image_name='server-perf/tomcat'
+img_name='server-perf/tomcat'
 
 . ./clean_and_build.sh
 

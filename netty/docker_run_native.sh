@@ -2,7 +2,8 @@
 
 . ../scripts/lib/docker_run.sh
 
-img_name='serverperf/netty'
+
+img_name='server-perf/netty'
 container_name='server_perf_netty_native'
 
 start_cmd="java -jar target/TestBackend-0.0.1-SNAPSHOT.jar"
