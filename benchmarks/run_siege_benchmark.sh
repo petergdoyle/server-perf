@@ -27,7 +27,7 @@ fi
 for i in $(eval echo "{1..$repetitions"}); do
     timestamp=$(date +%Y-%m-%d:%H:%M:%S)
     echo "running siege $i of $repetitions on $target_url at $timestamp..."
-    cmd="timeout $timeout_time's' siege -b 't'$siege_time's' $target_url"
+    cmd="timeout $timeout_time"'s siege -b -t'"$siege_time"'s'" $target_url"
     echo $cmd
     eval $cmd
     if [ "$i" -lt "$repetitions" ]; then

@@ -1,3 +1,4 @@
+#!/bin/sh
 
 . ../scripts/docker_htop.sh
 

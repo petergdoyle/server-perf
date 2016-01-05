@@ -1,10 +1,11 @@
 
 FROM petergdoyle/oraclejdk:8
 
-COPY target/springboot-1.0-SNAPSHOT.jar /springboot/target/springboot-1.0-SNAPSHOT.jar
+COPY springboot-tomcat/target/springboot-tomcat-1.0-SNAPSHOT.jar /springboot/springboot-tomcat/target/springboot-tomcat-1.0-SNAPSHOT.jar
+COPY springboot-undertow/target/springboot-undertow-1.0-SNAPSHOT.jar  /springboot/springboot-undertow/target/springboot-undertow-1.0-SNAPSHOT.jar
 
-WORKDIR /springboot
+WORKDIR /springboot 
 
-#EXPOSE 5070
+#EXPOSE 5070 5075
 
-CMD java -jar target/springboot-1.0-SNAPSHOT.jar
+CMD /bin/bash

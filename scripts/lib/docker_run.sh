@@ -9,7 +9,7 @@ container_name='docker_io_centos'
 
 ## override start_cmd if required (not sometmes it is not necessary when CMD is set in Dockerfile)
 shell_cmd='/bin/bash'
-supervisord_cmd='/usr/bin/supervisord -c /docker/supervisord.conf'
+supervisord_cmd='/usr/bin/supervisord -c /etc/supervisord.conf'
 start_cmd="$shell_cmd"
 
 ## override volumes if required
