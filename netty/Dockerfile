@@ -1,12 +1,11 @@
 
 FROM petergdoyle/oraclejdk:8
 
-COPY nettybackend /nettybackend
+COPY nettybackend/target/TestBackend-0.0.1-SNAPSHOT.jar /nettybackend/target/TestBackend-0.0.1-SNAPSHOT.jar
+COPY nettybackend/target/lib/ /nettybackend/target/lib/
 
 WORKDIR /nettybackend
 
-RUN mvn clean install
-
 #EXPOSE 5060
 
-CMD /bin/bash java 
+CMD /bin/bash
