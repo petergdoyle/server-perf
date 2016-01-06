@@ -50,6 +50,8 @@ webapps
 
 *.numbers
 
+*.src/
+
 nb-configuration.xml
 nbactions.xml
 nbproject

@@ -2,31 +2,13 @@
 
 . ../scripts/lib/docker_run.sh
 
-
 img_name='server-perf/nodejs'
-container_name='server_perf_nodejs_http_native'
-
-start_cmd="node http_server.js"
-
 volumes=""
-
 network="$network_native"
-
-docker_run
-
-#
-# open ports that services are running on in container
-#
-sudo firewall-cmd --add-port=5021tcp
-
-
-
 
 container_name='server_perf_nodejs_express_native'
 
-start_cmd="node express_server.js"
-
-volumes=""
+start_cmd="node --harmony express_server.js"
 
 docker_run
 
@@ -37,4 +19,33 @@ sudo firewall-cmd --add-port=5020/tcp
 
 
 
+container_name='server_perf_nodejs_http_native'
+
+start_cmd="node --harmony http_server.js"
+
+docker_run
+
+#
+# open ports that services are running on in container
+#
+sudo firewall-cmd --add-port=5021/tcp
+
+
+
+container_name='server_perf_nodejs_http_clustered_native'
+
+start_cmd="node --harmony http_server_clustered.js"
+
+docker_run
+
+#
+# open ports that services are running on in container
+#
+sudo firewall-cmd --add-port=5022/tcp
+
+
+
+#
+# open ports for node-monitor
+#
 sudo firewall-cmd --add-port=4200/tcp

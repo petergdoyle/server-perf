@@ -8,6 +8,7 @@ RUN yum -y install epel-release gcc gcc-c++ \
 COPY node_modules /node/node_modules/
 COPY express_server.js /node/express_server.js
 COPY http_server.js /node/http_server.js
+COPY http_server_clustered.js /node/http_server_clustered.js
 
 WORKDIR /node
 
