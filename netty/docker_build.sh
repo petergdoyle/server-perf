@@ -3,6 +3,7 @@
 set -e
 
 . ../scripts/lib/docker_build.sh
+. ../scripts/lib/docker_cleanup_dangling_images.sh
 
 img_name='server-perf/netty'
 no_cache=$1
@@ -11,4 +12,3 @@ no_cache=$1
 
 docker_build $no_cache
 docker_cleanup_dangling_images
- 
