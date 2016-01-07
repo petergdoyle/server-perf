@@ -4,6 +4,6 @@
 
 no_cache=$1
 
-img_name='server-perf/iperf'
+img_name="server-perf/apache2"
 
-docker_build $1
+docker_build $no_cache
