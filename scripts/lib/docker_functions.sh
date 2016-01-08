@@ -126,6 +126,22 @@ docker_stop_all_containers() {
   done
 }
 
+docker_start_all_native_containers() {
+  for each in $(docker ps -a|grep server_perf |grep native |awk 'NF>1{print $NF}'); do
+    cmd="docker start $each"
+    echo $cmd
+    eval $cmd
+  done
+}
+
+docker_start_all_containers() {
+  for each in $(docker ps -a|grep server_perf |awk 'NF>1{print $NF}'); do
+    cmd="docker start $each"
+    echo $cmd
+    eval $cmd
+  done
+}
+
 docker_remove_all_containers() {
   for each in $(docker ps -a|grep server_perf |awk 'NF>1{print $NF}'); do
     cmd="docker stop $each"

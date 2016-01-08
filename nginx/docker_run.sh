@@ -2,7 +2,7 @@
 . ../scripts/lib/docker_functions.sh
 
 img_name='server-perf/nginx'
-container_name='server_perf_nginx_native'
+container_name='server_perf_nginx'
 
 start_cmd="nginx -g 'daemon off;'"
 
