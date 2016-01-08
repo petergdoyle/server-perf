@@ -1,21 +1,5 @@
 #!/bin/sh
 
-## override start_cmd if required (note sometimes it is not necessary when CMD is set in Dockerfile)
-shell_cmd='/bin/bash'
-supervisord_cmd='/usr/bin/supervisord -c /etc/supervisord.conf'
-start_cmd="$shell_cmd"
-
-## override volumes if required
-shared_volume_base="-v $PWD:/docker"
-volumes="$shared_volume_base"
-network_native="--net host"
-network_default=""
-network="$network_default"
-
-daemon='-d'
-transient='--rm'
-mode=$daemon
-
 docker_build() {
   no_cache=$1
 
@@ -49,7 +33,7 @@ docker_build_all() {
   done
 }
 
-#clean up old containers
+
 docker_clean() {
   if [ -e $container_name ]; then
     echo "variable container_name is not set. cannot continue"
@@ -62,6 +46,22 @@ docker_clean() {
   test "$(echo $container_status)" != '' && (docker rm $container_name)
 }
 
+
+## override start_cmd if required (note sometimes it is not necessary when CMD is set in Dockerfile)
+shell_cmd='/bin/bash'
+supervisord_cmd='/usr/bin/supervisord -c /etc/supervisord.conf'
+start_cmd="$shell_cmd"
+
+## override volumes if required
+shared_volume_base="-v $PWD:/docker"
+volumes="$shared_volume_base"
+network_native="--net host"
+network_default=""
+network="$network_default"
+
+daemon='-d'
+transient='--rm'
+mode=$daemon
 
 docker_run() {
   if [ -e $container_name ]; then
@@ -81,8 +81,6 @@ docker_run() {
   $start_cmd"
   echo "running command... $docker_cmd"
   eval $docker_cmd
-  sleep 3s
-  docker ps -a
 }
 
 

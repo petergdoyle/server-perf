@@ -6,6 +6,6 @@ COPY  target/springboot-undertow-1.0-SNAPSHOT.jar  /springboot/target/springboot
 
 WORKDIR /springboot
 
-#EXPOSE 5070 5075
+#EXPOSE 5070 5071 5072
 
 CMD /bin/bash
