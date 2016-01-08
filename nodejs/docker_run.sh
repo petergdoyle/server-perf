@@ -6,7 +6,7 @@
 img_name='server-perf/nodejs'
 container_name='server_perf_nodejs_http_native'
 
-start_cmd="node http_server.js"
+start_cmd="node --harmony http_server.js"
 
 volumes=""
 
@@ -21,7 +21,7 @@ docker_run
 
 container_name='server_perf_nodejs_express_native'
 
-start_cmd="node express_server.js"
+start_cmd="node --harmony express_server.js"
 
 volumes=""
 

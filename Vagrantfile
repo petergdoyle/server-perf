@@ -13,17 +13,30 @@ Vagrant.configure(2) do |config|
   # - NOTE: these ports must be exposed by a firewall rule
   # if running on the host directly, then the same server ports in the 5000-6000 range will be used (or possibly port-mapped by the host)
   # - NOTE: these ports must be exposed by a firewall rule
-  config.vm.network "forwarded_port", guest: 5000, host: 25000, host_ip: "0.0.0.0", id: "nginx http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5010, host: 25010, host_ip: "0.0.0.0", id: "apache http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5020, host: 25020, host_ip: "0.0.0.0", id: "nodejs http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5040, host: 25040, host_ip: "0.0.0.0", id: "tomcat http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5050, host: 25050, host_ip: "0.0.0.0", id: "jetty http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5060, host: 25060, host_ip: "0.0.0.0", id: "netty http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5070, host: 25070, host_ip: "0.0.0.0", id: "spring-boot http jetty server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5080, host: 25080, host_ip: "0.0.0.0", id: "spring-boot tomcat jetty server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5090, host: 25090, host_ip: "0.0.0.0", id: "undertow http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5000, host: 25000, host_ip: "0.0.0.0", id: "nginx static html server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5001, host: 25001, host_ip: "0.0.0.0", id: "nginx http proxy server", auto_correct: true
 
+  config.vm.network "forwarded_port", guest: 5010, host: 25010, host_ip: "0.0.0.0", id: "apache php server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5011, host: 25011, host_ip: "0.0.0.0", id: "apache python server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5012, host: 25012, host_ip: "0.0.0.0", id: "apache static html server", auto_correct: true
 
+  config.vm.network "forwarded_port", guest: 5020, host: 25020, host_ip: "0.0.0.0", id: "nodejs express server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5021, host: 25021, host_ip: "0.0.0.0", id: "nodejs async http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5022, host: 25022, host_ip: "0.0.0.0", id: "nodejs clustered http server", auto_correct: true
+
+  config.vm.network "forwarded_port", guest: 5040, host: 25040, host_ip: "0.0.0.0", id: "tomcat servlet server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5050, host: 25050, host_ip: "0.0.0.0", id: "jetty servlet server", auto_correct: true
+
+  config.vm.network "forwarded_port", guest: 5060, host: 25060, host_ip: "0.0.0.0", id: "netty async http server", auto_correct: true
+  
+  config.vm.network "forwarded_port", guest: 5070, host: 25070, host_ip: "0.0.0.0", id: "springboot embedded tomcat", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5071, host: 25071, host_ip: "0.0.0.0", id: "springboot embedded jetty", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5072, host: 25072, host_ip: "0.0.0.0", id: "springboot embedded undertow", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5090, host: 25090, host_ip: "0.0.0.0", id: "springboot undertow server", auto_correct: true
+
+  #
+  # ports that run monitoring and profiling services
+  #
   config.vm.network "forwarded_port", guest: 4200, host: 24200, host_ip: "0.0.0.0", id: "node monitor-dashboard port", auto_correct: true
 
   config.vm.network "forwarded_port", guest: 10001, host: 20001, host_ip: "0.0.0.0", id: "jmx rmiRegistryPortPlatform port", auto_correct: true
