@@ -1,16 +1,10 @@
-
-
 #!/bin/sh
-
-. ../scripts/lib/docker_run.sh
-
+. ../scripts/lib/docker_functions.sh
 
 img_name='server-perf/tomcat'
-container_name='server_perf_tomcat_native'
+container_name='server_perf_tomcat_native_5040'
 
 start_cmd='/tomcat/default/bin/catalina.sh run'
-
-volumes=""
 
 network="$network_native"
 
