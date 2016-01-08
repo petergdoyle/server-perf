@@ -1,24 +1,19 @@
-
+#!/bin/sh
+. ../scripts/lib/docker_functions.sh
 
 img_name='server-perf/netty'
 container_name='server_perf_netty'
-shell_cmd='/bin/bash'
+
 start_cmd='java -jar target/TestBackend-0.0.1-SNAPSHOT.jar'
-shared_volume_1="$PWD:/docker"
-port_map_1='5060:5060'
 
-docker stop $container_name && docker rm $container_name
+port_map_1='-p 0.0.0.0:15060:5060'
+network_port_mapped="$port_map_1 \
+-h $container_name.dkr"
+network="$network_port_mapped"
 
-docker_cmd="docker run -d -ti \
-  --name $container_name \
-  -v $shared_volume_1 \
-  -p $port_map_1 \
-  -h $container_name.dkr \
-  $img_name \
-  $start_cmd"
+docker_run
 
-  echo "running command... $docker_cmd"
-  eval $docker_cmd
-
-  sleep 3s
-  docker ps -a
+#
+# open ports that services are running on in container
+#
+sudo firewall-cmd --add-port=15060/tcp

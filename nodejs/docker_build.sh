@@ -2,10 +2,9 @@
 
 . ../scripts/lib/docker_functions.sh
 
-if [ -d "node_modules" ]; then rm -vfr node_modules; fi
-npm install
-
 no_cache=$1
+
+. ./clean_and_build.sh
 
 img_name='server-perf/nodejs'
 

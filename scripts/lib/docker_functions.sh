@@ -54,6 +54,7 @@ start_cmd="$shell_cmd"
 
 ## override volumes if required
 shared_volume_base="-v $PWD:/docker"
+volumes=""
 network_native="--net host"
 network_default=""
 network="$network_default"

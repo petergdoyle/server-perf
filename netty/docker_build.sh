@@ -1,7 +1,4 @@
 #!/bin/sh
-
-set -e
-
 . ../scripts/lib/docker_functions.sh
 
 img_name='server-perf/netty'

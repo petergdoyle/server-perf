@@ -4,8 +4,6 @@
 
 
 img_name='server-perf/springboot'
-
-volumes=""
 network="$network_native"
 
 #

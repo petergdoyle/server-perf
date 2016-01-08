@@ -2,6 +2,6 @@
 . ../scripts/lib/docker_functions.sh
 no_cache=$1
 
-img_name='server-perf/nginx_http'
+img_name='server-perf/nginx'
 
 docker_build $no_cache
