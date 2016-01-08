@@ -2,11 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.cleverfishsoftware.services</groupId>
-    <artifactId>servlet</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <parent>
+        <groupId>com.cleverfishsoftware.services</groupId>
+        <artifactId>server-perf-master</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
+    <artifactId>servlet</artifactId>
+    <packaging>war</packaging>
     <name>servlet</name>
 
     <properties>
@@ -15,6 +18,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>

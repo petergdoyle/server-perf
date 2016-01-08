@@ -6,12 +6,7 @@ import io.undertow.Undertow;
 import io.undertow.io.Sender;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  *
