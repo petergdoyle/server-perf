@@ -120,16 +120,22 @@ docker_run_all() {
 
 docker_stop_all_containers() {
   for each in $(docker ps |grep server_perf |awk 'NF>1{print $NF}'); do
-    docker stop $each
+    cmd="docker stop $each"
+    echo $cmd
+    eval $cmd
   done
 }
 
 docker_remove_all_containers() {
   for each in $(docker ps -a|grep server_perf |awk 'NF>1{print $NF}'); do
-    docker stop $each
+    cmd="docker stop $each"
+    echo $cmd
+    eval $cmd
   done
   for each in $(docker ps -a|grep server_perf |awk 'NF>1{print $NF}'); do
-    docker rm $each
+    cmd="docker rm $each"
+    echo $cmd
+    eval $cmd
   done
   # stopy any ... docker stop $(docker ps -a -q)
 }
@@ -137,8 +143,8 @@ docker_remove_all_containers() {
 docker_cleanup_dangling_images() {
   dangling_images=$(docker images -q --filter 'dangling=true')
   if [ "$dangling_images" != '' ]; then
-    cmd="docker rmi $dangling_images"
-    echo "running... $cmd"
+    cmd="docker rmi -f $dangling_images"
+    echo $cmd
     eval $cmd
   fi
 }
@@ -146,7 +152,9 @@ docker_cleanup_dangling_images() {
 docker_remove_all_images() {
   docker_cleanup_dangling_images
   for each in $(docker images| grep server-perf| awk '{print $3;}'); do
-    docker rmi $each
+    cmd="docker rmi -f $each"
+    echo $cmd
+    eval $cmd
   done
 }
 
