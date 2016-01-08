@@ -1,10 +1,10 @@
-FROM centos
 
-RUN yum -y update
-RUN yum -y install epel-release
-RUN yum -y install vim nginx
+FROM petergdoyle/centos:7
 
-VOLUME [ "/logs" ]
-VOLUME [ "/data" ]
+RUN yum -y install nginx
+
+COPY nginx.conf /etc/nginx/nginx.conf
 
 #EXPOSE 5000
+
+CMD /bin/bash

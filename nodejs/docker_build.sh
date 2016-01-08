@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. ../scripts/lib/docker_build.sh
+. ../scripts/lib/docker_functions.sh
 
 if [ -d "node_modules" ]; then rm -vfr node_modules; fi
 npm install

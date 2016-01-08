@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. ../scripts/lib/docker_build.sh
+. ../scripts/lib/docker_functions.sh
 
 
 img_name='server-perf/undertow'

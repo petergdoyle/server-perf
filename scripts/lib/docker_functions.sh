@@ -1,10 +1,6 @@
 #!/bin/sh
 
-## override img_name and container_name as required
-#img_name='docker.io/centos'
-#container_name='docker_io_centos'
-
-## override start_cmd if required (not sometmes it is not necessary when CMD is set in Dockerfile)
+## override start_cmd if required (note sometimes it is not necessary when CMD is set in Dockerfile)
 shell_cmd='/bin/bash'
 supervisord_cmd='/usr/bin/supervisord -c /etc/supervisord.conf'
 start_cmd="$shell_cmd"
@@ -12,12 +8,6 @@ start_cmd="$shell_cmd"
 ## override volumes if required
 shared_volume_base="-v $PWD:/docker"
 volumes="$shared_volume_base"
-
-## overrid network if required
-#sample_port_map_1='-p 0.0.0.0:8080:8080'
-#sample_port_map_2='-p 0.0.0.0:80:80'
-#network_mapped="$sample_port_map_1 $sample_port_map_2 \
-#-h $container_name.dkr" # if running native network then you cannot specify a hostname for the container
 network_native="--net host"
 network_default=""
 network="$network_default"
@@ -25,6 +15,19 @@ network="$network_default"
 daemon='-d'
 transient='--rm'
 mode=$daemon
+
+docker_build() {
+  no_cache=$1
+
+  if [ -e $img_name ]; then
+    echo "variable img_name is not set. cannot continue"
+    return 1
+  fi
+  if [ -n "$no_cache" ]; then echo "--no_cache"; else echo "cache"; fi
+
+  docker build $no_cache -t=$img_name .
+
+}
 
 docker_build_all() {
   no_cache=$1
@@ -48,6 +51,10 @@ docker_build_all() {
 
 #clean up old containers
 docker_clean() {
+  if [ -e $container_name ]; then
+    echo "variable container_name is not set. cannot continue"
+    return 1
+  fi
   container_status=$(docker ps -a --filter=name=$container_name| grep $container_name)
   #stop if exists and running
   test "$(echo $container_status| grep Up)" != '' && (docker stop $container_name)
@@ -126,6 +133,7 @@ docker_remove_all_containers() {
   for each in $(docker ps -a|grep server_perf |awk 'NF>1{print $NF}'); do
     docker rm $each
   done
+  # stopy any ... docker stop $(docker ps -a -q)
 }
 
 docker_cleanup_dangling_images() {
@@ -142,4 +150,45 @@ docker_remove_all_images() {
   for each in $(docker images| grep server-perf| awk '{print $3;}'); do
     docker rmi $each
   done
+}
+
+docker_htop() {
+  container_name=$1
+  if [ -e $container_name ]; then
+    echo "variable container_name is not set. cannot continue"
+    return 1
+  fi
+  docker exec -ti $container_name /usr/bin/htop
+}
+
+docker_top() {
+  container_name=$1
+  pid=$2
+  if [ -e $container_name ]; then
+    echo "variable container_name is not set. cannot continue"
+    return 1
+  fi
+  if [ -e $pid ]; then
+    echo "variable pid is not set. cannot continue"
+    return 1
+  fi
+  docker exec -ti $container_name /usr/bin/top -H -p $pid
+}
+
+docker_iftop() {
+  container_name=$1
+  if [ -e $container_name ]; then
+    echo "variable container_name is not set. cannot continue"
+    return 1
+  fi
+  docker exec -ti $container_name /usr/sbin/iftop
+}
+
+docker_shell() {
+  container_name=$1
+  if [ -e $container_name ]; then
+    echo "variable container_name is not set. cannot continue"
+    return 1
+  fi
+  docker exec -ti $container_name /bin/bash
 }
