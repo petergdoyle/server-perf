@@ -2,8 +2,6 @@
 . ../scripts/lib/select_server.sh
 . ../scripts/lib/select_dry_run.sh
 
-echo 'dryrun='$dryrun
-
 default_siege_time='60'
 read -e -p "Enter siege time on the server(in seconds): " -i "$default_siege_time" siege_time
 
@@ -39,7 +37,7 @@ fi
 
 for i in $(eval echo "{1..$repetitions"}); do
     timestamp=$(date +%Y-%m-%d:%H:%M:%S)
-    cmd="timeout $timeout_time"'s siege -b -t'"$siege_time"'s'" $target_url"
+    cmd='timeout '$timeout_time's siege -b -t '$siege_time's '$target_url
     if [ -n "$dryrun" ]; then
       echo "$cmd"
     else
