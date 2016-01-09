@@ -8,7 +8,7 @@ echo -e "*** select the server *** \n\
  2) nodejs (http server) \n\
  3) nodejs (http clustered server) \n\
  4) tomcat servlet container (sync servlet 2.5) \n\
- 5) tomcat servlet container (async servlet 3.0 async execution / sync io ) \n
+ 5) tomcat servlet container (async servlet 3.0 async execution / sync io ) \n\
  6) tomcat servlet container (async servlet 3.0 async execution / async io ) \n\
  7) jetty servlet container (sync servlet 2.5) \n\
  8) jetty servlet container (async servlet 3.0 async execution / sync io ) \n\
