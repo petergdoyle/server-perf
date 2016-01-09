@@ -4,15 +4,21 @@ read -e -p "host: " -i "localhost" host
 
 while true; do
 echo -e "*** select the server *** \n\
-1)nodejs(~async, express) 1 \n\
-2)tomcat(sync) 2 \n\
-3)tomcat(async) 3 \n\
-4)jetty(sync) 4 \n\
-5)jetty(async) 5 \n\
-6)netty(~async) 6 \n\
-7)nodejs(~async, http) 7 \n\
-8)springboot(sync, tomcat) 8 \n\
-9)undertow(~async http) 9 \
+ 1) nodejs (express server) \n\
+ 2) nodejs (http server) \n\
+ 3) nodejs (http clustered server) \n\
+ 4) tomcat servlet container (sync servlet 2.5) \n\
+ 5) tomcat servlet container (async servlet 3.0 async execution / sync io ) \n
+ 6) tomcat servlet container (async servlet 3.0 async execution / async io ) \n\
+ 7) jetty servlet container (sync servlet 2.5) \n\
+ 8) jetty servlet container (async servlet 3.0 async execution / sync io ) \n\
+ 9) jetty servlet container (async servlet 3.0 async execution / async io ) \n\
+10) springboot (mvc-rest, embedded tomcat) \n\
+11) springboot (mvc-rest, embedded undertow) \n\
+12) undertow (async http server) \n\
+13) apache httpd (php server) \n\
+14) nginx http (static html server) \n\
+15) netty http server \
 "
 read opt
 
@@ -21,36 +27,60 @@ case $opt in
     port='5020'; context='/nodejs'; service='/perf'; server_type='nodejs_express'
     break
     ;;
-    2) #tomcat sync servlet
-    port='5040'; context='/servlet'; service='/perf'; server_type='tomcat_sync'
-    break
-    ;;
-    3) #tomcat async servlet
-    port='5040'; context='/servlet'; service='/perf/async'; server_type='tomcat_async'
-    break
-    ;;
-    4) #jetty sync servlet
-    port='5050'; context='/servlet'; service='/perf'; server_type='jetty_sync'
-    break
-    ;;
-    5) #jetty async servlet
-    port='5050'; context='/servlet'; service='/perf/async'; server_type='jetty_async'
-    break
-    ;;
-    6) #netty
-    port='5060'; context='/'; service=''; server_type='netty'
-    break
-    ;;
-    7) #nodejs without express
+    2) #nodejs
     port='5021'; context='/'; service=''; server_type='nodejs_http'
     break
     ;;
-    8) #nodejs without express
-    port='5070'; context='/springboot/perf'; service=''; server_type='springboot_tomcat'
+    3) #nodejs
+    port='5022'; context='/'; service=''; server_type='nodejs_http_clustered'
     break
     ;;
-    9) #nodejs without express
+    4) #tomcat sync servlet
+    port='5040'; context='/servlet'; service='/perf'; server_type='tomcat_sync_servlet'
+    break
+    ;;
+    5) #tomcat async servlet
+    port='5040'; context='/servlet'; service='/perf/async'; server_type='tomcat_async_servlet_3_0'
+    break
+    ;;
+    6) #tomcat async servlet
+    port='5040'; context='/servlet'; service='/perf/async/io'; server_type='tomcat_async_servlet_3_1'
+    break
+    ;;
+    7) #jetty sync servlet
+    port='5050'; context='/servlet'; service='/perf'; server_type='jetty_sync_servlet'
+    break
+    ;;
+    8) #jetty async servlet
+    port='5050'; context='/servlet'; service='/perf/async'; server_type='jetty_async_servlet_3_0'
+    break
+    ;;
+    9) #jetty async servlet
+    port='5050'; context='/servlet'; service='/perf/async/io'; server_type='jetty_async_servlet_3_1'
+    break
+    ;;
+    10)
+    port='5070'; context='/springboot'; service='/perf'; server_type='springboot_mvc_tomcat'
+    break
+    ;;
+    11)
+    port='5072'; context='/springboot'; service='/perf'; server_type='springboot_mvc_undertow'
+    break
+    ;;
+    12)
     port='5090'; context='/'; service=''; server_type='undertow_http'
+    break
+    ;;
+    13)
+    port='5010'; context='/'; service='/php/echo.php'; server_type='apache_httpd_php'
+    break
+    ;;
+    14)
+    port='5000'; context='/'; service=''; server_type='nginx_http'
+    break
+    ;;
+    14)
+    port='5060'; context='/'; service=''; server_type='netty_http'
     break
     ;;
     *)

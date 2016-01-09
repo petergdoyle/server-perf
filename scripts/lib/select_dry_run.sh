@@ -1,4 +1,4 @@
-dryrun=$1
+#!/bin/sh
 
 for param in "$@"
 do
@@ -6,5 +6,3 @@ do
       dryrun='--dry-run'
     fi
 done
-
-

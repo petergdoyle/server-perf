@@ -1,5 +1,8 @@
 #!/bin/sh
 . ../scripts/lib/select_server.sh
+. ../scripts/lib/select_dry_run.sh
+
+echo 'dryrun='$dryrun
 
 default_siege_time='60'
 read -e -p "Enter siege time on the server(in seconds): " -i "$default_siege_time" siege_time
@@ -17,23 +20,47 @@ default_log_file=$PWD'/siege/siege_'$host'_'$env_type'_'$server_type'_sleep_'$sl
 read -e -p "Enter siege log file location/name: " -i "$default_log_file" log_file
 
 if [ -f ~/siege.log ]; then
-  rm ~/siege.log
+  cmd='rm '"~/siege.log"
+  if [ -n "$dryrun" ]; then
+    echo "$cmd"
+  else
+    eval "$cmd"
+  fi
 fi
 
 if [ -f $log_file ]; then
-  rm $log_file
+  cmd='rm '$log_file
+  if [ -n "$dryrun" ]; then
+    echo "$cmd"
+  else
+    eval "$cmd"
+  fi
 fi
 
 for i in $(eval echo "{1..$repetitions"}); do
     timestamp=$(date +%Y-%m-%d:%H:%M:%S)
-    echo "running siege $i of $repetitions on $target_url at $timestamp..."
     cmd="timeout $timeout_time"'s siege -b -t'"$siege_time"'s'" $target_url"
-    echo $cmd
-    eval $cmd
+    if [ -n "$dryrun" ]; then
+      echo "$cmd"
+    else
+      echo "running siege $i of $repetitions on $target_url at $timestamp..."
+      echo "$cmd"
+      eval "$cmd"
+    fi
     if [ "$i" -lt "$repetitions" ]; then
-      echo "done. sleeping $shell_sleep_time..."
-      sleep $shell_sleep_time'm'
+      cmd='sleep '$shell_sleep_time'm'
+      if [ -n "$dryrun" ]; then
+        echo "$cmd"
+      else
+        echo "done. sleeping $shell_sleep_time..."
+        eval "$cmd"
+      fi
     fi
 done
 
-cp ~/siege.log $log_file
+cmd='cp ~/siege.log '$log_file
+if [ -n "$dryrun" ]; then
+  echo "$cmd"
+else
+  eval "$cmd"
+fi
