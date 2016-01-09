@@ -1,6 +1,7 @@
 #!/bin/sh
 . ../scripts/lib/select_server.sh
 . ../scripts/lib/select_dry_run.sh
+. ../scripts/lib/display_countdown.sh
 
 default_siege_time='60'
 read -e -p "Enter siege time on the server(in seconds): " -i "$default_siege_time" siege_time
@@ -46,11 +47,12 @@ for i in $(eval echo "{1..$repetitions"}); do
       eval "$cmd"
     fi
     if [ "$i" -lt "$repetitions" ]; then
-      cmd='sleep '$shell_sleep_time'm'
+      echo "done. sleeping $shell_sleep_time..."
+      #cmd='sleep '$shell_sleep_time'm'
+      cmd="show_countdown $shell_sleep_time 'next siege'"
       if [ -n "$dryrun" ]; then
         echo "$cmd"
       else
-        echo "done. sleeping $shell_sleep_time..."
         eval "$cmd"
       fi
     fi
