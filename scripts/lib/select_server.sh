@@ -92,10 +92,10 @@ done
 
 while true; do
 echo -e "*** select the perf environment *** \n\
-1)docker 1 \n\
-2)docker native 2 \n\
-3)vm 3 \n\
-4)host 4 \
+1) docker port-mapped network \n\
+2) docker native network \n\
+3) vm \n\
+4) host \
 "
 read opt
 
@@ -144,8 +144,13 @@ if [ "$size" -gt "0" ]; then
   fi
 fi
 
-response_code=$(curl --write-out %{http_code} --silent --output /dev/null $target_url)
-if [ "$response_code" -ne "200" ]; then
-  echo "bad url specified as $target_url. server returned $response_code. cannot continue";
-  exit $response_code
-fi
+validate_service_url() {
+  candidate_url=$1
+  response_code=$(curl --write-out %{http_code} --silent --output /dev/null $candidate_url)
+  if [ "$response_code" -ne "200" ]; then
+    echo "bad url specified as $candidate_url. server returned $response_code. check server or specify correct url. cannot continue";
+    exit $response_code
+  fi
+}
+
+validate_service_url $target_url

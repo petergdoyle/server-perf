@@ -1,0 +1,48 @@
+HTTPRESS(8)                                                                     System Administration Utilities                                                                     HTTPRESS(8)
+
+
+
+NAME
+       httpress - High performance HTTP server stress & benchmark utility.
+
+SYNOPSIS
+       httpress [-flag [value]]... [url]
+
+DESCRIPTION
+       This is a high performance HTTP server stress & benchmark utility; inspired by weighttp tool.  Main features:
+
+       event driven (low memory footprint, large number of connections)
+
+       multi-threaded (uses all cores of your CPU)
+
+       SSL support (via GNUTLS library) with cipher suite selection
+
+
+OPTIONS
+       -n num number of requests     (default: 1)
+
+       -t num number of threads      (default: 1)
+
+       -c num concurrent connections (default: 1)
+
+       -k     keep alive             (default: no)
+
+       -q     no progress indication (default: no)
+
+       -z pri GNUTLS cipher priority (default: NORMAL)
+
+       -h     show this help
+
+       example: httpress -n 10000 -c 100 -t 4 -k http://localhost:8080/index.html
+
+
+AUTHORS
+       Yaroslav Stavnichiy
+
+BUGS
+       Please report issues reports to: https://bitbucket.org/yarosla/httpress/issues
+
+
+
+
+httpress                                                                                 February 2014                                                                              HTTPRESS(8)
