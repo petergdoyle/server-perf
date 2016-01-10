@@ -25,7 +25,7 @@ dont_exit_on_socket_receive_errors='-r'
 enable_http_keep_alive='-k'
 
 run_apache_bench() {
-  cmd="ab $dont_exit_on_socket_receive_errors $enable_http_keep_alive -n $total_number_of_requests -c $number_of_concurrent_requests $target_url >$log_file"
+  cmd="ab $dont_exit_on_socket_receive_errors $enable_http_keep_alive -n $total_number_of_requests -c $number_of_concurrent_requests $target_url"
   echo "running... $cmd"
   eval $cmd
 }

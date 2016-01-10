@@ -13,7 +13,7 @@ execute_after_countdown() {
      : $((secs--))
   done
   echo ""
-  eval $function
+  eval "$function"
 }
 
 show_countdown() {
