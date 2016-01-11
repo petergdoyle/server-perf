@@ -1,6 +1,6 @@
 
 
-FROM petergdoyle/oraclejdk:8
+FROM server-perf/basejdk
 
 RUN curl -L -O http://www.gtlib.gatech.edu/pub/apache/tomcat/tomcat-8/v8.0.30/bin/apache-tomcat-8.0.30.tar.gz \
   && mkdir -p /tomcat \

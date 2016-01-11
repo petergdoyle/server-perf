@@ -1,5 +1,5 @@
 
-FROM petergdoyle/centos:7
+FROM server-perf/base
 
 RUN yum -y install nginx
 

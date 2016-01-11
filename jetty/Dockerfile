@@ -1,4 +1,5 @@
-FROM petergdoyle/oraclejdk:8
+
+FROM server-perf/basejdk  
 
 RUN curl -O http://download.eclipse.org/jetty/stable-9/dist/jetty-distribution-9.3.6.v20151106.tar.gz \
   && mkdir -p /jetty \

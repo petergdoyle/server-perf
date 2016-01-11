@@ -1,5 +1,5 @@
 
-FROM petergdoyle/oraclejdk:8
+FROM server-perf/basejdk  
 
 COPY nettybackend/target/TestBackend-0.0.1-SNAPSHOT.jar /nettybackend/target/TestBackend-0.0.1-SNAPSHOT.jar
 COPY nettybackend/target/lib/ /nettybackend/target/lib/

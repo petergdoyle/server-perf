@@ -1,9 +1,10 @@
 
-FROM petergdoyle/centos:7
+FROM server-perf/base
 
 RUN yum -y install epel-release gcc gcc-c++ \
   && yum -y install nodejs npm \
-  && npm install monitor-dashboard -g
+  && npm install monitor-dashboard -g \
+  && npm install strongloop -g
 
 COPY node_modules/ /node/node_modules/
 COPY express_server.js /node/express_server.js

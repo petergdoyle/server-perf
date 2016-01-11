@@ -1,5 +1,5 @@
 
-FROM petergdoyle/oraclejdk:8
+FROM server-perf/basejdk  
 
 COPY  target/springboot-tomcat-1.0-SNAPSHOT.jar /springboot/target/springboot-tomcat-1.0-SNAPSHOT.jar
 COPY  target/springboot-undertow-1.0-SNAPSHOT.jar  /springboot/target/springboot-undertow-1.0-SNAPSHOT.jar

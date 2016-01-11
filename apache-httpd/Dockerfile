@@ -1,5 +1,5 @@
 
-FROM petergdoyle/centos:7
+FROM server-perf/base 
 
 #install necessary tools and services
 RUN yum -y install supervisor httpd php

@@ -16,7 +16,34 @@ docker_build() {
 docker_build_all() {
   no_cache=$1
 
+  #special base build
+  cd base
+  ./docker_build.sh $no_cache
+  cd -
+  if [ $? -ne 0 ]; then
+    echo -e "\e[1;31m the docker build for server-perf/base did not complete successfully \e[0m"
+    exit
+  else
+    echo -e "\e[30;48;5;82m the docker build for server-perf/base built successfully \e[0m"
+  fi
+  # jdk is out of the base because it adds about 500Mb to the image and
+  # it is not needed by may containers
+  cd jdk
+  ./docker_build.sh $no_cache
+  cd -
+  if [ $? -ne 0 ]; then
+    echo -e "\e[1;31m the docker build for server-perf/basejdk did not complete successfully \e[0m"
+    exit
+  else
+    echo -e "\e[30;48;5;82m the docker build for server-perf/basejdk built successfully \e[0m"
+  fi
+
   for each in $(find . -type f -name 'Dockerfile' -exec dirname {} \;); do
+
+    if [[ "$each" == './base' || "$each" == './jdk' ]]; then
+      continue
+    fi
+
     cd $each
 
     echo "building $each container"
