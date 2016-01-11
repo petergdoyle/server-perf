@@ -169,6 +169,9 @@ docker_start_all_containers() {
   done
 }
 
+##
+## note ! this only cleans up the server-perf images, not all, for all use 'docker rm $(docker ps -a -q)'
+##
 docker_remove_all_containers() {
   for each in $(docker ps -a|grep server_perf |awk 'NF>1{print $NF}'); do
     cmd="docker stop $each"
@@ -192,6 +195,9 @@ docker_cleanup_dangling_images() {
   fi
 }
 
+##
+## note ! this only cleans up the server-perf images, not all, for all use 'docker rmi $(docker images -q)''
+##
 docker_remove_all_images() {
   docker_cleanup_dangling_images
   for each in $(docker images| grep server-perf| awk '{print $3;}'); do
