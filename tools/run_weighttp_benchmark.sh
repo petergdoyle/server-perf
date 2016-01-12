@@ -3,13 +3,6 @@
 . ../scripts/lib/select_dry_run.sh
 . ../scripts/lib/display_countdown.sh
 
-export SIEGRC=$PWD/siegerc
-
-if ! [ -f $SIEGERC ]; then 
-  echo "configuration file missing. cannot continue"
-  exit 1
-fi
-
 default_siege_time='60'
 read -e -p "Enter siege time on the server(in seconds): " -i "$default_siege_time" siege_time
 
