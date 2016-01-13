@@ -5,7 +5,7 @@
 
 
 build_target_url
-select_pattern $target_url 
+select_pattern $target_url
 validate_target_url $target_url
 
 export SIEGERC=$PWD/siegerc
@@ -29,7 +29,7 @@ read -e -p "Enter number of siege repetitions: " -i "$default_repetitions" repet
 
 default_log_file=$PWD'/siege/siege_'$host'_'$env_type'_'$server_type'_sleep_'$sleep_time'ms_size_'$size'b.csv'
 read -e -p "Enter siege log file location/name: " -i "$default_log_file" log_file
-if [ -f "$default_log_file" ]; then
+if [ -f "$log_file" ]; then
   echo "A file with that name already exists. Either change it or it will be overwritten."
   read -e -p "Enter siege log file location/name: " -i "$log_file" log_file
 fi
