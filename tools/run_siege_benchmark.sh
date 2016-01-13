@@ -1,11 +1,16 @@
 #!/bin/sh
-. ../scripts/lib/select_server.sh
+. ../scripts/lib/target_url_functions.sh
 . ../scripts/lib/select_dry_run.sh
 . ../scripts/lib/display_countdown.sh
 
-export SIEGRC=$PWD/siegerc
 
-if ! [ -f $SIEGERC ]; then 
+build_target_url
+select_pattern $target_url 
+validate_target_url $target_url
+
+export SIEGERC=$PWD/siegerc
+
+if ! [ -f $SIEGERC ]; then
   echo "configuration file missing. cannot continue"
   exit 1
 fi
@@ -24,18 +29,13 @@ read -e -p "Enter number of siege repetitions: " -i "$default_repetitions" repet
 
 default_log_file=$PWD'/siege/siege_'$host'_'$env_type'_'$server_type'_sleep_'$sleep_time'ms_size_'$size'b.csv'
 read -e -p "Enter siege log file location/name: " -i "$default_log_file" log_file
+if [ -f "$default_log_file" ]; then
+  echo "A file with that name already exists. Either change it or it will be overwritten."
+  read -e -p "Enter siege log file location/name: " -i "$log_file" log_file
+fi
 
 if [ -f ~/siege.log ]; then
   cmd='rm '"~/siege.log"
-  if [ -n "$dryrun" ]; then
-    echo "$cmd"
-  else
-    eval "$cmd"
-  fi
-fi
-
-if [ -f $log_file ]; then
-  cmd='rm '$log_file
   if [ -n "$dryrun" ]; then
     echo "$cmd"
   else
@@ -54,7 +54,7 @@ for i in $(eval echo "{1..$repetitions"}); do
       eval "$cmd"
     fi
     if [ "$i" -lt "$repetitions" ]; then
-      echo "done. sleeping $shell_sleep_time..."
+      echo 'done. start sleeping for '$shell_sleep_time' m...'
       #cmd='sleep '$shell_sleep_time'm'
       cmd="show_countdown $shell_sleep_time 'next siege'"
       if [ -n "$dryrun" ]; then
