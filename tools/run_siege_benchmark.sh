@@ -26,7 +26,7 @@ default_shell_sleep_time='3'
 read -e -p "Enter sleep time between sieges(in minutes): " -i "$default_shell_sleep_time" shell_sleep_time
 
 default_repetitions='5'
-read -e -p "Enter number of siege repetitions: " -i "$default_repetitions" repetitions
+read -e -p "Enter then number of benchmark executions: " -i "$default_repetitions" repetitions
 
 default_log_file=$PWD'/siege/siege_'$host'_'$env_type'_'$server_type'_sleep_'$sleep_time'ms_size_'$size'b.csv'
 read -e -p "Enter siege log file location/name: " -i "$default_log_file" log_file
