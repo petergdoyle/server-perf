@@ -1,7 +1,9 @@
 #!/bin/sh
-. ../scripts/lib/select_server.sh
+. ../scripts/lib/target_url_functions.sh
 . ../scripts/lib/select_dry_run.sh
 . ../scripts/lib/display_countdown.sh
+. ../scripts/lib/color_and_format_functions.sh
+. ../scripts/lib/network_functions.sh
 
 default_siege_time='60'
 read -e -p "Enter siege time on the server(in seconds): " -i "$default_siege_time" siege_time

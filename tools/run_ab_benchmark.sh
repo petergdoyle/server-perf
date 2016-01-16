@@ -1,8 +1,11 @@
 #!/bin/sh
-. ../scripts/lib/select_server.sh
+. ../scripts/lib/target_url_functions.sh
 . ../scripts/lib/select_dry_run.sh
 . ../scripts/lib/display_countdown.sh
+. ../scripts/lib/color_and_format_functions.sh
+. ../scripts/lib/network_functions.sh
 
+#
 # sample to put 100000 requests over 1000 connections
 # ab -r -n 100000 -c 1000 http://engine2:5020/nodejs/perf
 #

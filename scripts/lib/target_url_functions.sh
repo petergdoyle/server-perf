@@ -144,17 +144,6 @@ build_target_url() {
   target_url='http://'$host:$port$context$service
 }
 
-
-validate_target_url() {
-  _candidate_url=$1
-  _response_code=$(curl --write-out %{http_code} --silent --output /dev/null $_candidate_url)
-  if [ "$_response_code" != "200" ]; then
-    display_error "bad url specified as $_candidate_url. server returned $_response_code. check server or specify correct url. cannot continue";
-    exit 1
-  fi
-}
-
-
 #
 # inputs: target_url
 # ouputs: pattern
