@@ -5,6 +5,14 @@
 . ../scripts/lib/color_and_format_functions.sh
 . ../scripts/lib/network_functions.sh
 
+
+build_target_url
+select_pattern $target_url
+validate_service_url $target_url
+if [ $? -ne 0 ]; then
+  exit
+fi
+
 #
 # sample to put 100000 requests over 1000 connections
 # ab -r -n 100000 -c 1000 http://engine2:5020/nodejs/perf
@@ -13,9 +21,10 @@ read -e -p "Enter the number of concurrent requests: " -i "1000" number_of_concu
 read -e -p "Enter the total number of requests: " -i "100000" total_number_of_requests
 read -e -p "Run connection keep-alive (y/n): " -i "y" connection_keep_alive
 
-
 read -e -p "Enter the number of executions executions: " -i "5" executions
-read -e -p "Enter sleep time between executions(in minutes): " -i "3" shell_sleep_time
+if [ "$executions" -gt 1 ]; then
+  read -e -p "Enter sleep time between executions(in minutes): " -i "3" shell_sleep_time
+fi
 
 default_log_file=$PWD'/apache_bench/apache_bench_c'$number_of_concurrent_requests'_n'$total_number_of_requests'_'$host'_'$env_type'_'$server_type'_sleep_'$sleep_time'ms_response_body_size_'$response_body_size'b.out'
 read -e -p "Enter execution log file location/name: " -i "$default_log_file" log_file
@@ -33,8 +42,9 @@ fi
 
 for i in $(eval echo "{1..$executions"}); do
   cmd="ab $dont_exit_on_socket_receive_errors $enable_http_keep_alive -n $total_number_of_requests -c $number_of_concurrent_requests $target_url"
+  echo $cmd
   eval $cmd
-  if [ "$i" -lt "$repetitions" ]; then
+  if [ "$i" -lt "$executions" ]; then
     echo 'done.'
     show_countdown $shell_sleep_time 'next siege'
   fi
