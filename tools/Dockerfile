@@ -25,7 +25,8 @@ RUN git clone https://github.com/menavaur/Autobench.git \
 && sed -i.bak 's/httperf --server/httperf --hog --server/' autobench \
 && make \
 && make install \
-&& rm -fr /Autobench
+&& cd - \
+&& rm -fr Autobench
 
 #
 # install jmeter - change the base to server-perf/basejdk
@@ -43,7 +44,8 @@ RUN yum -y install libev libev-devel \
 && ./waf configure \
 && ./waf build \
 && ./waf install \
-&& rm -fr /weighttp
+&& cd - \
+&& rm -fr weighttp
 
 WORKDIR /
 

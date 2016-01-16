@@ -1,5 +1,6 @@
 #!/bin/sh
 . ../scripts/lib/docker_functions.sh
+. ../scripts/lib/network_functions.sh
 
 img_name='server-perf/apache2'
 container_name='server_perf_apache'
@@ -11,9 +12,4 @@ network="$network_port_mapped"
 
 start_cmd="/usr/sbin/httpd -d /var/www/html -f /etc/httpd/conf/httpd.conf -e info -DFOREGROUND"
 
-docker_run
-
-#
-# open ports that services are running on in container
-#
-sudo firewall-cmd --add-port=15010/tcp
+docker_run 15010

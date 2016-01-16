@@ -32,7 +32,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 5070, host: 25070, host_ip: "0.0.0.0", id: "springboot embedded tomcat", auto_correct: true
   config.vm.network "forwarded_port", guest: 5071, host: 25071, host_ip: "0.0.0.0", id: "springboot embedded jetty", auto_correct: true
   config.vm.network "forwarded_port", guest: 5072, host: 25072, host_ip: "0.0.0.0", id: "springboot embedded undertow", auto_correct: true
-  
+
   config.vm.network "forwarded_port", guest: 5090, host: 25090, host_ip: "0.0.0.0", id: "undertow http server", auto_correct: true
 
   #
@@ -104,7 +104,7 @@ EOF
   yum -y install python-pip
   pip install -U docker-compose
   else
-    echo -e "\e[30;48;5;82m docker already appears to be installed. skipping.\e[0m"
+    display_success "docker already appears to be installed. skipping.\e[0m"
   fi
 
   eval $'node --version' > /dev/null 2>&1
@@ -124,7 +124,7 @@ EOF
   npm install monitor-dashboard -g
 
   else
-    echo -e "\e[30;48;5;82m node, npm, npm-libs already appear to be installed. skipping. \e[0m"
+    display_success "node, npm, npm-libs already appear to be installed. skipping."
   fi
 
 
@@ -149,7 +149,7 @@ export JAVA_HOME=$JAVA_HOME
 EOF
 
   else
-    echo -e "\e[30;48;5;82m java already appears to be installed. skipping. \e[0m"
+    display_success "java already appears to be installed. skipping."
   fi
 
 
@@ -170,7 +170,7 @@ export MAVEN_HOME=$MAVEN_HOME
 EOF
 
   else
-    echo -e "\e[30;48;5;82m maven already appears to be installed. skipping. \e[0m"
+    display_success "maven already appears to be installed. skipping."
   fi
 
 
@@ -200,7 +200,7 @@ EOF
     chmod -R g+s /usr/tomcat/
 
   else
-    echo -e "\e[30;48;5;82m tomcat already appears to be installed. skipping. \e[0m"
+    display_success "tomcat already appears to be installed. skipping."
   fi
 
 
@@ -224,7 +224,7 @@ EOF
     chmod -R g+s /usr/jetty/
 
   else
-    echo -e "\e[30;48;5;82m jetty already appears to be installed. skipping. \e[0m"
+    display_success "jetty already appears to be installed. skipping."
   fi
 
 
@@ -247,7 +247,7 @@ EOF
     chmod -R g+s /usr/netty/
 
   else
-    echo -e "\e[30;48;5;82m netty already appears to be downloaded. skipping. \e[0m"
+    display_success "netty already appears to be downloaded. skipping."
   fi
 
 
@@ -265,7 +265,7 @@ phpinfo();
 EOF
 
   else
-    echo -e "\e[30;48;5;82m httpd already appears to be installed. skipping. \e[0m"
+    display_success "httpd already appears to be installed. skipping."
   fi
 
   eval "nginx -v" > /dev/null 2>&1
@@ -276,7 +276,7 @@ EOF
   sed -i.bak 's/80 default_server/5000 default_server/' /etc/nginx/nginx.conf
 
   else
-    echo -e "\e[30;48;5;82m nginx already appears to be installed. skipping. \e[0m"
+    display_success "nginx already appears to be installed. skipping."
   fi
 
 
@@ -289,7 +289,7 @@ EOF
   #su - vagrant -c 'sdk install groovy'     #optional
   #su - vagrant -c 'sdk install grails'     #optional
   else
-    echo -e "\e[30;48;5;82m springboot already appears to be installed. skipping. \e[0m"
+    display_success "springboot already appears to be installed. skipping."
   fi
 
 
@@ -306,7 +306,7 @@ export JMETER_HOME=$JMETER_HOME
 EOF
 
   else
-    echo -e "\e[30;48;5;82m jmeter already appears to be downloaded. skipping. \e[0m"
+    display_success "jmeter already appears to be downloaded. skipping."
   fi
 
 #
@@ -326,7 +326,7 @@ EOF
     yum -y install make libcurl-devel libevent binutils gcc patch openssl-devel
     make
     if [ $? -ne 0 ]; then
-      echo -e "\e[1;31m curl-loader - make did not run successfully. skipping. \e[0m"
+      display_error "curl-loader - make did not run successfully. skipping."
     else
       alternatives --install "/usr/bin/curl-loader" "curl-loader" "/usr/curl-loader/default/curl-loader" 99999
     fi
@@ -334,7 +334,7 @@ EOF
     rm -f curl-loader-0.56.tar
 
   else
-    echo -e "\e[30;48;5;82m curl-loader already appears to be downloaded. skipping. \e[0m"
+    display_success "curl-loader already appears to be downloaded. skipping."
   fi
 
   #httperf
@@ -344,7 +344,7 @@ EOF
     && yum -y install httperf \
     && rm -f rpmforge-release-0.5.3-1.el7.rf.x86_64.rpm
   else
-    echo -e "\e[30;48;5;82m httperf already appears to be downloaded. skipping. \e[0m"
+    display_success "httperf already appears to be downloaded. skipping."
   fi
 
   eval 'curl-loader' > /dev/null 2>&1
@@ -355,10 +355,10 @@ EOF
     make \
     && make install
     if [ $? -ne 0 ]; then
-      echo -e "\e[1;31m curl-loader - make did not run successfully. skipping. \e[0m"
+      display_error "curl-loader - make did not run successfully. skipping."
     else
   else
-    echo -e "\e[30;48;5;82m autobench already appears to be downloaded. skipping. \e[0m"
+    display_success "autobench already appears to be downloaded. skipping."
   fi
 
 
@@ -371,29 +371,20 @@ EOF
     && cd /usr/cutter/default
     && make
     if [ $? -ne 0 ]; then
-      echo -e "\e[1;31m cutter - make did not run successfully. skipping. \e[0m"
+      display_error "cutter - make did not run successfully. skipping."
     else
       alternatives --install "/usr/bin/cutter" "cutter" "/usr/cutter/default/cutter" 99999
     fi
     cd -
     rm -f cutter-1.04.tgz
   else
-    echo -e "\e[30;48;5;82m cutter already appears to be downloaded. skipping. \e[0m"
+    display_success "cutter already appears to be downloaded. skipping."
   fi
 
 
   # on the vm host you need to open up some temporary ports on the firewall
   # if you are running on fedora or centos7 this is done with firewalld commands
-  #firewall-cmd --add-port=15000/tcp
-  #firewall-cmd --add-port=15010/tcp
-  #firewall-cmd --add-port=15020/tcp
-  #firewall-cmd --add-port=15030/tcp
-  #firewall-cmd --add-port=15040/tcp
-  #firewall-cmd --add-port=15050/tcp
-  #firewall-cmd --add-port=15060/tcp
-  #firewall-cmd --add-port=15070/tcp
-  #firewall-cmd --add-port=15080/tcp
-
+  firewall-cmd --add-port=20000-29999/tcp
 
   #set hostname
   hostnamectl set-hostname server-perf.vbx

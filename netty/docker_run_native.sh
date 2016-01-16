@@ -1,5 +1,6 @@
 #!/bin/sh
 . ../scripts/lib/docker_functions.sh
+. ../scripts/lib/network_functions.sh
 
 
 img_name='server-perf/netty'
@@ -9,9 +10,4 @@ start_cmd="java -jar target/TestBackend-0.0.1-SNAPSHOT.jar"
 
 network="$network_native"
 
-docker_run
-
-#
-# open ports that services are running on in container
-#
-sudo firewall-cmd --add-port=5060/tcp
+docker_run 5060

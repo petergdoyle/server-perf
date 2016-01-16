@@ -1,5 +1,6 @@
 #!/bin/sh
 . ../scripts/lib/docker_functions.sh
+. ../scripts/lib/network_functions.sh
 
 img_name='server-perf/netty'
 container_name='server_perf_netty'
@@ -11,9 +12,4 @@ network_port_mapped="$port_map_1 \
 -h $container_name.dkr"
 network="$network_port_mapped"
 
-docker_run
-
-#
-# open ports that services are running on in container
-#
-sudo firewall-cmd --add-port=15060/tcp
+docker_run 15060

@@ -21,10 +21,10 @@ docker_build_all() {
   ./docker_build.sh $no_cache
   cd -
   if [ $? -ne 0 ]; then
-    echo -e "\e[1;31m the docker build for server-perf/base did not complete successfully \e[0m"
+    display_error "the docker build for server-perf/base did not complete successfully"
     exit
   else
-    echo -e "\e[30;48;5;82m the docker build for server-perf/base built successfully \e[0m"
+    display_success "the docker build for server-perf/base built successfully"
   fi
   # jdk is out of the base because it adds about 500Mb to the image and
   # it is not needed by may containers
@@ -32,10 +32,10 @@ docker_build_all() {
   ./docker_build.sh $no_cache
   cd -
   if [ $? -ne 0 ]; then
-    echo -e "\e[1;31m the docker build for server-perf/basejdk did not complete successfully \e[0m"
+    display_error "the docker build for server-perf/basejdk did not complete successfully"
     exit
   else
-    echo -e "\e[30;48;5;82m the docker build for server-perf/basejdk built successfully \e[0m"
+    display_success "the docker build for server-perf/basejdk built successfully"
   fi
 
   for each in $(find . -type f -name 'Dockerfile' -exec dirname {} \;); do
@@ -51,9 +51,9 @@ docker_build_all() {
     ./docker_build.sh $no_cache
 
     if [ $? -ne 0 ]; then
-      echo -e "\e[1;31m the docker build for $each did not complete successfully \e[0m"
+      display_error "the docker build for $each did not complete successfully"
     else
-      echo -e "\e[30;48;5;82m the docker build for $each built successfully \e[0m"
+      display_success "the docker build for $each built successfully"
     fi
 
     cd -
@@ -91,6 +91,8 @@ transient='--rm'
 mode=$daemon
 
 docker_run() {
+  local ports=$1
+  open_firewall_port $ports
   if [ -e $container_name ]; then
     echo "variable container_name is not set. cannot continue"
     return 1
@@ -115,17 +117,17 @@ docker_run_all_template() {
 
   cmd=$1
 
-  for each in $(find . -type f -name 'Dockerfile' -exec dirname {} \;); do
+  for each in $(find . -type f -name $cmd -exec dirname {} \;); do
     cd $each
 
     echo "running the container specified in $each "
 
-    eval $cmd
+    eval './'$cmd
 
     if [ $? -ne 0 ]; then
-      echo -e "\e[1;31m the docker run for $each did not complete successfully \e[0m"
+      display_error "the docker run for $each did not complete successfully"
     else
-      echo -e "\e[30;48;5;82m the docker run for $each built successfully \e[0m"
+      display_success "the docker run for $each built successfully"
     fi
 
     cd -
@@ -135,13 +137,13 @@ docker_run_all_template() {
 
 docker_run_all_native() {
 
-  docker_run_all_template './docker_run_native.sh'
+  docker_run_all_template 'docker_run_native.sh'
 
 }
 
 docker_run_all() {
 
-  docker_run_all_template './docker_run.sh'
+  docker_run_all_template 'docker_run.sh'
 
 }
 

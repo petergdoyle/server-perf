@@ -1,5 +1,6 @@
 #!/bin/sh
 . ../scripts/lib/docker_functions.sh
+. ../scripts/lib/network_functions.sh
 
 img_name='server-perf/nginx'
 
@@ -9,9 +10,4 @@ container_name='server_perf_nginx_native_5000'
 
 start_cmd="nginx -g 'daemon off;'"
 
-docker_run
-
-#
-# open ports that services are running on in container
-#
-sudo firewall-cmd --add-port=5000/tcp
+docker_run 5000

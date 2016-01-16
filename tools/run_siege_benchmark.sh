@@ -2,6 +2,7 @@
 . ../scripts/lib/target_url_functions.sh
 . ../scripts/lib/select_dry_run.sh
 . ../scripts/lib/display_countdown.sh
+. ../scripts/lib/color_and_format_functions.sh
 
 
 build_target_url
