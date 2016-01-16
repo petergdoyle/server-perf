@@ -29,6 +29,17 @@ RUN git clone https://github.com/menavaur/Autobench.git \
 && rm -fr Autobench
 
 #
+# install wrk
+#
+RUN yum -y install openssl-devel \
+&& git clone https://github.com/wg/wrk.git \
+&& cd wrk \
+&& make \
+&& mv wrk /usr/bin \
+&& cd - \
+&& rm -fr wrk
+
+#
 # install jmeter - change the base to server-perf/basejdk
 #
 #RUN mkdir -p /jmeter \
