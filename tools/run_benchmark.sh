@@ -13,7 +13,7 @@ read opt
 
 case $opt in
     1)
-    tool='ab'
+    _tool='ab'
     break
     ;;
     2)
@@ -42,6 +42,6 @@ case $opt in
 esac
 done
 
-_script_name='./run_'$tool'_benchmark.sh'
+_script_name='./run_'$_tool'_benchmark.sh'
 
 eval $_script_name
