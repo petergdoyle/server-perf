@@ -30,7 +30,7 @@ default_log_file=$PWD'/apache_bench/apache_bench_c'$number_of_concurrent_request
 read -e -p "Enter execution log file location/name: " -i "$default_log_file" log_file
 if [ -f "$log_file" ]; then
   echo "A file with that name already exists. Either change it or it will be overwritten."
-  read -e -p "Enter siege log file location/name: " -i "$log_file" log_file
+  read -e -p "Enter log file location/name: " -i "$log_file" log_file
 fi
 
 
