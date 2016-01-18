@@ -26,20 +26,20 @@ public class ThreadInfo {
         this.id = t.getId();
         this.quiet = true;
         if (!quiet) {
-            System.out.println(servletName + " Start::Name="
-                    + name + "::ID="
-                    + id
-            );
+            //System.out.println(servletName + " Start::Name="
+//                    + name + "::ID="
+//                    + id
+//            );
         }
     }
 
     void done() {
         long endTime = System.currentTimeMillis();
         if (!quiet) {
-            System.out.println(servletName + " End::Name="
-                    + name + "::ID="
-                    + id + "::Time Taken="
-                    + (endTime - startTime) + " ms.");
+            //System.out.println(servletName + " End::Name="
+//                    + name + "::ID="
+//                    + id + "::Time Taken="
+//                    + (endTime - startTime) + " ms.");
         }
     }
 

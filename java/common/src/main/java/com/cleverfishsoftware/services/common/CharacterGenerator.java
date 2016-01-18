@@ -36,7 +36,7 @@ public class CharacterGenerator {
             }
             charCount++;
         }
-        System.out.println(charCount + " characters loaded");
+        //System.out.println(charCount + " characters loaded");
 
     }
 
@@ -71,11 +71,11 @@ public class CharacterGenerator {
         CharacterGenerator generator = CharacterGenerator.getInstance();
 
         generator.print(System.out, 5000);
-        System.out.println();
+        //System.out.println();
 
-        System.out.println("--------------");
+        //System.out.println("--------------");
         generator.print(System.out, 5000);
-        System.out.println();
+        //System.out.println();
         
         
         ByteBuffer duplicate = generator.bbuffer.duplicate();
@@ -84,7 +84,7 @@ public class CharacterGenerator {
         duplicate.flip();
         CharBuffer cbuffer = duplicate.asCharBuffer();
         while (cbuffer.hasRemaining()) {
-            System.out.println(cbuffer.get());
+            //System.out.println(cbuffer.get());
         }
     }
 
@@ -92,17 +92,17 @@ public class CharacterGenerator {
     private int validSize(final int size) {
         int s = 0;
         if (size > bbuffer.capacity()) { // cannot exceed the capacity
-            System.out.println("size > bbuffer.capacity");
+            //System.out.println("size > bbuffer.capacity");
             s = bbuffer.capacity();
         } else {
             s = size;
         }
         if (s % 2 != 0) { //number has to be a multiple of 2 since there are 2 bytes per character
-            System.out.println("s % 2 != 0");
+            //System.out.println("s % 2 != 0");
             s--;
         }
         if (size < 0) { // must be a positive number 
-            System.out.println("size < 0");
+            //System.out.println("size < 0");
             s = 0;
         }
         return s;

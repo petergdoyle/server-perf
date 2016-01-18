@@ -119,10 +119,10 @@ public class ContentGeneratorStatic implements ContentGenerator {
     public static void main(String... args) throws UnsupportedEncodingException, IOException {
         ContentGeneratorStatic instance = getInstance();
         int maxLength = instance.getMaxLength();
-        System.out.println("content max length: " + maxLength);
+        //System.out.println("content max length: " + maxLength);
         for (int i = 0; i < 5; i++) {
             int pct = getRandomInteger(1, 10) * 10;
-            System.out.println("pct: " + pct);
+            //System.out.println("pct: " + pct);
             int size = maxLength * (pct / 010);
             instance.write(System.out, size);
         }

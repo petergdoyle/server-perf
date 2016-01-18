@@ -34,11 +34,11 @@ public class SyncServlet extends HttpServlet {
 
         String servletName = getServletName();
         long startTime = System.currentTimeMillis();
-        System.out.println(servletName + " Start::Name="
-                + Thread.currentThread().getName() + "::ID="
-                + Thread.currentThread().getId());
+        //System.out.println(servletName + " Start::Name="
+//                + Thread.currentThread().getName() + "::ID="
+//                + Thread.currentThread().getId());
 
-        System.out.println("YOU ARE CALLING THE SYNC SERVLET");
+        //System.out.println("YOU ARE CALLING THE SYNC SERVLET");
         // introduce latency
         int sleep;
         String sleepParam = request.getParameter("sleep");
@@ -68,10 +68,10 @@ public class SyncServlet extends HttpServlet {
         }
 
         long endTime = System.currentTimeMillis();
-        System.out.println(servletName + " End::Name="
-                + Thread.currentThread().getName() + "::ID="
-                + Thread.currentThread().getId() + "::Time Taken="
-                + (endTime - startTime) + " ms.");
+        //System.out.println(servletName + " End::Name="
+//                + Thread.currentThread().getName() + "::ID="
+//                + Thread.currentThread().getId() + "::Time Taken="
+//                + (endTime - startTime) + " ms.");
     }
 
     @Override
@@ -80,19 +80,19 @@ public class SyncServlet extends HttpServlet {
         int count = COUNTER.incrementAndGet();
         String servletName = getServletName();
         long startTime = System.currentTimeMillis();
-        System.out.println(servletName + " Start::Name="
-                + Thread.currentThread().getName() + "::ID="
-                + Thread.currentThread().getId());
+        //System.out.println(servletName + " Start::Name="
+//                + Thread.currentThread().getName() + "::ID="
+//                + Thread.currentThread().getId());
 
         //any request that uses a POST will just echo back what is sent (using OIO in this case
         response.setContentType(request.getContentType());
         CommonUtils.copy(request.getInputStream(), response.getOutputStream());
 
         long endTime = System.currentTimeMillis();
-        System.out.println(servletName + " End::Name="
-                + Thread.currentThread().getName() + "::ID="
-                + Thread.currentThread().getId() + "::Time Taken="
-                + (endTime - startTime) + " ms.");
+        //System.out.println(servletName + " End::Name="
+//                + Thread.currentThread().getName() + "::ID="
+//                + Thread.currentThread().getId() + "::Time Taken="
+//                + (endTime - startTime) + " ms.");
     }
 
     private void sendGeneratedResponse(HttpServletResponse response, HttpServletRequest request, int size) throws IOException {

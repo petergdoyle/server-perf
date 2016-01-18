@@ -45,7 +45,7 @@ public final class CannedResponses {
                     reader.close();
                 }
             } catch (IOException ex) {
-                System.out.println(ex);
+                //System.out.println(ex);
             }
         }
     }

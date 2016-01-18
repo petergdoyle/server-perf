@@ -45,9 +45,9 @@ public class Gateway extends HttpServlet {
 
         String servletName = getServletName();
         long startTime = System.currentTimeMillis();
-        System.out.println(servletName + " Start::Name="
-                + Thread.currentThread().getName() + "::ID="
-                + Thread.currentThread().getId());
+        //System.out.println(servletName + " Start::Name="
+//                + Thread.currentThread().getName() + "::ID="
+//                + Thread.currentThread().getId());
 
         //write(request.getInputStream(), System.out);
         String url = request.getParameter("proxy");
@@ -88,10 +88,10 @@ public class Gateway extends HttpServlet {
         CommonUtils.copy(remote.getInputStream(), response.getOutputStream());
 
         long endTime = System.currentTimeMillis();
-        System.out.println(servletName + " End::Name="
-                + Thread.currentThread().getName() + "::ID="
-                + Thread.currentThread().getId() + "::Time Taken="
-                + (endTime - startTime) + " ms.");
+        //System.out.println(servletName + " End::Name="
+//                + Thread.currentThread().getName() + "::ID="
+//                + Thread.currentThread().getId() + "::Time Taken="
+//                + (endTime - startTime) + " ms.");
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

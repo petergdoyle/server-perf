@@ -55,7 +55,7 @@ public class AsyncServlet extends HttpServlet {
         long startTime = System.currentTimeMillis();
         ThreadInfo ti = new ThreadInfo(getServletName(), Thread.currentThread(), System.currentTimeMillis());
 
-        System.out.println("YOU ARE CALLING THE ASYNC SERVLET");
+        //System.out.println("YOU ARE CALLING THE ASYNC SERVLET");
         int count = COUNTER.incrementAndGet();
 
         // introduce latency
@@ -70,7 +70,7 @@ public class AsyncServlet extends HttpServlet {
                 sleep = 0;
             }
         }
-        //System.out.println("sleep is set to " + sleep);
+        ////System.out.println("sleep is set to " + sleep);
 
         // simple sleep and call complete on asyncContext 
         ServletOutputStream os = response.getOutputStream();
@@ -81,7 +81,7 @@ public class AsyncServlet extends HttpServlet {
         if (isSpecified(sizeParam) && isNumeric(sizeParam)) {
             size = Integer.valueOf(sizeParam);
             if (sleep > 0) {
-                //System.out.println("here i am. going to process with sleep");
+                ////System.out.println("here i am. going to process with sleep");
                 os.setWriteListener(new GeneratedContentWriteListenerAndSleep(os, CONTENT, size, asyncContext, sleep, scheduler, ti));
             } else {
                 os.setWriteListener(new GeneratedContentWriteListener(os, CONTENT, size, asyncContext, ti));

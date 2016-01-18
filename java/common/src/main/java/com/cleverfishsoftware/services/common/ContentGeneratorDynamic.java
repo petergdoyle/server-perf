@@ -49,7 +49,7 @@ public class ContentGeneratorDynamic implements ContentGenerator {
     public static void main(String... args) throws IOException {
         ContentGenerator cg = new ContentGeneratorDynamic();
         cg.write(System.out, 100);
-        System.out.println();
+        //System.out.println();
     }
 
 }
