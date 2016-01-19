@@ -2,10 +2,10 @@
 
 build_target_url() {
 
-  read -e -p "host: " -i "localhost" host
+  read -e -p "Target server (hostname): " -i "localhost" host
 
   while true; do
-  echo -e "*** select the server *** \n\
+  echo -e "*** select the server type *** \n\
    1) nodejs (express server) \n\
    2) nodejs (http server) \n\
    3) nodejs (http clustered server) \n\

@@ -49,4 +49,4 @@ done
 
 _script_name='./run_'$benchmark_tool'_benchmark.sh'
 
-eval $_script_name
+eval $_script_name $benchmark_tool

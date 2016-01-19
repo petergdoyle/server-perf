@@ -36,7 +36,7 @@ fi
 read -e -p "Enter number of connections: " -i "1000" number_of_connections
 read -e -p "Enter duration of test(seconds): " -i "60" duration_of_test
 number_of_cores=$(grep -c ^processor /proc/cpuinfo)
-read -e -p "Enter number of threads: " -i "$number_of_cores" number_of_threads
+read -e -p "Enter number of threads (1-$number_of_cores): " -i "$number_of_cores" number_of_threads
 read -e -p "Print latency statistics (y/n) " -i "y" print_latency_response
 if [ "$print_latency_response" != "y" ]; then
   print_latency=""
@@ -47,11 +47,13 @@ fi
 #
 # execution options
 #
-read -e -p "Enter sleep time between executions(in minutes): " -i "3" shell_sleep_time
-read -e -p "Enter number of executions: " -i "5" executions
+read -e -p "Enter the number of executions executions: " -i "5" executions
+if [ "$executions" -gt 1 ]; then
+  read -e -p "Enter sleep time between executions(in minutes): " -i "3" shell_sleep_time
+fi
 
 #
-# set up location to redirect sysout
+# set up location to redirect stdout
 #
 default_log_file=$PWD'/wrk/wrk_'$host'_'$env_type'_'$server_type$service_pattern_details'.out'
 read -e -p "Enter log file location/name: " -i "$default_log_file" log_file
@@ -84,6 +86,8 @@ for i in $(eval echo "{1..$executions"}); do
     if [ "$i" -lt "$executions" ]; then
       echo 'done. sleeping '$shell_sleep_time'm...'
       show_countdown $shell_sleep_time 'next execution'
+    else
+      echo 'done. results of benchmark are located in '$log_file
     fi
 
 done
