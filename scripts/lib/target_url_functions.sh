@@ -148,7 +148,7 @@ build_target_url() {
 # inputs: target_url
 # ouputs: pattern
 #
-selectservice_pattern() {
+select_service_pattern() {
 
   target_url=$1
 
@@ -168,6 +168,7 @@ selectservice_pattern() {
     case $opt in
         1)
         service_pattern='pattern_speed'
+        service_pattern_details='_'$service_pattern
         break
         ;;
         2)
@@ -186,6 +187,7 @@ selectservice_pattern() {
             _first_param_set=false
           fi
         fi
+        service_pattern_details='_'$service_pattern'_sleep_'$_sleep_time
         break
         ;;
         4)
@@ -198,15 +200,16 @@ selectservice_pattern() {
         ;;
         5)
         service_pattern='pattern_io_download'
-        read -e -p "Response Body size: " -i "0" _size
-        if [ "$_size" -gt "0" ]; then
+        read -e -p "Response Body size: " -i "0" _download_size
+        if [ "$_download_size" -gt "0" ]; then
           if [ "$_first_param_set" = true ]; then
-            target_url=$target_url'?size='$_size
+            target_url=$target_url'?size='$_download_size
             _first_param_set=false
           else
-            target_url=$target_url'&size='$_size
+            target_url=$target_url'&size='$_download_size
           fi
         fi
+        service_pattern_details='_'$service_pattern'_size_'$_download_size
         break
         ;;
         *)
