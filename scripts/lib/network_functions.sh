@@ -12,7 +12,7 @@ check_network_socket_state() {
   if [ "$response" == "" ]; then
     return 0
   else
-    echo $response 
+    echo $response
     return 1
   fi
 }
@@ -36,14 +36,13 @@ validate_service_url() {
 port_forward() {
   local port=$1
   local toport=$2
+  #
   # native ports have to be allowed through the firewall individually,
   # docker port-forwarding doesn't require this manual configuration,
   # all ports exposed through docker containers are allow to pass
   # through the firewall by default
   #
-  # sudo firewall-cmd --add-forward-port=port=15020:proto=tcp:toport=5020
-  # sudo firewall-cmd --add-forward-port=port=15021:proto=tcp:toport=5021
-  # sudo firewall-cmd --add-forward-port=port=14200:proto=tcp:toport=4200
+  firewall-cmd --add-forward-port=port=$port:proto=tcp:toport=$toport
 }
 
 open_firewall_port() {

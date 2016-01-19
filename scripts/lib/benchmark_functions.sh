@@ -6,6 +6,8 @@ number_of_cores=$(grep -c ^processor /proc/cpuinfo)
 run_benchmark() {
 
   cmd=$1
+  read -e -p "Benchmark command (confirm): " -i "$cmd" cmd
+  duration_of_test=$2
 
   #
   # execution options
@@ -31,7 +33,8 @@ run_benchmark() {
   #
   # execute all these tools with a timeout as sometimes they don't stop running
   #
-  if [ $duration_of_test == ""]; then
+  re='^[0-9]+$'
+  if ! [[ $duration_of_test =~ $re ]]; then #if not specfied or specified is not a number
     timeout_time='30'
   else
     timeout_time=`expr $duration_of_test \* 3`

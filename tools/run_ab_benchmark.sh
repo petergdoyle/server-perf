@@ -4,11 +4,15 @@
 . ../scripts/lib/display_countdown.sh
 . ../scripts/lib/color_and_format_functions.sh
 . ../scripts/lib/network_functions.sh
+. ../scripts/lib/benchmark_functions.sh
 
-
+#
+# select target server/service and service-pattern
+#
+benchmark_tool=$1
 build_target_url
-select_pattern $target_url
-validate_service_url $target_url
+select_service_pattern $target_url
+validate_service_url $target_url #make sure the server is up and service is available
 if [ $? -ne 0 ]; then
   exit
 fi
@@ -21,31 +25,13 @@ read -e -p "Enter the number of concurrent requests: " -i "1000" number_of_concu
 read -e -p "Enter the total number of requests: " -i "100000" total_number_of_requests
 read -e -p "Run connection keep-alive (y/n): " -i "y" connection_keep_alive
 
-read -e -p "Enter the number of executions executions: " -i "5" executions
-if [ "$executions" -gt 1 ]; then
-  read -e -p "Enter sleep time between executions(in minutes): " -i "3" shell_sleep_time
-fi
-
-default_log_file=$PWD'/apache_bench/apache_bench_c'$number_of_concurrent_requests'_n'$total_number_of_requests'_'$host'_'$env_type'_'$server_type'_sleep_'$sleep_time'ms_response_body_size_'$response_body_size'b.out'
-read -e -p "Enter execution log file location/name: " -i "$default_log_file" log_file
-if [ -f "$log_file" ]; then
-  echo "A file with that name already exists. Either change it or it will be overwritten."
-  read -e -p "Enter log file location/name: " -i "$log_file" log_file
-fi
-
-
 dont_exit_on_socket_receive_errors='-r'
-enable_http_keep_alive='-k'
-if [ "$enable_http_keep_alive" != "y" ]; then
+
+if [ "$connection_keep_alive" != "y" ]; then
   enable_http_keep_alive=""
+else
+  enable_http_keep_alive='-k'
 fi
 
-for i in $(eval echo "{1..$executions"}); do
-  cmd="ab $dont_exit_on_socket_receive_errors $enable_http_keep_alive -n $total_number_of_requests -c $number_of_concurrent_requests $target_url"
-  echo $cmd
-  eval $cmd
-  if [ "$i" -lt "$executions" ]; then
-    echo 'done.'
-    show_countdown $shell_sleep_time 'next siege'
-  fi
-done
+cmd="ab $dont_exit_on_socket_receive_errors $enable_http_keep_alive -n $total_number_of_requests -c $number_of_concurrent_requests $target_url"
+run_benchmark "$cmd"

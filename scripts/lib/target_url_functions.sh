@@ -167,17 +167,17 @@ select_service_pattern() {
 
     case $opt in
         1)
-        service_pattern='pattern_speed'
+        service_pattern='speed_pattern'
         service_pattern_details='_'$service_pattern
         break
         ;;
         2)
-        service_pattern='pattern_echo'
+        service_pattern='echo_pattern'
         # add in post elements here - like the file to upload or accept text to upload
         break
         ;;
         3)
-        service_pattern='pattern_timed_latency'
+        service_pattern='timed_latency_pattern'
         read -e -p "Sleep time: " -i "0" _sleep_time
         if [ "$_sleep_time" -gt "0" ]; then
           if [ "$_first_param_set" = true ]; then
@@ -191,15 +191,15 @@ select_service_pattern() {
         break
         ;;
         4)
-        service_pattern='pattern_cpu_load'
+        service_pattern='cpu_load_pattern'
         break
         ;;
         5)
-        service_pattern='pattern_io_upload'
+        service_pattern='io_upload_pattern'
         break
         ;;
         5)
-        service_pattern='pattern_io_download'
+        service_pattern='io_download_pattern'
         read -e -p "Response Body size: " -i "0" _download_size
         if [ "$_download_size" -gt "0" ]; then
           if [ "$_first_param_set" = true ]; then
