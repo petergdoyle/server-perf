@@ -148,13 +148,13 @@ build_target_url() {
 # inputs: target_url
 # ouputs: pattern
 #
-select_pattern() {
+selectservice_pattern() {
 
   target_url=$1
 
   while true; do
   echo -e "*** select a service pattern *** \n\
-  1) raw response rate \n\
+  1) speed test \n\
   2) echo (server upload download capability)
   3) timed latency (server request scalability) \n\
   4) cpu load (server request scalability) \n\
@@ -167,16 +167,16 @@ select_pattern() {
 
     case $opt in
         1)
-        _pattern='raw'
+        service_pattern='pattern_speed'
         break
         ;;
         2)
-        _pattern='echo'
+        service_pattern='pattern_echo'
         # add in post elements here - like the file to upload or accept text to upload
         break
         ;;
         3)
-        _pattern='timed_latency'
+        service_pattern='pattern_timed_latency'
         read -e -p "Sleep time: " -i "0" _sleep_time
         if [ "$_sleep_time" -gt "0" ]; then
           if [ "$_first_param_set" = true ]; then
@@ -189,15 +189,15 @@ select_pattern() {
         break
         ;;
         4)
-        _pattern='cpu_load'
+        service_pattern='pattern_cpu_load'
         break
         ;;
         5)
-        _pattern='io_upload'
+        service_pattern='pattern_io_upload'
         break
         ;;
         5)
-        _pattern='io_download'
+        service_pattern='pattern_io_download'
         read -e -p "Response Body size: " -i "0" _size
         if [ "$_size" -gt "0" ]; then
           if [ "$_first_param_set" = true ]; then

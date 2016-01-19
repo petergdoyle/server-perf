@@ -48,7 +48,7 @@ for i in $(eval echo "{1..$repetitions"}); do
     if [ -n "$dryrun" ]; then
       echo "$cmd"
     else
-      echo "running siege $i of $repetitions on $target_url at $timestamp..."
+      echo "running benchmark $i of $repetitions on $target_url at $timestamp..."
       echo "$cmd"
       eval "$cmd"
     fi

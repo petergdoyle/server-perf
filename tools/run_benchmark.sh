@@ -7,33 +7,38 @@ echo -e "*** select a benchmark tool *** \n\
 3) httpress \n\
 4) httperf \n\
 5) autobench (stepped load using httperf with aggregated results) \n\
-6) weighttp \
+6) weighttp \n\
+7) wrk \
 "
 read opt
 
 case $opt in
     1)
-    _tool='ab'
+    benchmark_tool='ab'
     break
     ;;
     2)
-    _tool='siege'
+    benchmark_tool='siege'
     break
     ;;
     3)
-    _tool='httpress'
+    benchmark_tool='httpress'
     break
     ;;
     4)
-    _tool='httperf' #docker container ports are exposed directly using docker_native or host implies the server is running on the host natively but the same port as would be taken by the docker_native container
+    benchmark_tool='httperf' #docker container ports are exposed directly using docker_native or host implies the server is running on the host natively but the same port as would be taken by the docker_native container
     break
     ;;
     5)
-    _tool='autobench' #docker container ports are exposed directly using docker_native or host implies the server is running on the host natively but the same port as would be taken by the docker_native container
+    benchmark_tool='autobench' #docker container ports are exposed directly using docker_native or host implies the server is running on the host natively but the same port as would be taken by the docker_native container
     break
     ;;
     6)
-    _tool='weighttp' #docker container ports are exposed directly using docker_native or host implies the server is running on the host natively but the same port as would be taken by the docker_native container
+    benchmark_tool='weighttp' #docker container ports are exposed directly using docker_native or host implies the server is running on the host natively but the same port as would be taken by the docker_native container
+    break
+    ;;
+    7)
+    benchmark_tool='wrk' #docker container ports are exposed directly using docker_native or host implies the server is running on the host natively but the same port as would be taken by the docker_native container
     break
     ;;
     *)
@@ -42,6 +47,6 @@ case $opt in
 esac
 done
 
-_script_name='./run_'$_tool'_benchmark.sh'
+_script_name='./run_'$benchmark_tool'_benchmark.sh'
 
 eval $_script_name

@@ -5,6 +5,17 @@
 . ../scripts/lib/color_and_format_functions.sh
 . ../scripts/lib/network_functions.sh
 
+#
+# weighttp <options> <url>
+#  -n num   number of requests (mandatory)
+#  -t num   threadcount (default: 1)
+#  -c num   concurrent clients (default: 1)
+#  -k       keep alive (default: no)
+#  -h       show help and exit
+#  -v       show version and exit
+#
+#
+
 default_siege_time='60'
 read -e -p "Enter siege time on the server(in seconds): " -i "$default_siege_time" siege_time
 
