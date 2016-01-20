@@ -1,5 +1,21 @@
-
+#!/bin/sh
+. ../scripts/lib/target_url_functions.sh
 . ../scripts/lib/select_dry_run.sh
+. ../scripts/lib/display_countdown.sh
+. ../scripts/lib/color_and_format_functions.sh
+. ../scripts/lib/network_functions.sh
+. ../scripts/lib/benchmark_functions.sh
+
+#
+# select target server/service and service-pattern
+#
+benchmark_tool=$1
+build_target_url
+select_service_pattern $target_url
+validate_service_url $target_url #make sure the server is up and service is available
+if [ $? -ne 0 ]; then
+  exit
+fi
 
 # low_rate, high_rate, rate_step
 # The 'rate' is the number of number of connections to open per second.
@@ -51,38 +67,20 @@ timeout='5'
 # times, starting with 10 requests/sec and going up to 50 requests/sec in
 # increments of 10.
 
-host1='engine2'
-ip1='192.168.1.82'
-port1='5040'
-container_name='server_perf_servlet'
-if [ -z $dryrun ]; then
-  shell_sleep_time='5m' # Waits 5 minutes.
-else
-  shell_sleep_time='2s'
-fi
+echo "autobench will increase load using httperf..."
+echo "'rate' is the total number of connections to make per second."
+read -e -p "Enter the low connection rate: " -i "$low_rate" low_rate
+read -e -p "Enter the high connection rate: " -i "$high_rate" high_rate
+read -e -p "Enter the connection step-rate: " -i "$rate_step" rate_step
+read -e -p "Enter the total number of connections to make: " -i "$num_conn" num_conn
+read -e -p "Enter the number of requests per connection: " -i "$num_call" num_call
+read -e -p "Enter the maximum response time(in seconds): " -i "5" max_response_time
 
-run_autobench() {
- cmd="autobench --single_host \
-    --host1=$host1 --port1=$port1 --uri1=$uri1 \
-    --low_rate $low_rate --high_rate $high_rate --rate_step $rate_step \
-    --num_call $num_call --num_conn $num_conn \
-    --timeout $timeout \
-    --file $file.tsv"
-  echo $cmd
-  if [ -z $dryrun ]; then
-    eval $cmd
-  fi
-}
+cmd="autobench --single_host \
+  --host1=$host --port1=$port --uri1=$target_uri \
+  --low_rate $low_rate --high_rate $high_rate --rate_step $rate_step \
+  --num_call $num_call --num_conn $num_conn \
+  --timeout $max_response_time \
+  --file $default_log_file_name.tsv"
 
-### ### ### ### ### ### ### ###
-###
-### increased io
-###
-### ### ### ### ### ### ### ###
-size=0
-sleep=0
-netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
-uri1='"/servlet/perf"'; file=$(echo ${host1}'_'$container_name'_sync_size_'${size}'k_sleep_'${sleep}'ms');
-run_autobench
-sleep $shell_sleep_time
-netstat -anl | grep $ip1 | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }'
+run_benchmark "$cmd"

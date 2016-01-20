@@ -102,6 +102,8 @@ build_target_url() {
   esac
   done
 
+  target_uri=$context$service
+
   while true; do
   echo -e "*** select the perf environment *** \n\
   1) docker port-mapped network \n\

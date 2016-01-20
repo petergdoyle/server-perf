@@ -20,7 +20,8 @@ run_benchmark() {
   #
   # set up location to redirect stdout
   #
-  default_log_file=$PWD'/'$benchmark_tool'/'$benchmark_tool'_'$server_type'_'$host'_'$env_type$service_pattern_details'.out'
+  default_log_file_name=$PWD'/'$benchmark_tool'/'$benchmark_tool'_'$server_type'_'$host'_'$env_type$service_pattern_details
+  default_log_file=$default_log_file_name'.out'
   read -e -p "Enter log file location/name: " -i "$default_log_file" log_file
   if [ -f "$log_file" ]; then
     echo "A file with that name already exists. Either change the or it will be overwritten."

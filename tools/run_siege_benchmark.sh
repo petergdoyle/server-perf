@@ -22,7 +22,7 @@ fi
 
 read -e -p "Enter siege time on the server(in seconds): " -i "60" siege_time
 default_timeout_time=`expr $siege_time \* 3`
-read -e -p "Enter default siege maximum run time(in seconds): " -i "$default_timeout_time" timeout_time
+read -e -p "Enter default maximum run time(in seconds): " -i "$default_timeout_time" timeout_time
 read -e -p "Enter sleep time between sieges(in minutes): " -i "3" shell_sleep_time
 read -e -p "Enter then number of benchmark executions: " -i "5" repetitions
 
