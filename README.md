@@ -1,12 +1,12 @@
 # server-perf
 
-A project to setup and compare the performance characteristics of a variety of network servers
+A project to setup and compare the performance characteristics of a variety of HTTP accessible servers
 
 ![scope](https://raw.githubusercontent.com/petergdoyle/server-perf/master/img/server-perf-service-map.png)
 
 **Motivation**
 
-Understanding the performance characteristics of your application is more important these days than ever. There are many factors that affect performance and scalability. 
+Understanding the performance characteristics of your application is more important these days than ever. There are many factors that affect performance and scalability most notably application code. But it would be interesting to compare the performance characteristics and ceilings of various servers to understand those characteristics better and make accomodations to the solution design to leverage those features or be wary of their limitations. 
 
 **Scope**
 
@@ -29,9 +29,13 @@ Understanding the performance characteristics of your application is more import
 - When building an internet facing service or website, a software engineer must make a number of choices with regards to use of datastructures and the algorithms that act upon them. The choices made here are critical to speed and scale of the running application.
 - to be completed`...`
 
-Approach
+**Approach**
+The approache will be fairly straightforward. To compare benchmark results of different services with different client tools in different server environments based on a set of defined service patterns.
+![protocol](https://raw.githubusercontent.com/petergdoyle/server-perf/master/img/server-perf-protocol.png)
 
 Environment  
+
+Patterns
 
 Results
 
