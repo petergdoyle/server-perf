@@ -2,7 +2,7 @@
 
 A project to setup and compare the performance characteristics of a variety of network servers
 
-![scope](img/server-perf-service-map.PNG)
+![scope](https://raw.githubusercontent.com/petergdoyle/server-perf/master/img/server-perf-service-map.png)
 
 **Motivation**
 
