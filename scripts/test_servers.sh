@@ -35,7 +35,7 @@ read -e -p "Latency (millis): " -i "0" sleep
 read -e -p "Async (y/n): " -i "n" async
 read -e -p "host: " -i "localhost" host
 
-cmd_part_1="curl -i -X GET \"http://$host:$port/$context/$service"
+cmd_part_1="curl -i -X GET \"http://$host:$port/$target_uri"
 cmd_part_2=""
 first=true
 if [ $async == "y" ]; then

@@ -27,69 +27,68 @@ build_target_url() {
 
   case $opt in
       1) #nodejs
-      port='5020'; context='/nodejs'; service='/perf'; server_type='nodejs_express'
+      port='5020'; target_uri='/nodejs/perf'; server_type='nodejs_express'
       break
       ;;
       2) #nodejs
-      port='5021'; context='/'; service=''; server_type='nodejs_http'
+      port='5021'; target_uri='/'; server_type='nodejs_http'
       break
       ;;
       3) #nodejs
-      port='5022'; context='/'; service=''; server_type='nodejs_http_clustered'
+      port='5022'; target_uri='/'; server_type='nodejs_http_clustered'
       break
       ;;
       4) #tomcat sync servlet
-      port='5040'; context='/servlet'; service='/perf'; server_type='tomcat_sync_servlet'
+      port='5040'; target_uri='/servlet/perf'; server_type='tomcat_sync_servlet'
       break
       ;;
       5) #tomcat async servlet
-      port='5040'; context='/servlet'; service='/perf/async'; server_type='tomcat_async_servlet_3_0'
+      port='5040'; target_uri='/servlet/perf/async'; server_type='tomcat_async_servlet_3_0'
       break
       ;;
       6) #tomcat async servlet
-      port='5040'; context='/servlet'; service='/perf/async/io'; server_type='tomcat_async_servlet_3_1'
+      port='5040'; target_uri='/servlet/perf/async/io'; server_type='tomcat_async_servlet_3_1'
       break
       ;;
       7) #jetty sync servlet
-      port='5050'; context='/servlet'; service='/perf'; server_type='jetty_sync_servlet'
+      port='5050'; target_uri='/servlet/perf'; server_type='jetty_sync_servlet'
       break
       ;;
       8) #jetty async servlet
-      port='5050'; context='/servlet'; service='/perf/async'; server_type='jetty_async_servlet_3_0'
+      port='5050'; target_uri='//perf/async'; server_type='jetty_async_servlet_3_0'
       break
       ;;
       9) #jetty async servlet
-      port='5050'; context='/servlet'; service='/perf/async/io'; server_type='jetty_async_servlet_3_1'
+      port='5050'; target_uri='/servlet/perf/async/io'; server_type='jetty_async_servlet_3_1'
       break
       ;;
       10)
-      port='5070'; context='/springboot'; service='/perf'; server_type='springboot_mvc_tomcat'
+      port='5070'; target_uri='/springboot/perf'; server_type='springboot_mvc_tomcat'
       break
       ;;
       11)
-      port='5072'; context='/springboot'; service='/perf'; server_type='springboot_mvc_undertow'
+      port='5072'; target_uri='/springboot/perf'; server_type='springboot_mvc_undertow'
       break
       ;;
       12)
-      port='5090'; context='/'; service=''; server_type='undertow_http'
+      port='5090'; target_uri='/'; server_type='undertow_http'
       break
       ;;
       13)
-      port='5010'; context='/'; service='/php/echo.php'; server_type='apache_httpd_php'
+      port='5010'; target_uri='/php/echo.php'; server_type='apache_httpd_php'
       break
       ;;
       14)
-      port='5000'; context='/'; service=''; server_type='nginx_http'
+      port='5000'; target_uri='/'; server_type='nginx_http'
       break
       ;;
       15)
-      port='5060'; context='/'; service=''; server_type='netty_http'
+      port='5060'; target_uri='/'; server_type='netty_http'
       break
       ;;
       99)
       read -e -p "port: " -i "localhost" port
-      read -e -p "context: " -i "/" context
-      read -e -p "service: " -i "" service
+      read -e -p "uri: " -i "/" target_uri
       read -e -p "service type (label, common name, etc.): " -i "my service" server_type
       server_type=$(echo $server_type | xargs) # replace multiple spaces with single
       server_type=${server_type// /_} # replace spaces with underscores
@@ -101,8 +100,6 @@ build_target_url() {
       ;;
   esac
   done
-
-  target_uri=$context$service
 
   while true; do
   echo -e "*** select the perf environment *** \n\
@@ -143,7 +140,7 @@ build_target_url() {
   esac
   done
 
-  target_url='http://'$host:$port$context$service
+  target_url='http://'$host:$port$target_uri
 }
 
 #

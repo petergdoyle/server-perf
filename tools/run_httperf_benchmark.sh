@@ -68,5 +68,5 @@ read -e -p "Enter the total number of connections: " -i "3000" num_conns
 read -e -p "Enter the number of calls per connection: " -i "1000" num_calls_per_conn
 read -e -p "Enter the maximum response time(in seconds): " -i "5" max_response_time
 
-cmd="httperf --hog --timeout=$max_response_time --client=0/1 --server=$host --port=$port --uri=$context$service --rate=$conn_rate --send-buffer=4096 --recv-buffer=1024 --num-conns=$num_conns --num-calls=$num_calls_per_conn"
+cmd="httperf --hog --timeout=$max_response_time --client=0/1 --server=$host --port=$port --uri=$target_uri --rate=$conn_rate --send-buffer=4096 --recv-buffer=1024 --num-conns=$num_conns --num-calls=$num_calls_per_conn"
 run_benchmark "$cmd"
