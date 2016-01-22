@@ -1,4 +1,4 @@
-# server-perf
+# server-perf [DRAFT********]
 
 A project to setup and compare the performance characteristics of a variety of HTTP accessible servers
 
@@ -30,36 +30,39 @@ Understanding the performance characteristics of your application is more import
 - to be completed`...`
 
 **Approach**
-The approache will be fairly straightforward. To compare benchmark results of different services with different client tools in different server environments based on a set of defined service patterns.
+The approach here will be fairly straightforward. To compare benchmark results of different services with different client tools in different server environments based on a set of defined service patterns. This matrix of options should be able to demonstrate the differences or consistencies between the Service Patterns, the Servers, the Client tools, and the different environment options to run both the Client tools and the Servers.
 ![protocol](https://raw.githubusercontent.com/petergdoyle/server-perf/master/img/server-perf-protocol.png)
 
-Environment  
+**Environment**  
 
-Measuring Stress
-It is important to measure both the client and the server to approach understanding the results of load tests and benchmarks. Different service patterns should stress different client/server architectures differently. 
+**Measurements**
+It is important to measure both the client and the server to approach understanding the results of load tests and benchmarks. Different service patterns should stress different client/server architectures differently. There are a number of available tools to measure both the OS and managed-runtime based servers like those that run on V8 or a JVM.
 
 ![protocol](https://raw.githubusercontent.com/petergdoyle/server-perf/master/img/server-perf-measurements.png)
 
-Patterns
+**Patterns**
 
-Results
+**Results**
 
-Observations
+**Observations**
 
-Conclusions
+**Conclusions**
 
 
 ## Installation
 
-The 
+**Running Docker Containers**
+
+**Running on Virtual Machines**
+
+**Running on Host machines (no containerization or virtualization**
 
 
 
 
 
 
-Running on a VirtualBox vm
-
+**Tool Notes**
 
 JMeter - navigate into the jmeter folder, and run the jmeter_install.sh script. If you are on another platform, follow these instructions for installing and running JMeter http://www.oodlestechnologies.com/blogs/Installation-and-configuration-for-Apache-Jmeter
 A nice intro to using JMeter https://www.digitalocean.com/community/tutorials/how-to-use-apache-jmeter-to-perform-load-testing-on-a-web-server
