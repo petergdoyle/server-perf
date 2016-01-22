@@ -35,6 +35,11 @@ The approache will be fairly straightforward. To compare benchmark results of di
 
 Environment  
 
+Measuring Stress
+It is important to measure both the client and the server to approach understanding the results of load tests and benchmarks. 
+
+![protocol](https://raw.githubusercontent.com/petergdoyle/server-perf/master/img/server-perf-measurements.png)
+
 Patterns
 
 Results
