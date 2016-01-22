@@ -1,4 +1,4 @@
-# server-perf [DRAFT********]
+# server-perf [DRAFT 0.0.1]
 
 A project to setup and compare the performance characteristics of a variety of HTTP accessible servers
 
@@ -6,7 +6,7 @@ A project to setup and compare the performance characteristics of a variety of H
 
 **Motivation**
 
-Understanding the performance characteristics of your application is more important these days than ever. There are many factors that affect performance and scalability most notably how well the application itself is designed and coded. But it would be interesting to compare the performance characteristics and ceilings of various servers to understand those characteristics better and make accomodations to the solution design to leverage those features or be wary of their limitations. There are a number of runtime environmental factors to consider as well the rapid movement away from monolitic vm based applications and vms and a rapid movement towards containerization and microservices it is important then to consider the costs and benefits in terms of performance in this area as well. 
+Understanding the performance characteristics of your application is more important these days than ever. There are many factors that affect performance and scalability most notably how well the application itself is designed and coded. But it would be interesting to compare the performance characteristics and ceilings of various servers to understand those characteristics better and make accomodations to the solution design to leverage those features or be wary of their limitations. There are a number of runtime environmental factors to consider as well the rapid movement away from monolitic vm based application servers and vms and a rapid movement towards containerization and ephemeral microservices it is important then to consider the costs and benefits in terms of performance in this area as well. 
 
 **Scope**
 
