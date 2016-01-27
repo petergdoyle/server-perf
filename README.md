@@ -1,4 +1,4 @@
-# server-perf [DRAFT 0.0.1]
+# server-perf [*DRAFT 0.0.1*]
 
 A project to setup and compare the performance characteristics of a variety of HTTP accessible servers
 
@@ -43,15 +43,19 @@ It is important to measure both the client and the server to approach understand
 ![protocol](https://raw.githubusercontent.com/petergdoyle/server-perf/master/img/server-perf-measurements.png)
 
 **Patterns**
+*TODO*
 
 **Results**
+*TODO*
 
 **Observations**
+*TODO*
 
 **Conclusions**
-
+*TODO*
 
 ## Installation
+*TODO*
 
 **Running Docker Containers**
 
@@ -64,7 +68,8 @@ It is important to measure both the client and the server to approach understand
 
 
 
-**Tool Notes**
+##Tool Notes**
+*TODO*
 
 JMeter - navigate into the jmeter folder, and run the jmeter_install.sh script. If you are on another platform, follow these instructions for installing and running JMeter http://www.oodlestechnologies.com/blogs/Installation-and-configuration-for-Apache-Jmeter
 A nice intro to using JMeter https://www.digitalocean.com/community/tutorials/how-to-use-apache-jmeter-to-perform-load-testing-on-a-web-server
