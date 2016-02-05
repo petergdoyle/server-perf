@@ -1,6 +1,13 @@
 # server-perf [*DRAFT 0.0.1*]
 
-A project to setup and compare the performance characteristics of a variety of HTTP accessible servers
+A project to setup and compare the performance characteristics of a variety of HTTP accessible servers and libraries/frameworks and containers to stand up services. 
+
+While to date the majority of HTTP-enabled services have been running in so-called containers a number of alternatives are available to stand up these offerings as micro-services. One fundamental perspective of this shift is the deployment model whereby rather than deploying the service to a server, the server is embedded with the service. So that is the loose distincion here between "http servers" and alternatives that will be referred to "http embedded" for lack of a better term. 
+
+Also to note, that server-side java web and web-service development has historically has been based on a servlet-container but there are also non-servlet based alternatives that are not based on the Java Servlet Specification and thereby not part of Java EE. These are usually assembled as a stack of reusable single-purposed layers and support protocols other than just HTTP but we shall be considering them in terms of their HTTP configuration and capabilities. 
+
+Initally we shall consider HTTP 1.1 only because all of these servers/containers/frameworks support that standard - but the testing identification of HTTP 2 shall eventually be considered as well where that support is provided.  
+
 
 ![scope](https://raw.githubusercontent.com/petergdoyle/server-perf/master/img/server-perf-service-map.png)
 

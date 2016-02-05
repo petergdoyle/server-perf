@@ -6,13 +6,13 @@ number_of_cores=$(grep -c ^processor /proc/cpuinfo)
 run_benchmark() {
 
   cmd=$1
-  read -e -p "Benchmark command (confirm): " -i "$cmd" cmd
+  read -e -p "Benchmark command (confirm / modify and hit Enter): " -i "$cmd" cmd
   duration_of_test=$2
 
   #
   # execution options
   #
-  read -e -p "Enter the number of executions executions: " -i "5" executions
+  read -e -p "Enter the number of executions: " -i "5" executions
   if [ "$executions" -gt 1 ]; then
     read -e -p "Enter sleep time between executions(in minutes): " -i "3" shell_sleep_time
   fi

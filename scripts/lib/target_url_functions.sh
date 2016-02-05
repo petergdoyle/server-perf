@@ -102,7 +102,7 @@ build_target_url() {
   done
 
   while true; do
-  echo -e "*** select the perf environment *** \n\
+  echo -e "*** select the perf environment (on server) *** \n\
   1) docker port-mapped network \n\
   2) docker native network \n\
   3) vm \n\
@@ -153,7 +153,7 @@ select_service_pattern() {
 
   while true; do
   echo -e "*** select a service pattern *** \n\
-  1) speed test \n\
+  1) ping (speed test) \n\
   2) echo (server upload download capability)
   3) timed latency (server request scalability) \n\
   4) cpu load (server request scalability) \n\
@@ -166,7 +166,7 @@ select_service_pattern() {
 
     case $opt in
         1)
-        service_pattern='speed_pattern'
+        service_pattern='ping_pattern'
         service_pattern_details='_'$service_pattern
         break
         ;;
