@@ -2,4 +2,4 @@
 
 rm -vfr webapps/* \
 && mvn --file ../java/pom.xml clean package \
-&& cp -v ../java/servlet/target/servlet.war webapps/
+&& cp -v ../java/servlet/target/server-perf-servlet.war webapps/
