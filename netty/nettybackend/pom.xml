@@ -55,7 +55,7 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
-
+            <!-- copy runtime dependencies to shared lib folder -->
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>

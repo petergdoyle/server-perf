@@ -69,13 +69,15 @@ Vagrant.configure(2) do |config|
     fi
   fi
 
+  #installing the minimum to build things (java and nodejs) and run a docker daemon
+  #additional scripts for performance can be found here https://github.com/petergdoyle/devops-scripts/tree/master/bash/centos/vagrant/perf-pack
+  #additional server/framwork installation scripts can be found here https://github.com/petergdoyle/devops-scripts/tree/master/bash/centos/vagrant
+
+
   #best to update the os
   yum -y update
   #install additional tools
-  eval 'iperf' > /dev/null 2>&1
-  if [ $? -eq 127 ]; then
-  yum -y install vim htop curl wget net-tools tree unzip siege telnet iperf
-  fi
+  yum -y install vim htop curl wget tree unzip telnet
 
   eval 'docker --version' > /dev/null 2>&1
   if [ $? -eq 127 ]; then
@@ -104,7 +106,7 @@ EOF
   yum -y install python-pip
   pip install -U docker-compose
   else
-    display_success "docker already appears to be installed. skipping.\e[0m"
+    echo -e "\e[7;40;92mdocker already appears to be installed. skipping.\e[0m"
   fi
 
   eval $'node --version' > /dev/null 2>&1
@@ -118,38 +120,35 @@ EOF
   #vnpm config set https-proxy $HTTP_PROXY
   #useful node.js packages
 
-  npm install format-json-stream -g
-  npm install lorem-ipsum -g
-  npm install forever -g
   npm install monitor-dashboard -g
 
   else
-    display_success "node, npm, npm-libs already appear to be installed. skipping."
+    echo -e "\e[7;40;92mnode, npm, npm-libs already appear to be installed. skipping.\e[0m"
   fi
 
 
   eval 'java -version' > /dev/null 2>&1
   if [ $? -eq 127 ]; then
-  mkdir -p /usr/java
-  #install java jdk 8 from oracle
-  curl -O -L --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
-  "http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-linux-x64.tar.gz" \
-    && tar -xvf jdk-8u60-linux-x64.tar.gz -C /usr/java \
-    && ln -s /usr/java/jdk1.8.0_60/ /usr/java/default \
-    && rm -f jdk-8u60-linux-x64.tar.gz
+    mkdir -p /usr/java
+    #install java jdk 8 from oracle
+    curl -O -L --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
+    "http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-linux-x64.tar.gz" \
+      && tar -xvf jdk-8u60-linux-x64.tar.gz -C /usr/java \
+      && ln -s /usr/java/jdk1.8.0_60/ /usr/java/default \
+      && rm -f jdk-8u60-linux-x64.tar.gz
 
-  alternatives --install "/usr/bin/java" "java" "/usr/java/default/bin/java" 99999; \
-  alternatives --install "/usr/bin/javac" "javac" "/usr/java/default/bin/javac" 99999; \
-  alternatives --install "/usr/bin/javaws" "javaws" "/usr/java/default/bin/javaws" 99999; \
-  alternatives --install "/usr/bin/jvisualvm" "jvisualvm" "/usr/java/default/bin/jvisualvm" 99999
+    alternatives --install "/usr/bin/java" "java" "/usr/java/default/bin/java" 99999; \
+    alternatives --install "/usr/bin/javac" "javac" "/usr/java/default/bin/javac" 99999; \
+    alternatives --install "/usr/bin/javaws" "javaws" "/usr/java/default/bin/javaws" 99999; \
+    alternatives --install "/usr/bin/jvisualvm" "jvisualvm" "/usr/java/default/bin/jvisualvm" 99999
 
-  export JAVA_HOME=/usr/java/default
-  cat >/etc/profile.d/java.sh <<-EOF
+    export JAVA_HOME=/usr/java/default
+    cat >/etc/profile.d/java.sh <<-EOF
 export JAVA_HOME=$JAVA_HOME
 EOF
 
   else
-    display_success "java already appears to be installed. skipping."
+    echo -e "\e[7;40;92mjava already appears to be installed. skipping.\e[0m"
   fi
 
 
@@ -170,217 +169,34 @@ export MAVEN_HOME=$MAVEN_HOME
 EOF
 
   else
-    display_success "maven already appears to be installed. skipping."
+    echo -e "\e[7;40;92mmaven already appears to be installed. skipping.\e[0m"
   fi
 
 
-  eval '/usr/tomcat/default/bin/catalina.sh version' > /dev/null 2>&1
-  if [ $? -eq 127 ]; then
-  mkdir -p /usr/tomcat
-  curl -O http://www.eu.apache.org/dist/tomcat/tomcat-8/v8.0.28/bin/apache-tomcat-8.0.28.tar.gz \
-    && tar -xvf apache-tomcat-8.0.28.tar.gz -C /usr/tomcat \
-    && ln -s /usr/tomcat/apache-tomcat-8.0.28 /usr/tomcat/default \
-    && rm -f apache-tomcat-8.0.28.tar.gz
+  #curl -s https://raw.githubusercontent.com/petergdoyle/devops-scripts/master/bash/centos/vagrant/tomcat_8_tar_install.sh |bash -s
 
-    #replace the default port with the port designated for tomcat
-    sed -i.bak 's/8080/5040/' /usr/tomcat/default/conf/server.xml
-    sed -i.bak1 's/8443/5443/' /usr/tomcat/default/conf/server.xml
+  #curl -s https://raw.githubusercontent.com/petergdoyle/devops-scripts/master/bash/centos/vagrant/jetty_9_tar_install.sh |bash -s
 
-    curl -O http://apache.go-parts.com/tomcat/tomcat-8/v8.0.28/bin/extras/catalina-jmx-remote.jar \
-      && mv catalina-jmx-remote.jar /usr/tomcat/default/lib/
+  #curl -s https://raw.githubusercontent.com/petergdoyle/devops-scripts/master/bash/centos/vagrant/httpd%2Bphp_latest_yum_install.sh |bash -s
 
-  export TOMCAT_HOME=/usr/tomcat/default
-  cat >/etc/profile.d/tomcat.sh <<-EOF
-export TOMCAT_HOME=$TOMCAT_HOME
-EOF
+  #curl -s https://raw.githubusercontent.com/petergdoyle/devops-scripts/master/bash/centos/vagrant/nginx_latest_yum_install.sh |bash -s
 
-    groupadd tomcat
-    usermod -aG tomcat vagrant
-    chown -R vagrant.tomcat /usr/tomcat/
-    chmod -R g+s /usr/tomcat/
+  #curl -s https://raw.githubusercontent.com/petergdoyle/devops-scripts/master/bash/centos/vagrant/springboot_latest_sdkman_install.sh |bash -s
 
-  else
-    display_success "tomcat already appears to be installed. skipping."
-  fi
-
-
-
-  if [ ! -d "/usr/jetty/default" ]; then
-  mkdir -p /usr/jetty
-  curl -O http://download.eclipse.org/jetty/stable-9/dist/jetty-distribution-9.3.5.v20151012.tar.gz \
-    && tar -xvf jetty-distribution-9.3.5.v20151012.tar.gz -C /usr/jetty \
-    && ln -s /usr/jetty/jetty-distribution-9.3.5.v20151012/ /usr/jetty/default \
-    && rm -f jetty-distribution-9.3.5.v20151012.tar.gz
-
-  export JETTY_HOME=/usr/jetty/default
-  cat >/etc/profile.d/jetty.sh <<-EOF
-export JETTY_HOME=$JETTY_HOME
-export JETTY_ARGS="jetty.http.port=5050 jetty.ssl.port=5440"
-EOF
-
-    groupadd jetty
-    usermod -aG jetty vagrant
-    chmod -R vagrant.jetty /usr/jetty/
-    chmod -R g+s /usr/jetty/
-
-  else
-    display_success "jetty already appears to be installed. skipping."
-  fi
-
-
-
-  if [ ! -d "/usr/netty/default" ]; then
-  mkdir -p /usr/netty
-  curl -O -L http://dl.bintray.com/netty/downloads/netty-4.0.33.Final.tar.bz2 \
-    && tar -xvf netty-4.0.33.Final.tar.bz2 -C /usr/netty \
-    && ln -s /usr/netty/netty-4.0.33.Final/ /usr/netty/default \
-    && rm -f netty-4.0.33.Final.tar.bz2
-
-  export NETTY_HOME=/usr/netty/default
-  cat >/etc/profile.d/netty.sh <<-EOF
-export NETTY_HOME=$NETTY_HOME
-EOF
-
-    groupadd netty
-    usermod -aG netty vagrant
-    chown -R vagrant.netty /usr/netty/
-    chmod -R g+s /usr/netty/
-
-  else
-    display_success "netty already appears to be downloaded. skipping."
-  fi
-
-
-  eval "httpd -v" > /dev/null 2>&1
-  if [ $? -eq 127 ]; then
-  yum -y install httpd php
-
-  #replace the default port with the port designated for apache httpd
-  sed -i.bak 's/Listen 80/Listen 5010/' /etc/httpd/conf/httpd.conf
-
-  cat >/var/www/html/info.php <<-EOF
-<?php
-phpinfo();
-?>
-EOF
-
-  else
-    display_success "httpd already appears to be installed. skipping."
-  fi
-
-  eval "nginx -v" > /dev/null 2>&1
-  if [ $? -eq 127 ]; then
-  yum -y install nginx
-
-  #replace the default port with the port designated for nginx
-  sed -i.bak 's/80 default_server/5000 default_server/' /etc/nginx/nginx.conf
-
-  else
-    display_success "nginx already appears to be installed. skipping."
-  fi
-
-
-  eval "su - vagrant -c 'spring version'" > /dev/null 2>&1
-  if [ $? -eq 127 ]; then
-  #install spring boot
-  su - vagrant -c 'curl -s get.gvmtool.net | bash'
-  su - vagrant -c 'printf "sdkman_auto_answer=true" > /home/vagrant/.sdkman/etc/config'
-  su - vagrant -c 'sdk install springboot'
-  #su - vagrant -c 'sdk install groovy'     #optional
-  #su - vagrant -c 'sdk install grails'     #optional
-  else
-    display_success "springboot already appears to be installed. skipping."
-  fi
-
-
-  if [ ! -d "/usr/jmeter/default" ]; then
-  mkdir -p /usr/jmeter
-  curl -O http://www.eu.apache.org/dist/jmeter/binaries/apache-jmeter-2.13.tgz \
-    && tar -xvf apache-jmeter-2.13.tgz -C /usr/jmeter \
-    && ln -s /usr/jmeter/apache-jmeter-2.13 /usr/jmeter/default \
-    && rm -f apache-jmeter-2.13.tgz
-
-  export JMETER_HOME=/usr/jmeter/default
-  cat >/etc/profile.d/jmeter.sh <<-EOF
-export JMETER_HOME=$JMETER_HOME
-EOF
-
-  else
-    display_success "jmeter already appears to be downloaded. skipping."
-  fi
 
 #
 # additional performance / stress / load test tools
 #
 
-# curl-loader
-  eval 'curl-loader' > /dev/null 2>&1
-  if [ $? -eq 127 ]; then
-    mkdir /usr/curl-loader
-    curl -L -o curl-loader-0.56.tar.bz2 http://sourceforge.net/projects/curl-loader/files/latest/download?source=files \
-    && bunzip2 curl-loader-0.56.tar.bz2 \
-    && tar -xvf curl-loader-0.56.tar -C /usr/curl-loader \
-    && ln -s /usr/curl-loader/curl-loader-0.56/ /usr/curl-loader/default
+  #curl -s https://raw.githubusercontent.com/petergdoyle/devops-scripts/master/bash/centos/vagrant/perf-pack/os_perf_utils.sh |bash -s
 
-    cd /usr/curl-loader/default
-    yum -y install make libcurl-devel libevent binutils gcc patch openssl-devel
-    make
-    if [ $? -ne 0 ]; then
-      display_error "curl-loader - make did not run successfully. skipping."
-    else
-      alternatives --install "/usr/bin/curl-loader" "curl-loader" "/usr/curl-loader/default/curl-loader" 99999
-    fi
-    cd /
-    rm -f curl-loader-0.56.tar
+  #curl -s https://raw.githubusercontent.com/petergdoyle/devops-scripts/master/bash/centos/vagrant/perf-pack/autobench_latest_make_install.sh |bash -s
 
-  else
-    display_success "curl-loader already appears to be downloaded. skipping."
-  fi
+  #curl -s https://raw.githubusercontent.com/petergdoyle/devops-scripts/master/bash/centos/vagrant/perf-pack/curl-loader_latest_make_install.sh |bash -s
 
-  #httperf
-  if [ ! -d "/usr/httperf/default" ]; then
-    curl -L -O http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el7.rf.x86_64.rpm \
-    && yum -y localinstall rpmforge-release-0.5.3-1.el7.rf.x86_64.rpm \
-    && yum -y install httperf \
-    && rm -f rpmforge-release-0.5.3-1.el7.rf.x86_64.rpm
-  else
-    display_success "httperf already appears to be downloaded. skipping."
-  fi
+  #curl -s https://raw.githubusercontent.com/petergdoyle/devops-scripts/master/bash/centos/vagrant/perf-pack/install_httperf_rpm.sh |bash -s
 
-  eval 'curl-loader' > /dev/null 2>&1
-  if [ $? -eq 127 ]; then
-    mkdir /usr/autobench
-    git clone https://github.com/menavaur/Autobench.git  /usr/autobench
-    cd /usr/autobench
-    make \
-    && make install
-    if [ $? -ne 0 ]; then
-      display_error "curl-loader - make did not run successfully. skipping."
-    else
-  else
-    display_success "autobench already appears to be downloaded. skipping."
-  fi
-
-
-  eval 'cutter' > /dev/null 2>&1
-  if [ $? -eq 127 ]; then
-    mkdir /usr/cutter
-    curl -L -O http://www.digitage.co.uk/digitage/files/cutter/cutter-1.04.tgz
-    && tar -xvf cutter-1.04.tgz -C /usr/cutter
-    && ln -s /usr/cutter/cutter-1.04/ /usr/cutter/default
-    && cd /usr/cutter/default
-    && make
-    if [ $? -ne 0 ]; then
-      display_error "cutter - make did not run successfully. skipping."
-    else
-      alternatives --install "/usr/bin/cutter" "cutter" "/usr/cutter/default/cutter" 99999
-    fi
-    cd -
-    rm -f cutter-1.04.tgz
-  else
-    display_success "cutter already appears to be downloaded. skipping."
-  fi
-
+  #curl -s https://raw.githubusercontent.com/petergdoyle/devops-scripts/master/bash/centos/vagrant/perf-pack/jmeter_2_tar_install.sh |bash -s
 
   # on the vm host you need to open up some temporary ports on the firewall
   # if you are running on fedora or centos7 this is done with firewalld commands
