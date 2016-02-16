@@ -10,6 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.DecoderResult;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.DefaultHttpResponse;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpHeaderNames;
@@ -18,6 +19,7 @@ import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpObject;
 import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.LastHttpContent;
 import io.netty.handler.codec.http.QueryStringDecoder;
 import io.netty.handler.codec.http.cookie.Cookie;
@@ -32,7 +34,9 @@ import java.util.Set;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.*;
 import static io.netty.handler.codec.http.HttpVersion.*;
+import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
+import javax.activation.MimetypesFileTypeMap;
 
 public class EchoServerHandler extends SimpleChannelInboundHandler<Object> {
 
@@ -45,6 +49,8 @@ public class EchoServerHandler extends SimpleChannelInboundHandler<Object> {
     private final StringBuilder buf = new StringBuilder();
 
     private String path;
+    private int size_param = 0;
+    private int sleep_param = 0;
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
@@ -73,22 +79,22 @@ public class EchoServerHandler extends SimpleChannelInboundHandler<Object> {
             if (params.containsKey("size")) {
                 List<String> vals = params.get("size");
                 String sizeValue = vals.get(0);
-                int size = Integer.parseInt(sizeValue);
+                size_param = Integer.parseInt(sizeValue);
             }
             if (params.containsKey("sleep")) {
                 List<String> vals = params.get("sleep");
                 String sleepValue = vals.get(0);
-                int sleep = Integer.parseInt(sleepValue);
+                sleep_param = Integer.parseInt(sleepValue);
             }
 
             if (path.contains("/echo")) {
 
             } else if (path.contains("/info")) {
-                echoServerInfoResponse(path, httpRequest);
+                sendServerInfoResponse(path, httpRequest);
             } else if (path.contains("/upload")) {
 
             } else if (path.contains("/download")) {
-
+                sendGeneratedResponse(httpRequest);
             }
 
         }
@@ -121,7 +127,21 @@ public class EchoServerHandler extends SimpleChannelInboundHandler<Object> {
         }
     }
 
-    private void echoServerInfoResponse(String path, HttpRequest httpRequest) {
+    private void sendGeneratedResponse(HttpRequest httpRequest) {
+
+        HttpResponse response = new DefaultHttpResponse(HTTP_1_1, OK);
+        HttpUtil.setContentLength(response, "response".length());
+        response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain; charset=UTF-8");
+        if (HttpUtil.isKeepAlive(httpRequest)) {
+            response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
+        }
+        
+        buf.append("response");
+
+        appendDecoderResult(buf, httpRequest);
+    }
+
+    private void sendServerInfoResponse(String path, HttpRequest httpRequest) {
         // fall through and just provide server details back to client
         buf.append("Server: Netty HTTP Server").append("\r\n");
         buf.append("Path: ").append(path).append("\r\n");
@@ -186,22 +206,6 @@ public class EchoServerHandler extends SimpleChannelInboundHandler<Object> {
             response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
         }
 
-        // Encode the cookie.
-        String cookieString = request.headers().get(HttpHeaderNames.COOKIE);
-        if (cookieString != null) {
-            Set<Cookie> cookies = ServerCookieDecoder.STRICT.decode(cookieString);
-            if (!cookies.isEmpty()) {
-                // Reset the cookies if necessary.
-                for (Cookie cookie : cookies) {
-                    response.headers().add(HttpHeaderNames.SET_COOKIE, ServerCookieEncoder.STRICT.encode(cookie));
-                }
-            }
-        } else {
-            // Browser sent no cookie.  Add some.
-            response.headers().add(HttpHeaderNames.SET_COOKIE, ServerCookieEncoder.STRICT.encode("key1", "value1"));
-            response.headers().add(HttpHeaderNames.SET_COOKIE, ServerCookieEncoder.STRICT.encode("key2", "value2"));
-        }
-
         // Write the response.
         ctx.write(response);
 
@@ -212,6 +216,8 @@ public class EchoServerHandler extends SimpleChannelInboundHandler<Object> {
         FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, CONTINUE);
         ctx.write(response);
     }
+
+    MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
