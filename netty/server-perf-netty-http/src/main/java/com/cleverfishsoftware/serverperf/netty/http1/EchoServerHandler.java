@@ -44,6 +44,8 @@ public class EchoServerHandler extends SimpleChannelInboundHandler<Object> {
      */
     private final StringBuilder buf = new StringBuilder();
 
+    private String path;
+
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
         ctx.flush();
@@ -52,94 +54,106 @@ public class EchoServerHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
         if (msg instanceof HttpRequest) {
+
             HttpRequest httpRequest = this.request = (HttpRequest) msg;
+            buf.setLength(0);
 
             if (HttpUtil.is100ContinueExpected(httpRequest)) {
                 send100Continue(ctx);
             }
 
-            buf.setLength(0);
-            buf.append("WELCOME TO THE WILD WILD WEB SERVER\r\n");
-            buf.append("===================================\r\n");
-
-            buf.append("VERSION: ").append(httpRequest.protocolVersion()).append("\r\n");
-            buf.append("HOSTNAME: ").append(httpRequest.headers().get(HttpHeaderNames.HOST, "unknown")).append("\r\n");
-            buf.append("REQUEST_URI: ").append(httpRequest.uri()).append("\r\n");
-            buf.append("REQUEST_COUNT: ").append(COUNTER.incrementAndGet()).append("\r\n\r\n");
+            QueryStringDecoder queryStringDecoder = new QueryStringDecoder(httpRequest.uri());
+            path = queryStringDecoder.path();
 
             HttpHeaders headers = httpRequest.headers();
-            if (!headers.isEmpty()) {
-                for (Map.Entry<String, String> h : headers) {
-                    CharSequence key = h.getKey();
-                    CharSequence value = h.getValue();
-                    buf.append("HEADER: ").append(key).append(" = ").append(value).append("\r\n");
-                }
-                buf.append("\r\n");
-            }
+//            echoHeaders(headers);
 
-            QueryStringDecoder queryStringDecoder = new QueryStringDecoder(httpRequest.uri());
-            String path = queryStringDecoder.path();
-
-            System.out.println("path: " + path);
             Map<String, List<String>> params = queryStringDecoder.parameters();
+//            echoRequestParams(params);
             if (params.containsKey("size")) {
                 List<String> vals = params.get("size");
                 String sizeValue = vals.get(0);
                 int size = Integer.parseInt(sizeValue);
-                System.out.println("size param found! " + size);
             }
             if (params.containsKey("sleep")) {
                 List<String> vals = params.get("sleep");
                 String sleepValue = vals.get(0);
                 int sleep = Integer.parseInt(sleepValue);
-                System.out.println("sleep param found! " + sleep);
             }
 
-            if (!params.isEmpty()) {
-                for (Entry<String, List<String>> p : params.entrySet()) {
-                    String key = p.getKey();
-                    List<String> vals = p.getValue();
-                    for (String val : vals) {
-                        buf.append("PARAM: ").append(key).append(" = ").append(val).append("\r\n");
-                    }
-                }
-                buf.append("\r\n");
+            if (path.contains("/echo")) {
+
+            } else if (path.contains("/info")) {
+                echoServerInfoResponse(path, httpRequest);
+            } else if (path.contains("/upload")) {
+
+            } else if (path.contains("/download")) {
+
             }
 
-            appendDecoderResult(buf, httpRequest);
         }
 
         if (msg instanceof HttpContent) {
-            HttpContent httpContent = (HttpContent) msg;
 
-            ByteBuf content = httpContent.content();
-            if (content.isReadable()) {
-                buf.append("CONTENT: ");
-                buf.append(content.toString(CharsetUtil.UTF_8));
-                buf.append("\r\n");
-                appendDecoderResult(buf, request);
+            if (path.contains("/echo")) {
+                HttpContent httpContent = (HttpContent) msg;
+                ByteBuf content = httpContent.content();
+                if (content.isReadable()) {
+                    buf.append(content.toString(CharsetUtil.UTF_8));
+                    appendDecoderResult(buf, request);
+                }
+            } else if (path.contains("/info")) {
+
+            } else if (path.contains("/upload")) {
+
+            } else if (path.contains("/download")) {
+
             }
 
             if (msg instanceof LastHttpContent) {
-                buf.append("END OF CONTENT\r\n");
-
                 LastHttpContent trailer = (LastHttpContent) msg;
-                if (!trailer.trailingHeaders().isEmpty()) {
-                    buf.append("\r\n");
-                    for (CharSequence name : trailer.trailingHeaders().names()) {
-                        for (CharSequence value : trailer.trailingHeaders().getAll(name)) {
-                            buf.append("TRAILING HEADER: ");
-                            buf.append(name).append(" = ").append(value).append("\r\n");
-                        }
-                    }
-                    buf.append("\r\n");
-                }
-
                 if (!writeResponse(trailer, ctx)) {
                     // If keep-alive is off, close the connection once the content is fully written.
                     ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
                 }
             }
+
+        }
+    }
+
+    private void echoServerInfoResponse(String path, HttpRequest httpRequest) {
+        // fall through and just provide server details back to client
+        buf.append("Server: Netty HTTP Server").append("\r\n");
+        buf.append("Path: ").append(path).append("\r\n");
+        buf.append("Requests Processed: ").append(COUNTER.incrementAndGet()).append("\r\n");
+        buf.append("Msg: server is running").append("\r\n");
+        buf.append("VERSION: ").append(httpRequest.protocolVersion()).append("\r\n");
+        buf.append("HOSTNAME: ").append(httpRequest.headers().get(HttpHeaderNames.HOST, "unknown")).append("\r\n");
+        buf.append("REQUEST_URI: ").append(httpRequest.uri()).append("\r\n\r\n");
+        appendDecoderResult(buf, httpRequest);
+    }
+
+    private void echoRequestParams(Map<String, List<String>> params) {
+        if (!params.isEmpty()) {
+            for (Entry<String, List<String>> p : params.entrySet()) {
+                String key = p.getKey();
+                List<String> vals = p.getValue();
+                for (String val : vals) {
+                    buf.append("PARAM: ").append(key).append(" = ").append(val).append("\r\n");
+                }
+            }
+            buf.append("\r\n");
+        }
+    }
+
+    private void echoHeaders(HttpHeaders headers) {
+        if (!headers.isEmpty()) {
+            for (Map.Entry<String, String> h : headers) {
+                CharSequence key = h.getKey();
+                CharSequence value = h.getValue();
+                buf.append("HEADER: ").append(key).append(" = ").append(value).append("\r\n");
+            }
+            buf.append("\r\n");
         }
     }
 

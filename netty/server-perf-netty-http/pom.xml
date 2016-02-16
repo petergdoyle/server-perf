@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>com.cleverfishsoftware.services</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>server-perf-common</artifactId>
             <version>1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>

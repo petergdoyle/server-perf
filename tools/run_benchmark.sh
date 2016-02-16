@@ -1,4 +1,14 @@
 #!/bin/sh
+. ../scripts/lib/color_and_format_functions.sh
+
+check_install_perf_pack() {
+  read -e -p "Install perf-pack? (y/n): " -i "y" install_perf_pack
+  if [ "$install_perf_pack" == "y" ]; then
+    cd /tmp
+    curl -s https://raw.githubusercontent.com/petergdoyle/devops-scripts/master/bash/centos/vagrant/perf-pack/os_perf_utils.sh |sudo bash -s
+    cd -
+  fi
+}
 
 while true; do
 echo -e "*** select a benchmark tool *** \n\
@@ -14,32 +24,74 @@ read opt
 
 case $opt in
     1)
-    benchmark_tool='ab'
-    break
+    eval $'ab' > /dev/null 2>&1
+    if [ $? -eq 127 ]; then
+      display_error "ab is not installed"
+      check_install_perf_pack
+    else
+      benchmark_tool='ab'
+      break
+    fi
     ;;
     2)
-    benchmark_tool='siege'
-    break
+    eval $'siege' > /dev/null 2>&1
+    if [ $? -eq 127 ]; then
+      display_error "siege is not installed"
+      check_install_perf_pack
+    else
+      benchmark_tool='siege'
+      break
+    fi
     ;;
     3)
-    benchmark_tool='httpress'
-    break
+    eval $'httpress' > /dev/null 2>&1
+    if [ $? -eq 127 ]; then
+      display_error "httpress is not installed"
+      check_install_perf_pack
+    else
+      benchmark_tool='httpress'
+      break
+    fi
     ;;
     4)
-    benchmark_tool='httperf' #docker container ports are exposed directly using docker_native or host implies the server is running on the host natively but the same port as would be taken by the docker_native container
-    break
+    eval $'httperf' > /dev/null 2>&1
+    if [ $? -eq 127 ]; then
+      display_error "httperf is not installed"
+      check_install_perf_pack
+    else
+      benchmark_tool='httperf'
+      break
+    fi
     ;;
     5)
-    benchmark_tool='autobench' #docker container ports are exposed directly using docker_native or host implies the server is running on the host natively but the same port as would be taken by the docker_native container
-    break
+    eval $'autobench' > /dev/null 2>&1
+    if [ $? -eq 127 ]; then
+      display_error "autobench is not installed"
+      check_install_perf_pack
+    else
+      benchmark_tool='autobench'
+      break
+    fi
     ;;
     6)
-    benchmark_tool='weighttp' #docker container ports are exposed directly using docker_native or host implies the server is running on the host natively but the same port as would be taken by the docker_native container
-    break
+    eval $'weighttp' > /dev/null 2>&1
+    if [ $? -eq 127 ]; then
+      display_error "weighttp is not installed"
+      check_install_perf_pack
+    else
+      benchmark_tool='weighttp'
+      break
+    fi
     ;;
     7)
-    benchmark_tool='wrk' #docker container ports are exposed directly using docker_native or host implies the server is running on the host natively but the same port as would be taken by the docker_native container
-    break
+    eval $'wrk' > /dev/null 2>&1
+    if [ $? -eq 127 ]; then
+      display_error "wrk is not installed"
+      check_install_perf_pack
+    else
+      benchmark_tool='wrk'
+      break
+    fi
     ;;
     *)
     echo "invalid option"
