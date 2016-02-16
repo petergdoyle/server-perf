@@ -34,12 +34,17 @@ import java.util.Set;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.*;
 import static io.netty.handler.codec.http.HttpVersion.*;
+import io.netty.util.AsciiString;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.activation.MimetypesFileTypeMap;
 
 public class EchoServerHandler extends SimpleChannelInboundHandler<Object> {
 
+    private static final AsciiString CONTENT_TYPE = new AsciiString("Content-Type");
+    private static final AsciiString CONTENT_LENGTH = new AsciiString("Content-Length");
+    private static final AsciiString CONNECTION = new AsciiString("Connection");
+    private static final AsciiString KEEP_ALIVE = new AsciiString("keep-alive");
     private static final AtomicInteger COUNTER = new AtomicInteger(0);
     private HttpRequest request;
     private final static ContentGeneratorStatic CONTENT = ContentGeneratorStatic.getInstance();
@@ -70,31 +75,22 @@ public class EchoServerHandler extends SimpleChannelInboundHandler<Object> {
 
             QueryStringDecoder queryStringDecoder = new QueryStringDecoder(httpRequest.uri());
             path = queryStringDecoder.path();
-
-            HttpHeaders headers = httpRequest.headers();
-//            echoHeaders(headers);
-
             Map<String, List<String>> params = queryStringDecoder.parameters();
-//            echoRequestParams(params);
-            if (params.containsKey("size")) {
-                List<String> vals = params.get("size");
-                String sizeValue = vals.get(0);
-                size_param = Integer.parseInt(sizeValue);
-            }
-            if (params.containsKey("sleep")) {
-                List<String> vals = params.get("sleep");
-                String sleepValue = vals.get(0);
-                sleep_param = Integer.parseInt(sleepValue);
-            }
+
+            COUNTER.incrementAndGet();
 
             if (path.contains("/echo")) {
-
+                HttpHeaders headers = httpRequest.headers();
+                echoHeaders(headers);
+                echoRequestParams(params);
+            } else if (path.contains("/latency")) {
+                sendLatentResponse(params, httpRequest);
             } else if (path.contains("/info")) {
                 sendServerInfoResponse(path, httpRequest);
             } else if (path.contains("/upload")) {
-
+                // not implemented
             } else if (path.contains("/download")) {
-                sendGeneratedResponse(httpRequest);
+                sendGeneratedResponse(ctx, params, httpRequest);
             }
 
         }
@@ -127,25 +123,47 @@ public class EchoServerHandler extends SimpleChannelInboundHandler<Object> {
         }
     }
 
-    private void sendGeneratedResponse(HttpRequest httpRequest) {
-
+    private void sendLatentResponse(Map<String, List<String>> params, HttpRequest httpRequest) {
+        if (params.containsKey("sleep")) {
+            List<String> vals = params.get("sleep");
+            String sizeValue = vals.get(0);
+            sleep_param = Integer.parseInt(sizeValue);
+        }
         HttpResponse response = new DefaultHttpResponse(HTTP_1_1, OK);
-        HttpUtil.setContentLength(response, "response".length());
+        HttpUtil.setContentLength(response, 0);
         response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain; charset=UTF-8");
         if (HttpUtil.isKeepAlive(httpRequest)) {
             response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
         }
-        
-        buf.append("response");
-
+        buf.append("");
         appendDecoderResult(buf, httpRequest);
     }
 
+    private void sendGeneratedResponse(ChannelHandlerContext ctx, Map<String, List<String>> params, HttpRequest httpRequest) {
+        
+        if (params.containsKey("size")) {
+            List<String> vals = params.get("size");
+            String sizeValue = vals.get(0);
+            size_param = Integer.parseInt(sizeValue);
+        }
+
+        boolean keepAlive = HttpUtil.isKeepAlive(httpRequest);
+        FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(CONTENT.get(size_param)));
+        HttpUtil.setContentLength(response, size_param);
+        response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain; charset=UTF-8");
+
+        if (!keepAlive) {
+            ctx.write(response).addListener(ChannelFutureListener.CLOSE);
+        } else {
+            response.headers().set(CONNECTION, KEEP_ALIVE);
+            ctx.write(response);
+        }
+    }
+
     private void sendServerInfoResponse(String path, HttpRequest httpRequest) {
-        // fall through and just provide server details back to client
         buf.append("Server: Netty HTTP Server").append("\r\n");
         buf.append("Path: ").append(path).append("\r\n");
-        buf.append("Requests Processed: ").append(COUNTER.incrementAndGet()).append("\r\n");
+        buf.append("Requests Processed: ").append(COUNTER.get()).append("\r\n");
         buf.append("Msg: server is running").append("\r\n");
         buf.append("VERSION: ").append(httpRequest.protocolVersion()).append("\r\n");
         buf.append("HOSTNAME: ").append(httpRequest.headers().get(HttpHeaderNames.HOST, "unknown")).append("\r\n");
