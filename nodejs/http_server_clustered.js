@@ -1,7 +1,7 @@
 
 var cluster = require('cluster');
 var http = require('http');
-var numCPUs = 4;
+var numCPUs = process.argv.length > 2 ? process.argv[2] : require('os').cpus().length;
 var COUNTER = 0;
 var host = '0.0.0.0';
 var port = 5022;

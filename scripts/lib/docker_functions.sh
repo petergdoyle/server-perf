@@ -1,5 +1,7 @@
 #!/bin/sh
 
+docker_project_name='server-perf'
+
 docker_build() {
   no_cache=$1
 
@@ -21,10 +23,10 @@ docker_build_all() {
   ./docker_build.sh $no_cache
   cd -
   if [ $? -ne 0 ]; then
-    display_error "the docker build for server-perf/base did not complete successfully"
+    display_error "the docker build for $docker_project_name/base did not complete successfully"
     exit
   else
-    display_success "the docker build for server-perf/base built successfully"
+    display_success "the docker build for $docker_project_name/base built successfully"
   fi
   # jdk is out of the base because it adds about 500Mb to the image and
   # it is not needed by may containers
@@ -32,10 +34,10 @@ docker_build_all() {
   ./docker_build.sh $no_cache
   cd -
   if [ $? -ne 0 ]; then
-    display_error "the docker build for server-perf/basejdk did not complete successfully"
+    display_error "the docker build for $docker_project_name/basejdk did not complete successfully"
     exit
   else
-    display_success "the docker build for server-perf/basejdk built successfully"
+    display_success "the docker build for $docker_project_name/basejdk built successfully"
   fi
 
   for each in $(find . -type f -name 'Dockerfile' -exec dirname {} \;); do
@@ -136,15 +138,11 @@ docker_run_all_template() {
 
 
 docker_run_all_native() {
-
   docker_run_all_template 'docker_run_native.sh'
-
 }
 
 docker_run_all() {
-
-  docker_run_all_template 'docker_run.sh'
-
+  docker_run_all_template 'docker_run.h'
 }
 
 docker_stop_all_containers() {
@@ -172,7 +170,7 @@ docker_start_all_containers() {
 }
 
 ##
-## note ! this only cleans up the server-perf images, not all, for all use 'docker rm $(docker ps -a -q)'
+## note ! this only cleans up the $docker_project_name images, not all, for all use 'docker rm $(docker ps -a -q)'
 ##
 docker_remove_all_containers() {
   for each in $(docker ps -a|grep server_perf |awk 'NF>1{print $NF}'); do
@@ -198,11 +196,11 @@ docker_cleanup_dangling_images() {
 }
 
 ##
-## note ! this only cleans up the server-perf images, not all, for all use 'docker rmi $(docker images -q)''
+## note ! this only cleans up the $docker_project_name images, not all, for all use 'docker rmi $(docker images -q)''
 ##
 docker_remove_all_images() {
   docker_cleanup_dangling_images
-  for each in $(docker images| grep server-perf| awk '{print $3;}'); do
+  for each in $(docker images| grep $docker_project_name| awk '{print $3;}'); do
     cmd="docker rmi -f $each"
     echo $cmd
     eval $cmd
