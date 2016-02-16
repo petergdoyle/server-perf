@@ -1,2 +1,4 @@
 #!/bin/sh
-mvn -f nettybackend/pom.xml clean install
+
+mvn -f ../java/server-perf-common/pom.xml clean install
+mvn -f server-perf-netty-http/pom.xml clean install
