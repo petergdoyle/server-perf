@@ -4,7 +4,7 @@
 read -e -p "Target server (ip): " -i "localhost" host
 ip=$(getent hosts $host| awk '{ print $1 }')
 read -e -p "Enter number of connections: " -i "1000" connections
-read -e -p "Enter duration of test(seconds): " -i "60" runtime
+read -e -p "Enter duration of test(seconds): " -i "60" run_time
 number_of_cores=$(grep -c ^processor /proc/cpuinfo)
 read -e -p "Enter number of threads (1-$number_of_cores): " -i "$number_of_cores" threads
 read -e -p "Enter number of bytes to retreive from server (download pattern): " -i "10000" size
@@ -16,16 +16,16 @@ if [ -f $out ]; then
 fi
 
 #catalina+servlet-2.5
-wrk -c $connections -d $runtime-t $threads --latency http://$host:5040/servlet/perf/async?size=$size >> $out
+wrk -c $connections -d $run_time -t $threads --latency http://$host:5040/servlet/perf/async?size=$size >> $out
 wait_for_socket_waits_to_clear $ip
 #catalina+async-servlet-30
-wrk -c $connections -d $runtime-t $threads --latency http://$host:5040/servlet/perf?size=$size >> $out
+wrk -c $connections -d $run_time -t $threads --latency http://$host:5040/servlet/perf?size=$size >> $out
 wait_for_socket_waits_to_clear $ip
 #netty
-wrk -c $connections -d $runtime-t $threads --latency http://$host:5060/netty/download?size=$size >> $out
+wrk -c $connections -d $run_time -t $threads --latency http://$host:5060/netty/download?size=$size >> $out
 wait_for_socket_waits_to_clear $ip
 #nodejs+expressjs
-wrk -c $connections -d $runtime-t $threads --latency http://$host:5020/nodejs/perf?size=$size >> $out
+wrk -c $connections -d $run_time -t $threads --latency http://$host:5020/nodejs/perf?size=$size >> $out
 wait_for_socket_waits_to_clear $ip
 #nodejs+expressjs+cluster
-wrk -c $connections -d $runtime-t $threads --latency http://$host:5023/nodejs/perf?size=$size >> $out
+wrk -c $connections -d $run_time -t $threads --latency http://$host:5023/nodejs/perf?size=$size >> $out
