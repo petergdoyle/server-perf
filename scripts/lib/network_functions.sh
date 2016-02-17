@@ -23,6 +23,7 @@ wait_for_socket_waits_to_clear() {
     echo "variable ip1 is not set. cannot continue"
     return 1
   fi
+  echo "waiting for sockets to clear..."
   status=$(netstat -an|grep $ip |grep WAIT)
   while [ "$status" != "" ]
   do
