@@ -25,7 +25,6 @@ cmd='('$cmd' >> '$out') &'
 echo "executing command $cmd_orig"
 eval "$cmd"
 show_spinner $!
-echo "waiting for sockets to clear..."
 wait_for_socket_waits_to_clear $ip
 #catalina+async-servlet-30
 cmd="weighttp -c $connections -n $requests -t $threads -k http://$host:5040/servlet/perf?size=$size"
@@ -34,7 +33,6 @@ cmd='('$cmd' >> '$out') &'
 echo "executing command $cmd_orig"
 eval "$cmd"
 show_spinner $!
-echo "waiting for sockets to clear..."
 wait_for_socket_waits_to_clear $ip
 #netty
 cmd="weighttp -c $connections -n $requests -t $threads -k http://$host:5060/netty/download?size=$size"
@@ -43,7 +41,6 @@ cmd='('$cmd' >> '$out') &'
 echo "executing command $cmd_orig"
 eval "$cmd"
 show_spinner $!
-echo "waiting for sockets to clear..."
 wait_for_socket_waits_to_clear $ip
 #nodejs+expressjs
 cmd="weighttp -c $connections -n $requests -t $threads -k http://$host:5020/nodejs/perf?size=$size"
@@ -52,7 +49,6 @@ cmd='('$cmd' >> '$out') &'
 echo "executing command $cmd_orig"
 eval "$cmd"
 show_spinner $!
-echo "waiting for sockets to clear..."
 wait_for_socket_waits_to_clear $ip
 #nodejs+expressjs+cluster
 cmd="weighttp -c $connections -n $requests -t $threads -k http://$host:5023/nodejs/perf?size=$size"
@@ -61,5 +57,4 @@ cmd='('$cmd' >> '$out') &'
 echo "executing command $cmd_orig"
 eval "$cmd"
 show_spinner $!
-echo "waiting for sockets to clear..."
 wait_for_socket_waits_to_clear $ip
