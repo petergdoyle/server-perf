@@ -16,16 +16,34 @@ if [ -f $out ]; then
 fi
 
 #catalina+servlet-2.5
-wrk -c $connections -d $run_time -t $threads --latency http://$host:5040/servlet/perf/async?size=$size >> $out
+cmd="wrk -c $connections -d $run_time -t $threads --latency http://$host:5040/servlet/perf/async?size=$size"
+echo "executing command $cmd"
+eval $cmd >> $out
+show_spinner $!
+echo "waiting for sockets to clear..."
 wait_for_socket_waits_to_clear $ip
 #catalina+async-servlet-30
-wrk -c $connections -d $run_time -t $threads --latency http://$host:5040/servlet/perf?size=$size >> $out
+cmd="wrk -c $connections -d $run_time -t $threads --latency http://$host:5040/servlet/perf?size=$size"
+echo "executing command $cmd"
+eval $cmd >> $out
+show_spinner $!
+echo "waiting for sockets to clear..."
 wait_for_socket_waits_to_clear $ip
 #netty
-wrk -c $connections -d $run_time -t $threads --latency http://$host:5060/netty/download?size=$size >> $out
+cmd="wrk -c $connections -d $run_time -t $threads --latency http://$host:5060/netty/download?size=$size"
+echo "executing command $cmd"
+eval $cmd >> $out
+show_spinner $!
+echo "waiting for sockets to clear..."
 wait_for_socket_waits_to_clear $ip
 #nodejs+expressjs
-wrk -c $connections -d $run_time -t $threads --latency http://$host:5020/nodejs/perf?size=$size >> $out
+cmd="wrk -c $connections -d $run_time -t $threads --latency http://$host:5020/nodejs/perf?size=$size"
+echo "executing command $cmd"
+eval $cmd >> $out
+show_spinner $!
+echo "waiting for sockets to clear..."
 wait_for_socket_waits_to_clear $ip
 #nodejs+expressjs+cluster
-wrk -c $connections -d $run_time -t $threads --latency http://$host:5023/nodejs/perf?size=$size >> $out
+cmd="wrk -c $connections -d $run_time -t $threads --latency http://$host:5023/nodejs/perf?size=$size >>"
+echo "executing command $cmd" 
+eval $cmd >> $out
