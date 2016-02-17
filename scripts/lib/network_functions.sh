@@ -17,6 +17,21 @@ check_network_socket_state() {
   fi
 }
 
+wait_for_socket_waits_to_clear() {
+  local ip=$1
+  if [ -e $ip ]; then
+    echo "variable ip1 is not set. cannot continue"
+    return 1
+  fi
+  status=$(netstat -an|grep $ip |grep WAIT)
+  while [ "$status" != "" ]
+  do
+    sleep 10
+    status=$(netstat -an|grep $ip |grep WAIT)
+  done
+  echo "sockets cleared"
+}
+
 validate_service_url() {
   local url=$1
   if [ -e $url ]; then

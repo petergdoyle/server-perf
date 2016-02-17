@@ -39,7 +39,7 @@ if (cluster.isMaster) {
     }
 } else {
   var host = '0.0.0.0';
-  var port = 5020;
+  var port = 5023;
   var app = express();
   var context = '/nodejs/perf';
   var COUNTER = 0;

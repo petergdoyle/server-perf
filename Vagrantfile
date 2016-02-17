@@ -21,8 +21,9 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 5012, host: 25012, host_ip: "0.0.0.0", id: "apache static html server", auto_correct: true
 
   config.vm.network "forwarded_port", guest: 5020, host: 25020, host_ip: "0.0.0.0", id: "nodejs express server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5023, host: 25023, host_ip: "0.0.0.0", id: "nodejs cpu clustered express server", auto_correct: true
   config.vm.network "forwarded_port", guest: 5021, host: 25021, host_ip: "0.0.0.0", id: "nodejs async http server", auto_correct: true
-  config.vm.network "forwarded_port", guest: 5022, host: 25022, host_ip: "0.0.0.0", id: "nodejs clustered http server", auto_correct: true
+  config.vm.network "forwarded_port", guest: 5022, host: 25022, host_ip: "0.0.0.0", id: "nodejs cpu clustered http server", auto_correct: true
 
   config.vm.network "forwarded_port", guest: 5040, host: 25040, host_ip: "0.0.0.0", id: "tomcat servlet server", auto_correct: true
   config.vm.network "forwarded_port", guest: 5050, host: 25050, host_ip: "0.0.0.0", id: "jetty servlet server", auto_correct: true

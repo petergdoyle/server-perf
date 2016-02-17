@@ -25,6 +25,15 @@ network_port_mapped="$port_map_1 $port_map_2 \
 network="$network_port_mapped"
 docker_run 15020,14220
 
+container_name='server_perf_nodejs_express_clustered'
+start_cmd="node --harmony express_server_clustered.js"
+port_map_1='-p 0.0.0.0:15020:5023'
+port_map_2='-p 0.0.0.0:14223:4200'
+network_port_mapped="$port_map_1 $port_map_2 \
+-h $container_name.dkr"
+network="$network_port_mapped"
+docker_run 15023,14223
+
 
 container_name='server_perf_nodejs_http_clustered'
 start_cmd="node --harmony http_server_clustered.js"

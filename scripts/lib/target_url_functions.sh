@@ -21,6 +21,7 @@ build_target_url() {
   13) apache httpd (php server) \n\
   14) nginx http (static html server) \n\
   15) netty http server \n\
+  16) nodejs (express clustered server) \n\
   99) ** adhoc ** \
   "
   read opt
@@ -84,6 +85,10 @@ build_target_url() {
       ;;
       15)
       port='5060'; target_uri='/'; server_type='netty_http'
+      break
+      ;;
+      16)
+      port='5023'; target_uri='/nodejs/perf'; server_type='nodejs_express_clustered'
       break
       ;;
       99)
