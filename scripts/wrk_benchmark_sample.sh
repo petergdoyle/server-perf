@@ -9,7 +9,7 @@ number_of_cores=$(grep -c ^processor /proc/cpuinfo)
 read -e -p "Enter number of threads (1-$number_of_cores): " -i "$number_of_cores" threads
 read -e -p "Enter number of bytes to retreive from server (download pattern): " -i "10000" size
 
-out="~/wrk_benchmark_sample_download_pattern_"$size"kb.out"
+out="./wrk_benchmark_sample_download_pattern_"$size"kb.out"
 
 if [ -f $out ]; then
   rm $out
