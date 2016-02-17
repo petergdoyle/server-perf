@@ -1,6 +1,6 @@
 #!/bin/sh
-. ../lib/network_functions.sh
-. ../lib/display_countdown.sh
+. ../scripts/lib/network_functions.sh
+. ../scripts/lib/display_countdown.sh
 
 read -e -p "Target server (ip): " -i "localhost" host
 ip=$(getent hosts $host| awk '{ print $1 }')
