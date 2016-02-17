@@ -24,11 +24,12 @@ wait_for_socket_waits_to_clear() {
     return 1
   fi
   echo "waiting for sockets to clear..."
-  status=$(netstat -an|grep $ip |grep WAIT)
-  while [ "$status" != "" ]
+  connection_wait_count=$(netstat -an|grep WAIT |grep $ip| wc -l)
+  while [ "$connection_wait_count" -ne "0" ]
   do
+    echo "still waiting to clear $connection_wait_count connections..."
     sleep 10
-    status=$(netstat -an|grep $ip |grep WAIT)
+    status=$(netstat -an|grep WAIT |grep $ip| wc -l)
   done
   echo "sockets cleared"
 }
