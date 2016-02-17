@@ -17,8 +17,6 @@ if [ -f $out ]; then
   rm $out
 fi
 
-wait_for_socket_waits_to_clear $ip
-
 #catalina+servlet-2.5
 cmd="wrk -c $connections -d $run_time -t $threads --latency http://$host:5040/servlet/perf/async?size=$size"
 cmd_orig=$cmd
