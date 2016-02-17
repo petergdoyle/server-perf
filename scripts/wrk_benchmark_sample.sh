@@ -1,5 +1,6 @@
 #!/bin/sh
 . lib/network_functions.sh
+. lib/display_countdown.sh
 
 read -e -p "Target server (ip): " -i "localhost" host
 ip=$(getent hosts $host| awk '{ print $1 }')
@@ -15,35 +16,50 @@ if [ -f $out ]; then
   rm $out
 fi
 
+wait_for_socket_waits_to_clear $ip
+
 #catalina+servlet-2.5
 cmd="wrk -c $connections -d $run_time -t $threads --latency http://$host:5040/servlet/perf/async?size=$size"
-echo "executing command $cmd"
-eval $cmd >> $out
+cmd_orig=$cmd
+cmd='('$cmd' >> '$out') &'
+echo "executing command $cmd_orig"
+eval "$cmd"
 show_spinner $!
 echo "waiting for sockets to clear..."
 wait_for_socket_waits_to_clear $ip
 #catalina+async-servlet-30
 cmd="wrk -c $connections -d $run_time -t $threads --latency http://$host:5040/servlet/perf?size=$size"
-echo "executing command $cmd"
-eval $cmd >> $out
+cmd_orig=$cmd
+cmd='('$cmd' >> '$out') &'
+echo "executing command $cmd_orig"
+eval "$cmd"
 show_spinner $!
 echo "waiting for sockets to clear..."
 wait_for_socket_waits_to_clear $ip
 #netty
 cmd="wrk -c $connections -d $run_time -t $threads --latency http://$host:5060/netty/download?size=$size"
-echo "executing command $cmd"
-eval $cmd >> $out
+cmd_orig=$cmd
+cmd='('$cmd' >> '$out') &'
+echo "executing command $cmd_orig"
+eval "$cmd"
 show_spinner $!
 echo "waiting for sockets to clear..."
 wait_for_socket_waits_to_clear $ip
 #nodejs+expressjs
 cmd="wrk -c $connections -d $run_time -t $threads --latency http://$host:5020/nodejs/perf?size=$size"
-echo "executing command $cmd"
-eval $cmd >> $out
+cmd_orig=$cmd
+cmd='('$cmd' >> '$out') &'
+echo "executing command $cmd_orig"
+eval "$cmd"
 show_spinner $!
 echo "waiting for sockets to clear..."
 wait_for_socket_waits_to_clear $ip
 #nodejs+expressjs+cluster
 cmd="wrk -c $connections -d $run_time -t $threads --latency http://$host:5023/nodejs/perf?size=$size >>"
-echo "executing command $cmd" 
-eval $cmd >> $out
+cmd_orig=$cmd
+cmd='('$cmd' >> '$out') &'
+echo "executing command $cmd_orig"
+eval "$cmd"
+show_spinner $!
+echo "waiting for sockets to clear..."
+wait_for_socket_waits_to_clear $ip
