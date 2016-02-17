@@ -6,6 +6,7 @@ read -e -p "Target server (ip): " -i "localhost" host
 ip=$(getent hosts $host| awk '{ print $1 }')
 read -e -p "Enter number of connections: " -i "1000" connections
 read -e -p "Enter duration of test(seconds): " -i "60" run_time
+run_time=$run_time's'
 number_of_cores=$(grep -c ^processor /proc/cpuinfo)
 read -e -p "Enter number of threads (1-$number_of_cores): " -i "$number_of_cores" threads
 read -e -p "Enter number of bytes to retreive from server (download pattern): " -i "10000" size
@@ -55,7 +56,7 @@ show_spinner $!
 echo "waiting for sockets to clear..."
 wait_for_socket_waits_to_clear $ip
 #nodejs+expressjs+cluster
-cmd="wrk -c $connections -d $run_time -t $threads --latency http://$host:5023/nodejs/perf?size=$size >>"
+cmd="wrk -c $connections -d $run_time -t $threads --latency http://$host:5023/nodejs/perf?size=$size"
 cmd_orig=$cmd
 cmd='('$cmd' >> '$out') &'
 echo "executing command $cmd_orig"
