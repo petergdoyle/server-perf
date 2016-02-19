@@ -15,9 +15,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class UndertowHttpServer {
 
     private static final String USAGE_MSG = "Usage: java "
-            + "-cp .:target/lib:target/netty-http1-1.0-SNAPSHOT.jar "
-            + UndertowHttpServer.class.getName()
-            + " <port>";
+            + "java -jar target/server-perf-undertow-1.0-SNAPSHOT.jar "
+            + "<port>";
 
     private final static AtomicInteger COUNTER = new AtomicInteger(1);
 
@@ -59,6 +58,7 @@ public class UndertowHttpServer {
 
         UndertowHttpServer server = new UndertowHttpServer(port);
         server.start();
+        System.err.println("Undertow HTTP Server listening on ://0.0.0.0:" + port + '/');
     }
 
 }
