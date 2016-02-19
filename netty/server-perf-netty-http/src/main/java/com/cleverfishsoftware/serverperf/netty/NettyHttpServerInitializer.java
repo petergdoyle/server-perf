@@ -1,6 +1,6 @@
 /*
  */
-package com.cleverfishsoftware.serverperf.netty.http1;
+package com.cleverfishsoftware.serverperf.netty;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -8,7 +8,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 
-public class EchoServerInitializer extends ChannelInitializer<SocketChannel> {
+public class NettyHttpServerInitializer extends ChannelInitializer<SocketChannel> {
 
     @Override
     public void initChannel(SocketChannel ch) {
@@ -19,6 +19,6 @@ public class EchoServerInitializer extends ChannelInitializer<SocketChannel> {
         p.addLast(new HttpResponseEncoder());
         // Remove the following line if you don't want automatic content compression.
         //p.addLast(new HttpContentCompressor());
-        p.addLast(new EchoServerHandler());
+        p.addLast(new NettyHttpServerHandler());
     }
 }

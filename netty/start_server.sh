@@ -7,4 +7,4 @@
 mainClass=$1
 port=$2
 
-java -cp .:target/server-perf-netty-http-1.0-SNAPSHOT.jar $mainClass $port
+java -cp .:server-perf-netty-http/target/server-perf-netty-http-1.0-SNAPSHOT.jar $mainClass $port

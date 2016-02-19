@@ -1,6 +1,6 @@
 /*
  */
-package com.cleverfishsoftware.serverperf.netty.http1;
+package com.cleverfishsoftware.serverperf.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -13,16 +13,15 @@ import io.netty.handler.logging.LoggingHandler;
 /**
  * An HTTP server that sends back the content of the received HTTP request
  */
-public final class EchoServer {
+public final class NettyHttpServer {
 
     private static final String USAGE_MSG = "Usage: java "
             + "-cp .:target/lib:target/netty-http1-1.0-SNAPSHOT.jar "
-            + "com.cleverfishsoftware.serverperf.netty.http1."
-            + EchoServer.class.getName()
+            + NettyHttpServer.class.getName()
             + " <port>";
     private final int port;
 
-    public EchoServer(int port) {
+    public NettyHttpServer(int port) {
         this.port = port;
     }
 
@@ -36,7 +35,7 @@ public final class EchoServer {
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     //.handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new EchoServerInitializer());
+                    .childHandler(new NettyHttpServerInitializer());
 
             Channel ch = b.bind(port).sync().channel();
             System.err.println("Netty HTTP Server listening on ://0.0.0.0:" + port + '/');
@@ -62,7 +61,7 @@ public final class EchoServer {
             System.exit(1);
         }
 
-        EchoServer server = new EchoServer(port);
+        NettyHttpServer server = new NettyHttpServer(port);
         server.start();
 
     }

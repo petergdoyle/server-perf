@@ -42,11 +42,7 @@
                 </executions>
             </plugin>
             <plugin>
-                <!-- 
-                usage java -cp .:target/netty-http1-1.0-SNAPSHOT.jar $mainClass $port 
-                not an executable jar because mainClass is left out which allows different servers 
-                to be spun un from the same jar without rebuilding a jar for each server
-                -->
+                <!-- Build an executable JAR -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
@@ -55,13 +51,29 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <!--
-                            <mainClass>test.backend.http.Server</mainClass>
-                            -->
+                            <mainClass>com.cleverfishsoftware.serverperf.netty.NettyHttpServer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
+            <!-- 
+            usage java -cp .:target/netty-http1-1.0-SNAPSHOT.jar $mainClass $port 
+            not an executable jar because mainClass is left out which allows different servers 
+            to be spun un from the same jar without rebuilding a jar for each server
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            -->
         </plugins>
     </build>
     <name>server-perf-netty-http</name>

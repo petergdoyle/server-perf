@@ -1,6 +1,6 @@
 /*
  */
-package com.cleverfishsoftware.serverperf.netty.http1;
+package com.cleverfishsoftware.serverperf.netty;
 
 import com.cleverfishsoftware.services.common.ContentGeneratorStatic;
 import io.netty.buffer.ByteBuf;
@@ -39,7 +39,7 @@ import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.activation.MimetypesFileTypeMap;
 
-public class EchoServerHandler extends SimpleChannelInboundHandler<Object> {
+public class NettyHttpServerHandler extends SimpleChannelInboundHandler<Object> {
 
     private static final AsciiString CONTENT_TYPE = new AsciiString("Content-Type");
     private static final AsciiString CONTENT_LENGTH = new AsciiString("Content-Length");

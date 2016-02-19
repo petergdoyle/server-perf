@@ -54,3 +54,19 @@ show_spinner() {
   done
   printf "    \b\b\b\b"
 }
+
+show_spinner_and_wait() {
+  local msg=$1
+  local delay=0.75
+  local spinstr='|/-\'
+  while [ true ]; do
+    local temp=${spinstr#?}
+    printf "%s [%c]  " "$msg" "$spinstr"
+    local spinstr=$temp${spinstr%"$temp"}
+    sleep $delay
+    for i in $(seq 1 ${#msg}); do
+      printf "\b"
+    done
+    printf "\b\b\b\b\b\b"
+  done
+}
