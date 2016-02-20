@@ -59,10 +59,10 @@ wait_for_socket_waits_to_clear() {
     echo "variable ip is not set. cannot continue"
     return 1
   fi
-  connection_wait_count=$(netstat -an|grep WAIT |grep $ip| wc -l)
-  while [ "$connection_wait_count" -ne "0" ]
+  status=$(netstat -an|grep WAIT |grep $ip| wc -l)
+  while [ "$status" -ne "0" ]
   do
-    echo "still waiting for $connection_wait_count connections to clear..."
+    echo "waiting for $connection_wait_count connections in WAIT state to clear..."
     check_network_socket_state $ip
     sleep 10
     status=$(netstat -an|grep WAIT |grep $ip| wc -l)
