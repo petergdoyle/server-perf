@@ -62,7 +62,7 @@ wait_for_socket_waits_to_clear() {
   status=$(netstat -an|grep WAIT |grep $ip| wc -l)
   while [ "$status" -ne "0" ]
   do
-    echo "waiting for $connection_wait_count connections in WAIT state to clear..."
+    echo "waiting for $status connections in WAIT state to clear..."
     check_network_socket_state $ip
     sleep 10
     status=$(netstat -an|grep WAIT |grep $ip| wc -l)
