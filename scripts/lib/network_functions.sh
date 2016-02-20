@@ -4,11 +4,11 @@
 check_network_socket_state() {
   local ip=$1
   if [ -e $ip ]; then
-    echo "variable ip1 is not set. cannot continue"
+    echo "variable ip is not set. cannot continue"
     return 1
   fi
   # the netstat command will return a summarized list of sockets in _WAIT state to a remote ip
-  response=$()
+  response=$(netstat -anl | grep $ip | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }')
   if [ "$response" == "" ]; then
     return 0
   else
@@ -17,17 +17,53 @@ check_network_socket_state() {
   fi
 }
 
+#
+# adapted from
+# Validating an IP Address in a Bash Script, Jun 26, 2008	 By Mitch Frazier
+# http://www.linuxjournal.com/content/validating-ip-address-bash-script
+#
+function valid_ip() {
+    local  ip=$1
+    local  stat=1
+
+    if [[ $ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+        OIFS=$IFS
+        IFS='.'
+        ip=($ip)
+        IFS=$OIFS
+        [[ ${ip[0]} -le 255 && ${ip[1]} -le 255 \
+            && ${ip[2]} -le 255 && ${ip[3]} -le 255 ]]
+        stat=$?
+    fi
+    return $stat
+}
+
+lookup_host_ip() {
+  local host=$1
+  if [ -e $host ]; then
+    echo "variable host is not set. cannot continue"
+    return 1
+  fi
+  valid_ip $host
+  if [ "$?" -eq "0" ]; then
+    ip=$host
+  else
+    ip=$(getent hosts $host| awk '{ print $1 }')
+  fi
+  echo $ip
+}
+
 wait_for_socket_waits_to_clear() {
   local ip=$1
   if [ -e $ip ]; then
-    echo "variable ip1 is not set. cannot continue"
+    echo "variable ip is not set. cannot continue"
     return 1
   fi
-  echo "waiting for sockets to clear..."
   connection_wait_count=$(netstat -an|grep WAIT |grep $ip| wc -l)
   while [ "$connection_wait_count" -ne "0" ]
   do
-    echo "still waiting to clear $connection_wait_count connections..."
+    echo "still waiting for $connection_wait_count connections to clear..."
+    check_network_socket_state $ip
     sleep 10
     status=$(netstat -an|grep WAIT |grep $ip| wc -l)
   done

@@ -78,7 +78,7 @@ Vagrant.configure(2) do |config|
   #best to update the os
   yum -y update
   #install additional tools
-  yum -y install vim htop curl wget tree unzip telnet
+  yum -y install vim htop curl wget tree unzip telnet net-tools
 
   eval 'docker --version' > /dev/null 2>&1
   if [ $? -eq 127 ]; then

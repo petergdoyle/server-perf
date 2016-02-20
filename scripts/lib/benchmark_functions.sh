@@ -13,9 +13,9 @@ run_benchmark() {
   # execution options
   #
   read -e -p "Enter the number of executions: " -i "5" executions
-  if [ "$executions" -gt 1 ]; then
-    read -e -p "Enter sleep time between executions(in minutes): " -i "3" shell_sleep_time
-  fi
+  #if [ "$executions" -gt 1 ]; then
+  #  read -e -p "Enter sleep time between executions(in minutes): " -i "3" shell_sleep_time
+  #fi
 
   #
   # set up location to redirect stdout
@@ -44,6 +44,7 @@ run_benchmark() {
   cmd_orig=$cmd
   cmd='('$cmd' >> '$log_file') &'
 
+  host_ip=$(lookup_host_ip $host)
   #
   # execute the benchmark as many times as requested
   #
@@ -56,8 +57,10 @@ run_benchmark() {
       show_spinner $!
 
       if [ "$i" -lt "$executions" ]; then
-        echo 'done. sleeping '$shell_sleep_time'm...'
-        show_countdown $shell_sleep_time 'next execution'
+        #echo 'done. sleeping '$shell_sleep_time'm...'
+        #show_countdown $shell_sleep_time 'next execution'
+        echo "done"
+        wait_for_socket_waits_to_clear $host_ip
       else
         echo 'done. output from benchmark is located in '$log_file
       fi
