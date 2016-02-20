@@ -62,7 +62,7 @@
             <manifest>
               <addClasspath>true</addClasspath>
               <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>com.cleverfishsoftware.serverperf.undertow.UndertowHttpServer</mainClass>
+              <mainClass>com.cleverfishsoftware.serverperf.undertow.UndertowHttpPingServer</mainClass>
             </manifest>
           </archive>
         </configuration>
