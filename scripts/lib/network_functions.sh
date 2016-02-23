@@ -4,7 +4,7 @@
 check_network_socket_state() {
   local ip=$1
   if [ -e $ip ]; then
-    echo "variable ip is not set. cannot continue"
+    echo "check_network_socket_state: variable ip is not set. cannot continue"
     return 1
   fi
   # the netstat command will return a summarized list of sockets in _WAIT state to a remote ip
@@ -12,7 +12,7 @@ check_network_socket_state() {
   if [ "$response" == "" ]; then
     return 0
   else
-    echo $response
+    echo $(date) ' ' $response
     return 1
   fi
 }
@@ -20,13 +20,13 @@ check_network_socket_state() {
 watch_network_socket_state() {
   local ip=$1
   if [ -e $ip ]; then
-    echo "variable ip is not set. cannot continue"
+    echo "watch_network_socket_state: variable ip is not set. cannot continue"
     return 1
   fi
-  check_network_socket_state
+  check_network_socket_state $ip
   while [ "$?" -ne "0" ]; do
     sleep 2
-    check_network_socket_state
+    check_network_socket_state $ip
   done
 }
 
