@@ -17,6 +17,18 @@ check_network_socket_state() {
   fi
 }
 
+watch_network_socket_state() {
+  local ip=$1
+  if [ -e $ip ]; then
+    echo "variable ip is not set. cannot continue"
+    return 1
+  fi
+  check_network_socket_state
+  while [ "$?" -ne "0" ]; do
+    check_network_socket_state
+  done
+}
+
 #
 # adapted from
 # Validating an IP Address in a Bash Script, Jun 26, 2008	 By Mitch Frazier
