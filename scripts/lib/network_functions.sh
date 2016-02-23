@@ -25,6 +25,7 @@ watch_network_socket_state() {
   fi
   check_network_socket_state
   while [ "$?" -ne "0" ]; do
+    sleep 2
     check_network_socket_state
   done
 }
