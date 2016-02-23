@@ -223,3 +223,11 @@ select_service_pattern() {
   done
 
 }
+
+veryify_target_url() {
+  target_url=$1
+  validate_service_url $target_url #make sure the server is up and service is available
+  while [ $? -ne 0 ]; do
+    build_target_url
+  done
+}

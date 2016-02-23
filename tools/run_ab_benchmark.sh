@@ -12,10 +12,7 @@
 benchmark_tool=$1
 build_target_url
 select_service_pattern $target_url
-validate_service_url $target_url #make sure the server is up and service is available
-if [ $? -ne 0 ]; then
-  exit
-fi
+veryify_target_url $target_url
 
 #
 # sample to put 100000 requests over 1000 connections
