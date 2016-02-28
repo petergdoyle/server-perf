@@ -4,9 +4,9 @@
 
 img_name="server-perf/go"
 
-container_name='server_perf_go_5080'
+container_name='server_perf_go_8080'
 
-start_cmd="/bin/bash"
+start_cmd="go run http_server.go"
 
 network="$network_native"
 
