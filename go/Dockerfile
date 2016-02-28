@@ -9,4 +9,6 @@ COPY server-perf-go/* /go/
 #ENV GOROOT=/usr/local/go
 #ENV PATH=$PATH:$GOROOT/bin
 
+WORKDIR /go/server-perf-go/src
+
 CMD /bin/bash
