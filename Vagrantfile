@@ -34,6 +34,8 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 5071, host: 25071, host_ip: "0.0.0.0", id: "springboot embedded jetty", auto_correct: true
   config.vm.network "forwarded_port", guest: 5072, host: 25072, host_ip: "0.0.0.0", id: "springboot embedded undertow", auto_correct: true
 
+  config.vm.network "forwarded_port", guest: 5080, host: 25080, host_ip: "0.0.0.0", id: "go", auto_correct: true
+
   config.vm.network "forwarded_port", guest: 5090, host: 25090, host_ip: "0.0.0.0", id: "undertow http server", auto_correct: true
 
   #
@@ -78,7 +80,7 @@ Vagrant.configure(2) do |config|
   #best to update the os
   yum -y update
   #install additional tools
-  yum -y install vim htop curl wget tree unzip telnet net-tools
+  yum -y install vim htop curl wget tree unzip telnet net-tools bash-completion
 
   eval 'docker --version' > /dev/null 2>&1
   if [ $? -eq 127 ]; then
