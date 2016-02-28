@@ -12,7 +12,7 @@ check_network_socket_state() {
   if [ "$response" == "" ]; then
     return 0
   else
-    echo $(date) ' ' $response
+    echo $response
     return 1
   fi
 }
