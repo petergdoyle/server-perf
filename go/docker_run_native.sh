@@ -4,10 +4,10 @@
 
 img_name="server-perf/go"
 
-container_name='server_perf_go_8080'
+container_name='server_perf_go_6000'
 
 start_cmd="bin/http_server"
 
 network="$network_native"
 
-docker_run 5080
+docker_run 6000

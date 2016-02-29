@@ -38,6 +38,8 @@ Vagrant.configure(2) do |config|
 
   config.vm.network "forwarded_port", guest: 5090, host: 25090, host_ip: "0.0.0.0", id: "undertow http server", auto_correct: true
 
+  config.vm.network "forwarded_port", guest: 6000, host: 26000, host_ip: "0.0.0.0", id: "golang http server", auto_correct: true
+
   #
   # ports that run monitoring and profiling services
   #
@@ -175,6 +177,12 @@ EOF
     echo -e "\e[7;40;92mmaven already appears to be installed. skipping.\e[0m"
   fi
 
+  eval 'go version' > /dev/null 2>&1
+  if [ $? -eq 127 ]; then
+    yum -y install golang
+  else
+    echo -e "\e[7;40;92mgolang already appears to be installed. skipping.\e[0m"
+  fi
 
   #curl -s https://raw.githubusercontent.com/petergdoyle/devops-scripts/master/bash/centos/vagrant/tomcat_8_tar_install.sh |bash -s
 

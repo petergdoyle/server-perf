@@ -22,6 +22,7 @@ build_target_url() {
   14) nginx http (static html server) \n\
   15) netty http server \n\
   16) nodejs (express clustered server) \n\
+  17) go (golang http server) \n\
   99) ** adhoc ** \
   "
   read opt
@@ -89,6 +90,10 @@ build_target_url() {
       ;;
       16)
       port='5023'; target_uri='/nodejs/perf'; server_type='nodejs_express_clustered'
+      break
+      ;;
+      17)
+      port='6000'; target_uri='/'; server_type='golang_http'
       break
       ;;
       99)
