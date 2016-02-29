@@ -6,7 +6,7 @@ img_name="server-perf/go"
 
 container_name='server_perf_go_8080'
 
-start_cmd="go run http_server.go"
+start_cmd="bin/http_server"
 
 network="$network_native"
 

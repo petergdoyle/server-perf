@@ -6,4 +6,6 @@ no_cache=$1
 
 img_name="server-perf/go"
 
+./clean_and_build.sh
+
 docker_build $no_cache

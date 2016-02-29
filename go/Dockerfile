@@ -3,12 +3,8 @@ FROM server-perf/base
 
 RUN yum -y install golang
 
-COPY server-perf-go/* /go/
-#COPY profile /etc/profile
+COPY server-perf-go/bin/ /go/bin/
 
-#ENV GOROOT=/usr/local/go
-#ENV PATH=$PATH:$GOROOT/bin
-
-WORKDIR /go/server-perf-go/src
+WORKDIR /go/
 
 CMD /bin/bash
