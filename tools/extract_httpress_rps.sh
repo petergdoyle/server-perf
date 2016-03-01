@@ -1,1 +1,3 @@
-grep -r TIMING httpress/
+#!/bin/sh
+
+grep --color -r TIMING httpress/

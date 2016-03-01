@@ -1,3 +1,3 @@
 #!/bin/sh
 
-grep -r 'Requests per second:' ab/
+grep --color -r 'Requests per second:' ab/

@@ -1,1 +1,3 @@
-grep -r 'Req/Sec' wrk/
+#!/bin/sh
+
+grep --color -r 'Req/Sec' wrk/

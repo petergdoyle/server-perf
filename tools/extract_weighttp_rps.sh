@@ -1,1 +1,3 @@
-grep -r finished weighttp/
+#!/bin/sh
+
+grep --color -r finished weighttp/
