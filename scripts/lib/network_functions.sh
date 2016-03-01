@@ -8,7 +8,7 @@ check_network_socket_state() {
     return 1
   fi
   # the netstat command will return a summarized list of sockets in _WAIT state to a remote ip
-  response=$(netstat -anl | grep $ip | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }')
+  response=$(netstat -an | grep $ip | awk '/^tcp/ {t[$NF]++}END{for(state in t){print state, t[state]} }')
   if [ "$response" == "" ]; then
     return 0
   else
