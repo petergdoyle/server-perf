@@ -16,3 +16,7 @@ change_file_ext() {
   fn=$(echo $1 | cut -f 1 -d '.')
   echo "$fn$ext"
 }
+count_files_and_calculate_avg_file_size_dir() {
+  dir=$1
+  find $dir -type f -printf '%s\n' | awk '{s+=$0} END {printf "Count: %u\nAverage size: %.2fkb\n", NR, s/NR/1000}'
+}
