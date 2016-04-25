@@ -1,11 +1,11 @@
 #!/bin/sh
 
+fldr=$1
+compr_type=$2
+
 fx_txt='txt'
 fx_gz='gz'
 fx_snappy='snappy'
-
-fldr=$1
-compr_type=$2
 
 function  gz_cmd {
   local f=$1

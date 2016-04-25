@@ -9,7 +9,7 @@ fn=$(basename "$fin" | cut -d. -f1| sed 's/Input-//g')
 
 regex='\([[:digit:]]\{4\}[[:alpha:]]\{4\}[[:digit:]]\{3\}[[:upper:]][[:digit:]]\{4\}\)'
 replacement='"\n\t\t},\n\t\t{\n\t\t"header":"\1",\n\t\t"body":"'
-echo -e "{\n\"airshop-solution\":["z
+echo -e "{\n\"airshop-solution\":["
 echo -e "\t{\"id\":\"$fn\"},"
 echo -e "\t{\"klrs\": ["
 sed 's/'$regex'/'$replacement'/g' $fin |sed '1,2d'
