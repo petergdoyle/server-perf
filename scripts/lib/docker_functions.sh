@@ -146,7 +146,7 @@ docker_run_all() {
 }
 
 docker_stop_all_containers() {
-  for each in $(docker ps |grep server_perf |awk 'NF>1{print $NF}'); do
+  for each in $(docker ps |grep $docker_project_name |awk 'NF>1{print $NF}'); do
     cmd="docker stop $each"
     echo $cmd
     eval $cmd
@@ -154,7 +154,7 @@ docker_stop_all_containers() {
 }
 
 docker_start_all_native_containers() {
-  for each in $(docker ps -a|grep server_perf |grep native |awk 'NF>1{print $NF}'); do
+  for each in $(docker ps -a|grep $docker_project_name |grep native |awk 'NF>1{print $NF}'); do
     cmd="docker start $each"
     echo $cmd
     eval $cmd
@@ -162,7 +162,7 @@ docker_start_all_native_containers() {
 }
 
 docker_start_all_containers() {
-  for each in $(docker ps -a|grep server_perf |awk 'NF>1{print $NF}'); do
+  for each in $(docker ps -a|grep $docker_project_name |awk 'NF>1{print $NF}'); do
     cmd="docker start $each"
     echo $cmd
     eval $cmd
@@ -173,12 +173,12 @@ docker_start_all_containers() {
 ## note ! this only cleans up the $docker_project_name images, not all, for all use 'docker rm $(docker ps -a -q)'
 ##
 docker_remove_all_containers() {
-  for each in $(docker ps -a|grep server_perf |awk 'NF>1{print $NF}'); do
+  for each in $(docker ps -a|grep $docker_project_name |awk 'NF>1{print $NF}'); do
     cmd="docker stop $each"
     echo $cmd
     eval $cmd
   done
-  for each in $(docker ps -a|grep server_perf |awk 'NF>1{print $NF}'); do
+  for each in $(docker ps -a|grep $docker_project_name |awk 'NF>1{print $NF}'); do
     cmd="docker rm $each"
     echo $cmd
     eval $cmd
