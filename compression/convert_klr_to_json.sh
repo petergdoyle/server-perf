@@ -9,14 +9,10 @@ fi
 fn=$(basename "$fin" | cut -d. -f1| sed 's/Input-//g')
 
 regex='\([[:digit:]]\{4\}[[:alpha:]]\{4\}[[:digit:]]\{3\}[[:upper:]][[:digit:]]\{4\}\)'
-#replacement='"},\n\t{"\1":"'
-#echo -e "{\"shop-solution\":["
-#replacement='"},\n\t{"klrs":[\n\t\t{"header":"\1"},\n\t\t"body":"'
-replacement='"\n},\n{\n"header":"\1",\n"body":"'
+replacement='"\n\t\t},\n\t\t{\n\t\t"header":"\1",\n\t\t"body":"'
 
 echo -e "{\n\"airshop-solution\":["
-echo -e "{\"id\":\"$fn\"},"
-echo -e "{\"klrs\": ["
+echo -e "\t{\"id\":\"$fn\"},"
+echo -e "\t{\"klrs\": ["
 sed 's/'$regex'/'$replacement'/g' $fin |sed '1,2d'
-#echo -e "\"}\n]}"
 echo -e "\"\n}]\n}]\n}"
