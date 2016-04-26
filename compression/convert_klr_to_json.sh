@@ -7,6 +7,7 @@ if [[ ! -f "$fin" ]]; then
 fi
 fn=$(basename "$fin" | cut -d. -f1| sed 's/Input-//g')
 
+regular_regex='\d{4}\w{4}\d{3}\w\d{4}'
 regex='\([[:digit:]]\{4\}[[:alpha:]]\{4\}[[:digit:]]\{3\}[[:upper:]][[:digit:]]\{4\}\)'
 replacement='"\n\t\t},\n\t\t{\n\t\t"header":"\1",\n\t\t"body":"'
 echo -e "{\n\"airshop-solution\":["

@@ -190,6 +190,7 @@ sys	0m0.039s
 
 ```
 #####I guess python could be slower
+###What about compression rate on the individual files?
 
 
 
