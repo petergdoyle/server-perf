@@ -19,7 +19,7 @@ sed_remove_newlines=':a;N;$!ba;s/\n//g'
 #echo $sed_remove_tabs
 #echo $sed_remove_newlines
 if [ "$pretty_print" == "y" ]; then
-  ./convert_klr_to_json.sh $fin > $fout
+  ./convert_klr_to_json.sh $fin # > $fout
 else
-  ./convert_klr_to_json.sh $fin |sed 's/^[ \t]*//' |sed ':a;N;$!ba;s/\n//g' > $fout
+  ./convert_klr_to_json.sh $fin |sed 's/^[ \t]*//' |sed ':a;N;$!ba;s/\n//g' # > $fout
 fi
